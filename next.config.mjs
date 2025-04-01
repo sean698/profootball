@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    env: {
+      NEXT_PUBLIC_SITE_URL: "https://yourdomain.com",
+    },
+  };
+  
+  export default nextConfig;
+  

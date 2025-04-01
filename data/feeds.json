@@ -1,0 +1,26 @@
+{
+    "feeds": [
+      {
+        "url":"https://www.espn.com/espn/rss/nfl/news",
+        "image":""
+      },
+      {
+        "url": "https://www.nbcsports.com/profootballtalk.rss",
+        "image":""
+      },
+      {
+        "url": "https://sports.yahoo.com/nfl/news/rss/",
+        "image":""
+      },
+      {
+        "url":"https://www.cbssports.com/rss/headlines/nfl/",
+        "image":""
+      },
+     {"url": "https://www.allaccessfootball.com/feed/", "image": ""},
+     {"url": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nfl", "image": ""},
+     {"url": "https://www.pff.com/feed", "image": ""},
+     {"url":"https://nfltraderumors.co/rss","image":""},
+     {"url":"https://www.the33rdteam.com/rss", "image":""}
+     
+    ]
+  }

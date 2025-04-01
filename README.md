@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NFL RSS News Reader
 
-## Getting Started
+An RSS-based news reader that fetches and displays the latest NFL news from various sources. Built with Next.js, this project allows users to stay updated with the latest NFL headlines in a clean and user-friendly interface.
 
-First, run the development server:
+## Features
+- Fetches and parses NFL news from RSS feeds.
+- Groups articles by source and displays them with custom feed logos when available.
+- Displays headlines, summaries, and links to full articles.
+- Responsive and mobile-friendly design.
+- Automatic updates at regular intervals.
+- Lightweight and optimized for performance.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Technologies Used
+- **Next.js** – Server-side rendering and frontend framework.
+- **RSS Parser Library** – For fetching and parsing RSS feeds.
+- **Tailwind CSS** – For styling and responsive design.
+- **JSON file** – To store feed URLs and associated metadata.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Configuration
+### RSS Feeds
+- The different rss feeds are stored in data/feeds.json
+- Example:
+  ```json
+  {
+    "feeds": [
+      {"url": "https://www.espn.com/espn/rss/nfl/news", "image": ""},
+      {"url": "https://www.nbcsports.com/profootballtalk.rss", "image": ""}
+    ]
+  }
+  ```
+- If an image URL is provided, it will replace the default feed logo.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Fetching & Parsing Data
+- The API route (`/api/rss/route.js`) fetches RSS data using Fetch API and parses the response.
+- Articles are grouped by their source domains.
+- Example:
+  ```js
+  async function fetchRSS() {
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const response = await fetch(`${baseUrl}/api/rss`, { cache: "no-store" });
+    if (!response.ok) throw new Error("Failed to fetch RSS data");
+    const data = await response.json();
+    return data.articles || [];
+  }
+  ```
 
-## Learn More
+  **MAKE SURE TO REPLACEE THE DOMAIN BEFORE HOSTING IN THE EXPORTS FILE "next.config.js**
 
-To learn more about Next.js, take a look at the following resources:
+### Frontend Display
+- The home page (`page.js`) fetches articles on the server and groups them by source.
+- Articles are displayed dynamically in a grid layout.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Styling
+- The project uses Tailwind CSS for styling.
+- A custom font (`Montage.ttf`) is included for the navigation title.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Usage
+- Open `http://localhost:3000` in your browser to view the news reader.
+- Click on headlines to read full articles from their sources.
+- Modify `feeds.json` to add or remove RSS sources.
+- Customize styling via Tailwind classes or `globals.css`.
