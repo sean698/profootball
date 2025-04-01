@@ -1,72 +1,88 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
+// HTML Decoder for Client-Side
+const decodeHtmlEntities = (str) => {
+  if (!str) return "";
+  if (typeof window === "undefined") return str; // Prevent SSR issues
+  const doc = new DOMParser().parseFromString(str, "text/html");
+  return doc.documentElement.textContent;
+};
+
 async function fetchRSS() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const response = await fetch(`${baseUrl}/api/rss`, {
-    cache: "no-store", // Ensures fresh data
-  });
+  const response = await fetch(`${baseUrl}/api/rss`, { cache: "no-store" });
 
   if (!response.ok) {
     throw new Error("Failed to fetch RSS data");
   }
 
   const data = await response.json();
-  return data.articles || [];
+  return data.sources || [];
 }
 
-// Function to group articles by source
-function groupArticlesBySource(articles) {
-  return articles.reduce((acc, article) => {
-    const source = new URL(article.link).hostname;
-    if (!acc[source])
-      acc[source] = {
-        feedTitle: article.feedTitle,
-        feedImage: article.feedImage,
-        feedLink: article.feedLink,
-        articles: [],
-      };
-    acc[source].articles.push(article);
-    return acc;
-  }, {});
+// Format date into readable format
+function formatDate(dateString) {
+  if (!dateString) return "Unknown";
+  return new Date(dateString).toLocaleString(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
 }
 
 export default async function Home() {
-  const articles = await fetchRSS(); // Fetch on server
-  const groupedArticles = groupArticlesBySource(articles);
+  const sources = await fetchRSS(); // Fetch RSS feeds on the server
 
   return (
     <div>
       <Nav />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 m-5">
-        {Object.entries(groupedArticles).map(([source, { feedTitle, feedImage, feedLink, articles }]) => (
-          <div key={source} className="bg-white shadow-lg rounded-lg p-4">
+        {sources.map(({ source, articles }) => (
+          <div key={source.link || source.title} className="bg-white shadow-lg rounded-lg p-4">
+            {/* Source Info */}
             <div className="flex items-center mb-4">
-              {feedImage && <img src={feedImage} alt={feedTitle} className="w-10 h-10 mr-3 rounded-full object-cover" />}
-              <a href={feedLink} className="text-blue-500 hover:text-blue-700">
-                <h2 className="text-lg font-bold uppercase text-black cursor-pointer">
-                  {source.replace("www.", "")}
-                </h2>
-              </a>
+              {source.image && (
+                <img
+                  src={source.image}
+                  alt={decodeHtmlEntities(source.title || "Unknown Source")}
+                  className="w-10 h-10 mr-3 rounded-full object-cover"
+                />
+              )}
+              <div>
+                <a href={source.link || "#"} className="text-blue-500 hover:text-blue-700">
+                  <h2 className="text-lg font-bold uppercase text-black cursor-pointer">
+                    {decodeHtmlEntities(source.title || "Unknown Source")}
+                  </h2>
+                </a>
+                <p className="text-gray-500 text-xs">
+                  Last Updated: {formatDate(source.updatedAt)}
+                </p>
+              </div>
             </div>
+
+            {/* Articles List */}
             <ul className="space-y-2">
               {articles.slice(0, 6).map((article, index) => (
                 <li key={index} className="border-b pb-2 flex items-start gap-2">
                   <div>
                     <a
-                      href={article.link}
+                      href={article.link || "#"}
                       className="text-black hover:underline hover:text-blue-500 font-medium"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <h3>{article.title}</h3>
+                      <h3>{decodeHtmlEntities(article.title || "Untitled Article")}</h3>
                     </a>
-                    <p className="text-gray-500 text-xs">{new Date(article.pubDate).toLocaleDateString()}</p>
+                    <p className="text-gray-500 text-xs">{formatDate(article.pubDate)}</p>
                   </div>
                 </li>
               ))}
             </ul>
-            <a href={feedLink} className="text-sm text-blue-500 mt-2 block font-semibold">MORE ...</a>
+
+            {/* More Link */}
+            <a href={source.link || "#"} className="text-sm text-blue-500 mt-2 block font-semibold">
+              MORE ...
+            </a>
           </div>
         ))}
       </div>

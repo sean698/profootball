@@ -61,3 +61,8 @@ An RSS-based news reader that fetches and displays the latest NFL news from vari
 - Click on headlines to read full articles from their sources.
 - Modify `feeds.json` to add or remove RSS sources.
 - Customize styling via Tailwind classes or `globals.css`.
+
+
+# TASKS 
+- [ ] Make sure the title and descriptions are added for all pages
+- [ ] Make sure the right icon files are uploaded and the favicon updated for the project
