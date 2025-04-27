@@ -75,21 +75,22 @@ export default async function Home() {
                     rel="noopener noreferrer"
                     className="inline-block min-w-[250px] max-w-[280px]"
                   >
-                    <div className="w-full rounded-lg overflow-hidden">
-                      {video.thumbnail ? (
-                        <img
-                          src={video.thumbnail}
-                          alt={decodeHtmlEntities(video.title || "Untitled Video")}
-                          className="w-full h-40 object-cover"
-                        />
-                      ) : (
-                        <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
-                          <p className="text-center px-3 text-sm font-semibold truncate">
-                            {decodeHtmlEntities(video.title || "Untitled Video")}
-                          </p>
-                        </div>
-                      )}
+                    <div className="w-full rounded-lg overflow-hidden group aspect-video">
+                  {video.thumbnail ? (
+                    <img
+                      src={video.thumbnail}
+                      alt={decodeHtmlEntities(video.title || "Untitled Video")}
+                      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
+                    />
+                  ) : (
+                    <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
+                      <p className="text-center px-3 text-sm font-semibold truncate">
+                        {decodeHtmlEntities(video.title || "Untitled Video")}
+                      </p>
                     </div>
+                  )}
+                </div>
+
                     <p className="text-center mt-2 text-sm font-semibold w-full truncate">
                       {decodeHtmlEntities(video.title || "Untitled Video")}
                     </p>
