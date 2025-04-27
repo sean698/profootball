@@ -3,7 +3,6 @@ import Parser from "rss-parser";
 import fs from "fs";
 import path from "path";
 
-// HTML Entity Decoder (for server-side)
 const decodeHtmlEntities = (str) => {
   if (!str) return "";
   return str.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
@@ -13,11 +12,13 @@ export async function GET() {
   const parser = new Parser({
     customFields: {
       feed: ["lastBuildDate"],
-      item: ["media:content"],
+      item: [
+        ["media:group", "media:group"],
+      ],
     },
   });
 
-  let sources = []; 
+  let sources = [];
   const filePath = path.join(process.cwd(), "data", "feeds.json");
 
   let feeds;
@@ -41,27 +42,34 @@ export async function GET() {
       const parsedFeed = await parser.parseString(xmlText);
 
       const feedTitle = decodeHtmlEntities(parsedFeed.title || "Unknown Feed");
-      const feedImage =
-        image || parsedFeed.image?.url || parsedFeed.itunes?.image || parsedFeed["media:content"]?.url || null;
-      const feedLink = parsedFeed.link && parsedFeed.link.startsWith("http")
+      const feedImage = image || parsedFeed.image?.url || parsedFeed.itunes?.image || null;
+      const feedLink = parsedFeed.link?.startsWith("http")
         ? parsedFeed.link
         : parsedFeed.items?.[0]?.link
         ? new URL(parsedFeed.items[0].link).origin
         : feedUrl;
       const feedUpdatedAt = parsedFeed.lastBuildDate || parsedFeed.items?.[0]?.pubDate || null;
 
-      // Process articles
       const articles = parsedFeed.items.map(item => {
         const articleLink = item.link?.startsWith("http") ? item.link : feedLink;
         if (!articleLink) return null;
-
+      
+        const thumbnail =
+          item["media:group"]?.["media:thumbnail"]?.[0]?.["$"]?.url ||
+          item["media:thumbnail"]?.url ||
+          item.enclosure?.url ||
+          item["media:content"]?.url || null;
+      
         return {
           title: decodeHtmlEntities(item.title || "Untitled"),
           link: articleLink,
+          thumbnail: thumbnail,
           pubDate: item.pubDate || feedUpdatedAt,
           contentSnippet: decodeHtmlEntities(item.contentSnippet || ""),
         };
-      }).filter(Boolean); 
+      }).filter(Boolean);
+      
+      
 
       sources.push({
         source: {

@@ -20,7 +20,14 @@
      {"url": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nfl", "image": ""},
      {"url": "https://www.pff.com/feed", "image": ""},
      {"url":"https://nfltraderumors.co/rss","image":""},
-     {"url":"https://www.the33rdteam.com/rss", "image":""}
+     {"url":"https://www.the33rdteam.com/rss", "image":""},
+     {
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDVYQ4Zhbm3S2dlz7P1GBDg",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Logo_youtube_ios_%28cropped%29.jpg"
+    }
+    
      
     ]
   }
+
+  
