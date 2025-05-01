@@ -140,7 +140,7 @@ export default async function Home() {
             className="w-13 h-13 mr-2 rounded object-cover"
           />
           <div>
-            <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
+            <h2 className="text-lg font-bold text-black">NFL PODCASTS</h2>
             <p className="text-gray-500 text-xs">
               Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
             </p>
