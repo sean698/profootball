@@ -12,9 +12,7 @@ export async function GET() {
   const parser = new Parser({
     customFields: {
       feed: ["lastBuildDate"],
-      item: [
-        ["media:group", "media:group"],
-      ],
+      item: [["media:group", "media:group"]],
     },
   });
 
@@ -30,9 +28,8 @@ export async function GET() {
   }
 
   try {
-    for (const { image, url: feedUrl } of feeds) {
+    for (const { image, url: feedUrl, isPodcast = false } of feeds) {
       const response = await fetch(feedUrl);
-
       if (!response.ok) {
         console.warn(`Skipping feed due to fetch failure: ${feedUrl}`);
         continue;
@@ -53,23 +50,21 @@ export async function GET() {
       const articles = parsedFeed.items.map(item => {
         const articleLink = item.link?.startsWith("http") ? item.link : feedLink;
         if (!articleLink) return null;
-      
+
         const thumbnail =
           item["media:group"]?.["media:thumbnail"]?.[0]?.["$"]?.url ||
           item["media:thumbnail"]?.url ||
           item.enclosure?.url ||
           item["media:content"]?.url || null;
-      
+
         return {
           title: decodeHtmlEntities(item.title || "Untitled"),
           link: articleLink,
-          thumbnail: thumbnail,
+          thumbnail,
           pubDate: item.pubDate || feedUpdatedAt,
           contentSnippet: decodeHtmlEntities(item.contentSnippet || ""),
         };
       }).filter(Boolean);
-      
-      
 
       sources.push({
         source: {
@@ -77,6 +72,7 @@ export async function GET() {
           link: feedLink,
           image: feedImage,
           updatedAt: feedUpdatedAt,
+          isPodcast, // flag added here
         },
         articles,
       });

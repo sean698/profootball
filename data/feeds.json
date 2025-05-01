@@ -1,32 +1,37 @@
 {
     "feeds": [
-      {
-        "url":"https://www.espn.com/espn/rss/nfl/news",
-        "image":""
+      {"url":"https://www.espn.com/espn/rss/nfl/news","image":""},
+      {"url": "https://www.nbcsports.com/profootballtalk.rss",
+      "image":"https://nbcsports.brightspotcdn.com/dims4/default/f2fcd96/2147483647/strip/true/crop/1029x400+0+0/resize/400x155!/quality/90/?url=https%3A%2F%2Fnbc-sports-production-nbc-sports.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fe9%2F91%2Ff66679574a648b889aa492dda9aa%2Fpft.png"
       },
-      {
-        "url": "https://www.nbcsports.com/profootballtalk.rss",
-        "image":""
+      {"url": "https://sports.yahoo.com/nfl/news/rss/","image":""},
+      {"url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDVYQ4Zhbm3S2dlz7P1GBDg",
+        "image": "https://yt3.googleusercontent.com/mTNz2WARw0gLIz_BM5cuB6oRAQCTapuIwiiAAHd-IeWMCfE_zNcRVOXt4N6c4YxJbQ_kibWOFg=s160-c-k-c0x00ffffff-no-rj"
       },
-      {
-        "url": "https://sports.yahoo.com/nfl/news/rss/",
-        "image":""
-      },
-      {
-        "url":"https://www.cbssports.com/rss/headlines/nfl/",
-        "image":""
-      },
+     {"url":"https://www.cbssports.com/rss/headlines/nfl/","image":""},
      {"url": "https://www.allaccessfootball.com/feed/", "image": ""},
      {"url": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nfl", "image": ""},
      {"url": "https://www.pff.com/feed", "image": ""},
      {"url":"https://nfltraderumors.co/rss","image":""},
      {"url":"https://www.the33rdteam.com/rss", "image":""},
-     {
-      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDVYQ4Zhbm3S2dlz7P1GBDg",
-      "image": "https://yt3.googleusercontent.com/mTNz2WARw0gLIz_BM5cuB6oRAQCTapuIwiiAAHd-IeWMCfE_zNcRVOXt4N6c4YxJbQ_kibWOFg=s160-c-k-c0x00ffffff-no-rj"
-    }
-    
-     
+     {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gmLSYihwViI0cRROkkvFUSe",
+        "image": "",
+        "isPodcast": true},
+      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gllZ72IErHeDGyJgOyZKWRM",
+        "image": "",
+        "isPodcast": true},
+      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gldfLR6PNBa75I7ItCQbUlj",
+        "image": "",
+        "isPodcast": true},
+      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2glQ1Tv-_5rqzBpc66a0q7TY",
+        "image": "",
+        "isPodcast": true},
+      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gkgoyvT4p73q0DPLKTEpjqK",
+        "image": "",
+        "isPodcast": true},
+      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gnqHjmcfGXTwpNkV2b8I-0q",
+        "image": "",
+        "isPodcast": true}
     ]
   }
 
