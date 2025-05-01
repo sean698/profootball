@@ -1,10 +1,9 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
-// HTML Decoder for Client-Side
 const decodeHtmlEntities = (str) => {
   if (!str) return "";
-  if (typeof window === "undefined") return str; // Prevent SSR issues
+  if (typeof window === "undefined") return str;
   const doc = new DOMParser().parseFromString(str, "text/html");
   return doc.documentElement.textContent;
 };
@@ -21,7 +20,6 @@ async function fetchRSS() {
   return data.sources || [];
 }
 
-// Format date into readable format
 function formatDate(dateString) {
   if (!dateString) return "Unknown";
   return new Date(dateString).toLocaleString(undefined, {
@@ -31,7 +29,7 @@ function formatDate(dateString) {
 }
 
 export default async function Home() {
-  const sources = await fetchRSS(); // Fetch RSS feeds on the server
+  const sources = await fetchRSS();
 
   const regularSources = sources.filter(source => !source.source.isPodcast);
   const podcastSources = sources.filter(source => source.source.isPodcast);
@@ -49,7 +47,6 @@ export default async function Home() {
                 : ""
             }`}
           >
-            {/* Source Info */}
             <div className="flex items-center mb-4">
               {source.image && (
                 <img
@@ -70,38 +67,87 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Articles List */}
             {source.title && source.link.includes("youtube") ? (
-              <div className="overflow-x-auto whitespace-nowrap flex gap-4">
-                {articles.slice(0, 8).map((video, index) => (
-                  <a
-                    key={index}
-                    href={video.link || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block min-w-[250px] max-w-[280px]"
-                  >
-                    <div className="w-full rounded-lg overflow-hidden group aspect-video">
-                      {video.thumbnail ? (
-                        <img
-                          src={video.thumbnail}
-                          alt={decodeHtmlEntities(video.title || "Untitled Video")}
-                          className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
-                        />
-                      ) : (
-                        <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
-                          <p className="text-center px-3 text-sm font-semibold truncate">
+              <>
+                <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-6">
+                  {articles.slice(0, 8).map((video, index) => (
+                    <a
+                      key={index}
+                      href={video.link || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block min-w-[250px] max-w-[280px]"
+                    >
+                      <div className="w-full rounded-lg overflow-hidden group aspect-video">
+                        {video.thumbnail ? (
+                          <img
+                            src={video.thumbnail}
+                            alt={decodeHtmlEntities(video.title || "Untitled Video")}
+                            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
+                          />
+                        ) : (
+                          <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
+                            <p className="text-center px-3 text-sm font-semibold truncate">
+                              {decodeHtmlEntities(video.title || "Untitled Video")}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-center mt-2 text-sm font-semibold w-full truncate">
+                        {decodeHtmlEntities(video.title || "Untitled Video")}
+                      </p>
+                    </a>
+                  ))}
+                </div>
+
+                {podcastSources.length > 0 && source.title === "NFL" && (
+                  <>
+                    <div className="flex items-center mb-2">
+                      <img
+                        src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                        alt="YouTube Logo"
+                        className="w-12 h-12 mr-2"
+                      />
+                      <div>
+                        <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
+                        <p className="text-gray-500 text-xs">
+                          Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto whitespace-nowrap flex gap-4">
+                      {podcastSources.flatMap(({ articles }) => articles.slice(0, 4)).map((video, index) => (
+                        <a
+                          key={index}
+                          href={video.link || "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block min-w-[250px] max-w-[280px]"
+                        >
+                          <div className="w-full rounded-lg overflow-hidden group aspect-video">
+                            {video.thumbnail ? (
+                              <img
+                                src={video.thumbnail}
+                                alt={decodeHtmlEntities(video.title || "Untitled Video")}
+                                className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
+                              />
+                            ) : (
+                              <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
+                                <p className="text-center px-3 text-sm font-semibold truncate">
+                                  {decodeHtmlEntities(video.title || "Untitled Video")}
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                          <p className="text-center mt-2 text-sm font-semibold w-full truncate">
                             {decodeHtmlEntities(video.title || "Untitled Video")}
                           </p>
-                        </div>
-                      )}
+                        </a>
+                      ))}
                     </div>
-                    <p className="text-center mt-2 text-sm font-semibold w-full truncate">
-                      {decodeHtmlEntities(video.title || "Untitled Video")}
-                    </p>
-                  </a>
-                ))}
-              </div>
+                  </>
+                )}
+              </>
             ) : (
               <ul className="space-y-2">
                 {articles.slice(0, 6).map((article, index) => (
@@ -122,63 +168,12 @@ export default async function Home() {
               </ul>
             )}
 
-            {/* More Link */}
             <a href={source.link || "#"} className="text-sm text-blue-500 mt-2 block font-semibold">
               MORE ...
             </a>
           </div>
         ))}
       </div>
-
-      {/* New Podcast Carousel Section */}
-      {podcastSources.length > 0 && (
-        <div className="bg-white shadow-lg rounded-lg p-4 mx-5 my-10">
-          <div className="flex items-center mb-2">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-            alt="YouTube Logo"
-            className="w-13 h-13 mr-2 rounded object-cover"
-          />
-          <div>
-            <h2 className="text-lg font-bold text-black">NFL PODCASTS</h2>
-            <p className="text-gray-500 text-xs">
-              Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
-            </p>
-          </div>
-        </div>
-          <div className="overflow-x-auto whitespace-nowrap flex gap-4">
-            {podcastSources.flatMap(({ articles }) => articles.slice(0, 4)).map((video, index) => (
-              <a
-                key={index}
-                href={video.link || "#"}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block min-w-[250px] max-w-[280px]"
-              >
-                <div className="w-full rounded-lg overflow-hidden group aspect-video">
-                  {video.thumbnail ? (
-                    <img
-                      src={video.thumbnail}
-                      alt={decodeHtmlEntities(video.title || "Untitled Video")}
-                      className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
-                    />
-                  ) : (
-                    <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
-                      <p className="text-center px-3 text-sm font-semibold truncate">
-                        {decodeHtmlEntities(video.title || "Untitled Video")}
-                      </p>
-                    </div>
-                  )}
-                </div>
-                <p className="text-center mt-2 text-sm font-semibold w-full truncate">
-                  {decodeHtmlEntities(video.title || "Untitled Video")}
-                </p>
-              </a>
-            ))}
-          </div>
-        </div>
-      )}
-
       <Footer />
     </div>
   );
