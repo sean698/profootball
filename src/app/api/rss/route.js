@@ -38,6 +38,9 @@ export async function GET() {
       const xmlText = await response.text();
       const parsedFeed = await parser.parseString(xmlText);
 
+      console.log("🔍 Feed title:", parsedFeed.title);
+      console.log("🔗 Feed link:", parsedFeed.link);
+
       const feedTitle = decodeHtmlEntities(parsedFeed.title || "Unknown Feed");
       const feedImage = image || parsedFeed.image?.url || parsedFeed.itunes?.image || null;
       const feedLink = parsedFeed.link?.startsWith("http")
@@ -72,7 +75,7 @@ export async function GET() {
           link: feedLink,
           image: feedImage,
           updatedAt: feedUpdatedAt,
-          isPodcast, // flag added here
+          isPodcast, 
         },
         articles,
       });

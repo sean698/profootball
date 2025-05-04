@@ -4,7 +4,7 @@
       
       {"url": "https://www.nbcsports.com/profootballtalk.rss",
       "image":"https://nbcsports.brightspotcdn.com/dims4/default/f2fcd96/2147483647/strip/true/crop/1029x400+0+0/resize/400x155!/quality/90/?url=https%3A%2F%2Fnbc-sports-production-nbc-sports.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fe9%2F91%2Ff66679574a648b889aa492dda9aa%2Fpft.png"
-      },
+    },
       
       {"url": "https://sports.yahoo.com/nfl/news/rss/","image":""},
       
@@ -30,8 +30,7 @@
      {"url":"https://www.reddit.com/r/nfl/.rss", 
      "image":"https://images.squarespace-cdn.com/content/v1/5c5554d316b64061c6f8a20d/1630949829757-WXNOUZ8R4QQCXMIY4YMG/What-Is-The-Reddit-Logo-Called.png"},
 
-     
-
+      {"url":"https://apnews.com/hub/nfl?format=rss", "image":""},
 
      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gmLSYihwViI0cRROkkvFUSe",
         "image": "",
@@ -53,5 +52,3 @@
         "isPodcast": true}
     ]
   }
-
-

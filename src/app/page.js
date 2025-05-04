@@ -31,8 +31,15 @@ function formatDate(dateString) {
 export default async function Home() {
   const sources = await fetchRSS();
 
+sources.forEach(sourceObj => {
+  if (sourceObj.source.link === "https://www.nbcsports.com/profootballtalk") {
+    sourceObj.source.link = "https://www.nbcsports.com/nfl/profootballtalk";
+  }
+});
+
   const regularSources = sources.filter(source => !source.source.isPodcast);
   const podcastSources = sources.filter(source => source.source.isPodcast);
+
 
   return (
     <div>
