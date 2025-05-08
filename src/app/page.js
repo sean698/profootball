@@ -204,7 +204,7 @@ export default async function Home() {
             ))}
           </div>
 
-          {/* 🟥 TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
+          {/* TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
           {topChannelSources.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-4 m-5">
               <div className="flex items-center mb-2">
@@ -263,7 +263,7 @@ export default async function Home() {
               </a>
             </div>
           )}
-          {/* 🟦 UP & COMING CHANNELS (Card Layout) */}
+          {/* UP & COMING CHANNELS (Card Layout) */}
           {upAndComingSources.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-4 m-5">
               <div className="flex items-center mb-2">
@@ -323,7 +323,7 @@ export default async function Home() {
             </div>
           )}
 
-          {/* 🟧 NFL PODCASTS (Card Layout) */}
+          {/* NFL PODCASTS (Card Layout) */}
           {podcastSources.length > 0 && (
             <div className="bg-white shadow-lg rounded-lg p-4 m-5">
               <div className="flex items-center mb-2">
