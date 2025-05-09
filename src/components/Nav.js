@@ -25,7 +25,6 @@ const Nav = () => {
           <Link href="/" className="text-white">
             <div>Pro Football</div>
             <div>Report</div>
-          //</div>
         </Link>
 
         {/* Desktop Nav Links */}
