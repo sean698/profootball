@@ -50,7 +50,7 @@ export async function GET() {
     return NextResponse.json({ sources: [] }, { status: 200 });
   }
 
-  for (const { image, url: feedUrl, isPodcast = false } of feeds) {
+  for (const { image, url: feedUrl, isPodcast = false, isTopChannel = false, isUpAndComing = false } of feeds) {
     try {
       console.log(`Fetching feed: ${feedUrl}`);
 
@@ -161,6 +161,8 @@ export async function GET() {
             image: feedImage,
             updatedAt: feedUpdatedAt,
             isPodcast,
+            isTopChannel,
+            isUpAndComing
           },
           articles,
         });
