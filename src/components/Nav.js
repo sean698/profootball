@@ -14,7 +14,7 @@ const Nav = () => {
       };
 
     return (
-    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['sans-serif']">
+    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['DM Sans']">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo + Title */}
         <Link href="/" className="flex items-center space-x-4">
@@ -31,7 +31,7 @@ const Nav = () => {
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}
-              className="text-white hover:text-[#ECCE8B] transition-colors duration-200 font-sans text-lg"
+              className="text-white hover:text-[#ECCE8B] transition-colors duration-200 font-['DM Sans'] text-lg"
             >
               {item}
             </Link>
@@ -41,12 +41,12 @@ const Nav = () => {
         {/* Right Side Buttons */}
         <div className="hidden md:flex items-center space-x-4">
           <Link href="/login">
-            <button className="bg-[#087994] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-sans text-base">
+            <button className="bg-[#087994] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
               Login
             </button>
           </Link>
           <Link href="/signup">
-            <button className="border border-white text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-sans text-base">
+            <button className="border border-white text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
               Sign Up
             </button>
           </Link>
