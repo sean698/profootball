@@ -1,6 +1,14 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { headers } from "next/headers";
+//import Image from 'next/image';
+
+/*  homepage (/page.js) is trying to access HTTP headers,
+    which forces the route into dynamic rendering.
+    But Next.js is trying to pre-render it statically during next build,
+    which is incompatible. So must opt page into dynamic rendering explicitly
+*/
+//export const dynamic = 'force-dynamic';
 
 const decodeHtmlEntities = (str) => {
   if (!str) return "";
