@@ -1,92 +1,104 @@
 "use client"
 import Link from "next/link";
 import { useState } from "react";
+import Image from 'next/image';
 
 const Nav = () => {
-  // State for mobile menu toggle
-  const [isOpen, setIsOpen] = useState(false);
 
-  // Single color scheme for the navbar (light theme)
-  const colorScheme = {
-    bg: "bg-[#0B0B12]",  // Background color
-    text: "text-gray-900",  // Text color
-    hover: "",  // Hover effect for links
-    button: "bg-[#f5da9f] border border-[#f5da9f] p-4 text-black hover:text-[#f5da9f] hover:bg-[#0B0B12] py-2 px-4 rounded-md",  // Button styles
-    border: "border-gray-300",  // Border color
-  };
+    console.log("Nav component is rendering"); // Add this log to track rendering
 
-  // Toggle mobile menu open/close
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <nav
-      className={`${colorScheme.bg} ${colorScheme.text} ${colorScheme.border} shadow-md px-6 py-1 mb-3 sticky top-0 z-50 transition-all duration-300 ease-in-out`}
-    >
+      const toggleMenu = () => {
+        setIsOpen(!isOpen);
+      };
+
+    return (
+    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['DM_Sans']">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="text-white">
-          <span className="navtitle">ProFootball News</span> 
+        {/* Logo + Title */}
+        <Link href="/" className="flex items-center space-x-4">
+          <Image src="/logo.png" alt="Logo" className="w-12 h-12 object-contain" />
+          <div className="text-white uppercase font-['Monoton'] leading-4 text-sm">
+            <div>Pro Football</div>
+            <div>Report</div>
+          </div>
         </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6">
-          <Link href="/" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Teams
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex space-x-6 items-center">
+          {["Teams", "Fantasy", "Sportsbook", "Fanzone"].map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase()}`}
+              className="text-white hover:text-[#ECCE8B] transition-colors duration-200"
+            >
+              {item}
+            </Link>
+          ))}
+        </div>
+
+        {/* Right Side Buttons */}
+        <div className="hidden md:flex items-center space-x-4">
+          <Link href="/login">
+            <button className="bg-[#087994] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200">
+              Login
+            </button>
           </Link>
-          <Link href="/about" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Fantasy
-          </Link>
-          <Link href="/contact" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Betting
-          </Link>
-          <Link href="/contact" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Fanzone
+          <Link href="/signup">
+            <button className="text-white px-4 py-2 rounded-md hover:text-[#ECCE8B] transition-all duration-200">
+              Sign Up
+            </button>
           </Link>
         </div>
 
-        {/* Mobile Menu Icon (Hamburger) */}
+        {/* Mobile Hamburger */}
         <div className="md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="flex flex-col justify-between items-center w-8 h-6 space-y-1"
-          >
-            {/* Hamburger Bars */}
-            <div
-              className={`h-1 w-8 bg-white transition-all duration-300 ${
-                isOpen ? "rotate-45 absolute" : ""
-              }`}
-            />
-            <div
-              className={`h-1 w-8 bg-white transition-all duration-300 ${
-                isOpen ? "opacity-0" : ""
-              }`}
-            />
-            <div
-              className={`h-1 w-8 bg-white transition-all duration-300 ${
-                isOpen ? "-rotate-45 absolute" : ""
-              }`}
-            />
+          <button onClick={toggleMenu}>
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-         <div
-         className={`md:hidden mt-4 space-y-4 px-4 pb-4 transition-all duration-100 ease-in-out ${
-           isOpen ? "translate-y-0" : "-translate-y-full"
-         }`}
-       >
-          <Link href="/" className={`${colorScheme.hover} ${colorScheme.button} block transition-all duration-200 py-2 px-4 rounded-md`}>
-            Teams
+        <div className="md:hidden mt-4 space-y-4">
+          {["Teams", "Fantasy", "Sportsbook", "Fanzone"].map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase()}`}
+              className="block text-white hover:text-[#ECCE8B] transition-colors duration-200"
+            >
+              {item}
+            </Link>
+          ))}
+          <Link href="/login" className="block text-white">
+            <button className="w-full bg-[#087994] text-white px-4 py-2 rounded-md mt-2">Login</button>
           </Link>
-          <Link href="/about" className={`${colorScheme.hover} ${colorScheme.button} block transition-all duration-200 py-2 px-4 rounded-md`}>
-            Fantasy
-          </Link>
-          <Link href="/contact" className={`${colorScheme.hover} ${colorScheme.button} block transition-all duration-200 py-2 px-4 rounded-md`}>
-            Contact
+          <Link href="/signup" className="block text-white">
+            <button className="w-full text-white px-4 py-2 rounded-md mt-2 border border-white">Sign Up</button>
           </Link>
         </div>
       )}

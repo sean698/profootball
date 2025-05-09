@@ -1,6 +1,14 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { headers } from "next/headers";
+import Image from 'next/image';
+
+/*  homepage (/page.js) is trying to access HTTP headers,
+    which forces the route into dynamic rendering.
+    But Next.js is trying to pre-render it statically during next build,
+    which is incompatible. So must opt page into dynamic rendering explicitly
+*/
+export const dynamic = 'force-dynamic';
 
 const decodeHtmlEntities = (str) => {
   if (!str) return "";
@@ -112,7 +120,7 @@ export default async function Home() {
             >
               <div className="flex items-center mb-4">
                 {source.image && (
-                  <img
+                  <Image
                     src={source.image}
                     alt={decodeHtmlEntities(source.title || "Unknown Source")}
                     className="w-10 h-10 mr-3 rounded-full object-cover"
@@ -148,7 +156,7 @@ export default async function Home() {
                       >
                         <div className="w-full rounded-lg overflow-hidden group aspect-video">
                           {video.thumbnail ? (
-                            <img
+                            <Image
                               src={video.thumbnail}
                               alt={decodeHtmlEntities(
                                 video.title || "Untitled Video"
@@ -175,7 +183,7 @@ export default async function Home() {
                   {podcastSources.length > 0 && source.title === "NFL" && (
                     <>
                       <div className="flex items-center mb-2">
-                        <img
+                        <Image
                           src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
                           alt="YouTube Logo"
                           className="w-12 h-12 mr-2"
@@ -205,7 +213,7 @@ export default async function Home() {
                             >
                               <div className="w-full rounded-lg overflow-hidden group aspect-video">
                                 {video.thumbnail ? (
-                                  <img
+                                  <Image
                                     src={video.thumbnail}
                                     alt={decodeHtmlEntities(
                                       video.title || "Untitled Video"
