@@ -5,8 +5,6 @@ import Image from 'next/image';
 
 const Nav = () => {
 
-    console.log("Nav component is rendering"); // Add this log to track rendering
-
     const [isOpen, setIsOpen] = useState(false);
 
       const toggleMenu = () => {
@@ -18,7 +16,7 @@ const Nav = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo + Title */}
         <Link href="/" className="flex items-center space-x-4">
-          <Image src="public/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
+          <Image src="/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
           <div className="text-white uppercase leading-tight text-4xl font-['montage']">
             <div>Pro Football Report</div>
           </div>

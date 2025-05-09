@@ -2,21 +2,19 @@ import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 import Image from 'next/image';
 
 const Footer = () => {
-  console.log("Footer component is rendering");
 
   return (
     <footer className="bg-[#0B0B12] text-white px-6 py-10">
       <div className="max-w-7xl mx-auto flex flex-wrap gap-x-6 gap-y-8 justify-between items-start">
         {/* Logo + Title */}
         <div className="flex flex-col items-start space-y-1 min-w-[140px]">
-          <div className="text-white font-[montage] uppercase text-left text-2xl leading-tight">
-            <span>Pro Football Report</span>
+          {/* Logo Image in Footer */}
+          <div className="flex items-center space-x-2">
+            <Image src="/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
+            <div className="text-white font-[montage] uppercase text-left text-2xl leading-tight">
+              <span>Pro Football Report</span>
+            </div>
           </div>
-        </div>
-
-        {/* Logo Image in Footer */}
-        <div className="flex flex-col items-start">
-          <Image src="public/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
         </div>
 
         {/* Divider */}
@@ -95,7 +93,6 @@ const Footer = () => {
 
         <p className="text-center">© 2025 Pro Football Report</p>
       </div>
-
     </footer>
   );
 };
