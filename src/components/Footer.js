@@ -10,9 +10,13 @@ const Footer = () => {
         {/* Logo + Title */}
         <div className="flex flex-col items-start space-y-1 min-w-[140px]">
           <div className="text-white font-[montage] uppercase text-left text-2xl leading-tight">
-            <span>Pro Football</span>
-            <span>Report</span>
+            <span>Pro Football Report</span>
           </div>
+        </div>
+
+        {/* Logo Image in Footer */}
+        <div className="flex flex-col items-start">
+          <Image src="public/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
         </div>
 
         {/* Divider */}

@@ -18,10 +18,9 @@ const Nav = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo + Title */}
         <Link href="/" className="flex items-center space-x-4">
-          <Image src="/logo.png" alt="Logo" className="w-12 h-12 object-contain" />
-          <div className="text-white uppercase leading-tight text-2xl font-['montage']">
-            <div>Pro Football</div>
-            <div>Report</div>
+          <Image src="public/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
+          <div className="text-white uppercase leading-tight text-4xl font-['montage']">
+            <div>Pro Football Report</div>
           </div>
         </Link>
 
@@ -31,7 +30,7 @@ const Nav = () => {
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}
-              className="text-white hover:text-[#ECCE8B] transition-colors duration-200 font-['DM Sans'] text-lg"
+              className="bg-[#ECCE8B] text-black px-4 py-2 rounded-md font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B]"
             >
               {item}
             </Link>
@@ -46,7 +45,7 @@ const Nav = () => {
             </button>
           </Link>
           <Link href="/signup">
-            <button className="border border-white text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
+            <button className="bg-[#087994] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
               Sign Up
             </button>
           </Link>
@@ -89,7 +88,7 @@ const Nav = () => {
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}
-              className="block text-white hover:text-[#ECCE8B] transition-colors duration-200"
+              className="block bg-[#ECCE8B] text-black px-4 py-2 rounded-md text-base font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B]"
             >
               {item}
             </Link>
@@ -98,7 +97,7 @@ const Nav = () => {
             <button className="w-full bg-[#087994] text-white px-4 py-2 rounded-md mt-2">Login</button>
           </Link>
           <Link href="/signup" className="block text-white">
-            <button className="w-full text-white px-4 py-2 rounded-md mt-2 border border-white">Sign Up</button>
+            <button className="w-full bg-[#087994] text-white px-4 py-2 rounded-md mt-2">Sign Up</button>
           </Link>
         </div>
       )}
