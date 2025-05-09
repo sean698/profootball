@@ -14,26 +14,24 @@ const Nav = () => {
       };
 
     return (
-    //<nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['sans-serif']">
-    <nav className={`${colorScheme.bg} ${colorScheme.text} ${colorScheme.border} shadow-md px-6 py-1 mb-3 sticky top-0 z-50 transition-all duration-300 ease-in-out`}>
+    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['sans-serif']">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo + Title */}
         <Link href="/" className="flex items-center space-x-4">
-                  // CHANGE src="/logo.png" TO ACTUAL FILE PATH
-          //<Image src="/logo.png" alt="Logo" className="w-12 h-12 object-contain" />
-          //<div className="text-white uppercase font-['montage'] leading-4 text-sm">
-          <Link href="/" className="text-white">
+          <Image src="/logo.png" alt="Logo" className="w-12 h-12 object-contain" />
+          <div className="text-white uppercase leading-tight text-2xl font-['montage']">
             <div>Pro Football</div>
             <div>Report</div>
+          </div>
         </Link>
 
         {/* Desktop Nav Links */}
-        <div className="hidden md:flex space-x-6">
+        <div className="hidden md:flex space-x-6 items-center">
           {["Teams", "Fantasy", "Sportsbook", "Fanzone"].map((item) => (
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}
-              className="text-white hover:text-[#ECCE8B] transition-colors duration-200"
+              className="text-white hover:text-[#ECCE8B] transition-colors duration-200 font-sans text-lg"
             >
               {item}
             </Link>
@@ -43,12 +41,12 @@ const Nav = () => {
         {/* Right Side Buttons */}
         <div className="hidden md:flex items-center space-x-4">
           <Link href="/login">
-            <button className="bg-[#087994] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200">
+            <button className="bg-[#087994] text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-sans text-base">
               Login
             </button>
           </Link>
           <Link href="/signup">
-            <button className="text-white px-4 py-2 rounded-md hover:text-[#ECCE8B] transition-all duration-200">
+            <button className="border border-white text-white px-4 py-2 rounded-md hover:opacity-90 transition-all duration-200 font-sans text-base">
               Sign Up
             </button>
           </Link>
