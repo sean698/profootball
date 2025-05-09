@@ -10,9 +10,10 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-10 border-b border-white pb-8">
         {/* Logo + Title */}
         <div className="col-span-1 flex items-start space-x-4">
-          <Image src="/logo.png" alt="Logo" className="w-20 h-20 object-contain" />
+          // CHANGE src="/logo.png" TO ACTUAL FILE PATH
+          //<Image src="/logo.png" alt="Logo" className="w-20 h-20 object-contain" />
           <div
-            className="text-white font-[Staatliches] uppercase text-left text-lg flex flex-col justify-center"
+            className="text-white font-[montage] uppercase text-left text-lg flex flex-col justify-center"
             style={{ height: '80px' }}
           >
             <span>Pro Football</span>
@@ -53,7 +54,7 @@ const Footer = () => {
             placeholder="Email"
             className="w-full bg-white text-black placeholder-gray-500 p-2 mb-2"
           />
-          <button className="bg-black border border-white text-white px-4 py-1 w-full">Subscribe</button>
+          <button className="bg-black border border-white text-white px-4 py-1 rounded-md w-full">Subscribe</button>
         </div>
 
         {/* Suggestions */}
@@ -63,7 +64,7 @@ const Footer = () => {
             placeholder="Have an NFL news source we should add, please let us know here"
             className="w-full bg-white text-black placeholder-gray-500 p-2 h-24 mb-2"
           ></textarea>
-          <button className="bg-black border border-white text-white px-4 py-1 w-full">Submit</button>
+          <button className="bg-black border border-white text-white px-4 py-1 rounded-md w-full">Submit</button>
         </div>
 
         {/* About */}

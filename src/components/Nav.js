@@ -14,12 +14,13 @@ const Nav = () => {
       };
 
     return (
-    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['DM_Sans']">
+    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['sans-serif']">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo + Title */}
         <Link href="/" className="flex items-center space-x-4">
-          <Image src="/logo.png" alt="Logo" className="w-12 h-12 object-contain" />
-          <div className="text-white uppercase font-['Monoton'] leading-4 text-sm">
+          // CHANGE src="/logo.png" TO ACTUAL FILE PATH
+          //<Image src="/logo.png" alt="Logo" className="w-12 h-12 object-contain" />
+          <div className="text-white uppercase font-['montage'] leading-4 text-sm">
             <div>Pro Football</div>
             <div>Report</div>
           </div>
