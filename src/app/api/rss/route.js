@@ -54,10 +54,10 @@ export async function GET() {
     try {
       console.log(`Fetching feed: ${feedUrl}`);
 
-      if (feedUrl.includes("reddit.com")) {
-        console.log(`Skipping known problematic feed: ${feedUrl}`);
-        continue;
-      }
+      //if (feedUrl.includes("reddit.com")) {
+      //  console.log(`Skipping known problematic feed: ${feedUrl}`);
+      //  continue;
+      //}
 
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
