@@ -17,7 +17,7 @@ const Nav = () => {
         {/* Logo + Title */}
         <Link href="/" className="flex items-center space-x-4">
           <Image src="/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
-          <div className="text-white uppercase leading-tight text-6xl font-['montage']">
+          <div className="text-white uppercase leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-['montage']">
             <div>PRO FOOTBALL REPORT</div>
           </div>
         </Link>
@@ -81,21 +81,25 @@ const Nav = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden mt-4 space-y-4 ml-50">
+        <div className="md:hidden mt-4 grid grid-cols-2 gap-4 place-items-center">
           {["Teams", "Fantasy", "Sportsbook", "Fanzone"].map((item) => (
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}
-              className="block bg-[#ECCE8B] text-black px-4 py-2 text-sm rounded-md text-base font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B]"
+              className="w-36 text-center bg-[#ECCE8B] text-black px-4 py-2 text-sm rounded-md font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B]"
             >
               {item}
             </Link>
           ))}
-          <Link href="/login" className="block text-white">
-            <button className="w-full bg-[#087994] text-white px-4 py-2 text-sm rounded-md mt-2">Login</button>
+          <Link href="/login">
+            <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
+              Login
+            </button>
           </Link>
-          <Link href="/signup" className="block text-white">
-            <button className="w-full bg-[#087994] text-white px-4 py-2 text-sm rounded-md mt-2">Sign Up</button>
+          <Link href="/signup">
+            <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
+              Sign Up
+            </button>
           </Link>
         </div>
       )}
