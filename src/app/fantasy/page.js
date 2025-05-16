@@ -20,7 +20,7 @@ export default function FantasyPage() {
             This is the Fantasy Football page.
           </p>
           <p className="text-xl text-center py-10">
-            Placeholder content for the Fantasy Football section. Fantasy
+            Placeholder 5 content for the Fantasy Football section. Fantasy
             football information, rankings, and tools will go here.
           </p>
         </div>
