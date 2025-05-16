@@ -62,7 +62,7 @@ const Footer = () => {
         <div className="flex flex-col items-center md:items-start w-[260px] max-w-full text-center md:text-left">
           <h3 className="text-lg font-bold mb-2">Suggestion Box</h3>
           <textarea
-            placeholder="Have an NFL news source we should add, please let us know here"
+            placeholder="Have an NFL news source we should add? Please let us know here!"
             className="w-full bg-white text-black placeholder-gray-500 p-2 h-[80px] mb-2 text-sm rounded resize-none focus:outline-none focus:ring-0"
           ></textarea>
           <button className="bg-black border border-white text-white px-4 py-2 rounded-md w-full text-base font-sans transition-colors duration-150 active:bg-white active:text-black">
