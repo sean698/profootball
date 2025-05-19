@@ -1,17 +1,56 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { useState } from "react";
-import Image from 'next/image';
+import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-    const [isOpen, setIsOpen] = useState(false);
+  // Get auth context with try-catch to handle errors more gracefully
+  let user = null;
+  let userProfile = null;
+  let signOut = null;
 
-      const toggleMenu = () => {
-        setIsOpen(!isOpen);
-      };
+  try {
+    const auth = useAuth();
+    user = auth.user;
+    userProfile = auth.userProfile;
+    signOut = auth.signOut;
+  } catch (error) {
+    console.error("Auth context error:", error);
+    // Fallback: Show login/signup buttons if auth context fails
+  }
 
-    return (
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSignOut = async () => {
+    try {
+      if (signOut) {
+        const { error } = await signOut();
+        if (error) {
+          console.error("Sign out error:", error);
+          return;
+        }
+
+        // Force refresh the page after sign out to ensure state is reset
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Sign out exception:", error);
+    }
+  };
+
+  // Get username for display - with fallback to email or anonymous
+  const displayName =
+    userProfile?.username || (user?.email ? user.email.split("@")[0] : "User");
+
+  return (
     <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['DM Sans']">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo + Title */}
@@ -37,16 +76,32 @@ const Nav = () => {
 
         {/* Right Side Buttons */}
         <div className="hidden md:flex items-center space-x-2">
-          <Link href="/login">
-            <button className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
-              Login
-            </button>
-          </Link>
-          <Link href="/signup">
-            <button className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
-              Sign Up
-            </button>
-          </Link>
+          {user ? (
+            <>
+              <div className="bg-[#ECCE8B] text-black px-3 py-1 rounded-md text-sm">
+                @{displayName}
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <button className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
+                  Login
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Hamburger */}
@@ -91,16 +146,32 @@ const Nav = () => {
               {item}
             </Link>
           ))}
-          <Link href="/login">
-            <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
-              Login
-            </button>
-          </Link>
-          <Link href="/signup">
-            <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
-              Sign Up
-            </button>
-          </Link>
+          {user ? (
+            <>
+              <div className="w-36 text-center bg-[#ECCE8B] text-black px-3 py-1 rounded-md text-sm truncate">
+                @{displayName}
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
+                  Login
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       )}
     </nav>
