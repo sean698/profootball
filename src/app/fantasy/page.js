@@ -39,7 +39,7 @@ export default function FantasyPage() {
               <tr><td className="border w-1/4 py-15 text-center">
                <Image
   src="/images/yahoo.svg"
-  alt="ESPN Logo"
+  alt="yahoo Logo"
   width={100}
   height={100}
   className="mx-auto"
@@ -56,7 +56,7 @@ export default function FantasyPage() {
               <tr><td className="border w-1/4 py-15 text-center">
               <Image
   src="/images/sleeper.svg"
-  alt="ESPN Logo"
+  alt="sleeper Logo"
   width={100}
   height={100}
   className="mx-auto"
@@ -73,7 +73,7 @@ export default function FantasyPage() {
               <tr><td className="border w-1/4 py-15 text-center">
               <Image
   src="/images/NflFantasy.svg"
-  alt="ESPN Logo"
+  alt="NFL Fantasy Logo"
   width={100}
   height={100}
   className="mx-auto"
@@ -87,7 +87,14 @@ export default function FantasyPage() {
     >
       NFL Fantasy
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 5</td>
+              <tr><td className="border w-1/4 py-15 text-center">
+              <Image
+  src="/images/mfl-logo.svg"
+  alt="My fantasy League Fantasy Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://home.myfantasyleague.com/10"
@@ -97,7 +104,13 @@ export default function FantasyPage() {
     >
       My Fantasy League (MFL)
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 6</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/fantasy pros.svg"
+  alt="Fantasypros Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://www.fantasypros.com/nfl/"
@@ -107,7 +120,13 @@ export default function FantasyPage() {
     >
       FantasyPros
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 7</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/CBS Fantasy.svg"
+  alt="CBS Fantasy Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://www.cbssports.com/fantasy/football/"
@@ -115,9 +134,15 @@ export default function FantasyPage() {
       rel="noopener noreferrer"
       className="text-blue-600 hover:underline"
     >
-      CBC Sports Fantasy
+      CBS Sports Fantasy
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 8</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/fantasycalc.svg"
+  alt="Fantasy calculator Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://fantasyfootballcalculator.com/"
@@ -127,7 +152,13 @@ export default function FantasyPage() {
     >
       Fantasy Football Calculator
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 9</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/draftsharks.svg"
+  alt="Draftsharks Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://www.draftsharks.com/"
@@ -137,7 +168,13 @@ export default function FantasyPage() {
     >
       Draft Sharks
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 10</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/fftoday.svg"
+  alt="fftoday Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://www.fftoday.com/"
@@ -147,7 +184,13 @@ export default function FantasyPage() {
     >
       FFToday
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 11</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/fanduelfantasy.svg"
+  alt="fanduel fantasy Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://www.numberfire.com/nfl/fantasy/"
@@ -157,7 +200,13 @@ export default function FantasyPage() {
     >
       FanDuel Fantasy
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 12</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/razzball 2.svg"
+  alt="razzball Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://football.razzball.com/"
@@ -167,7 +216,13 @@ export default function FantasyPage() {
     >
       Razzball
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 13</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/Sports-Illustrated-Logo.svg"
+  alt="Sports Illustrated Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://www.si.com/fantasy/"
@@ -177,7 +232,13 @@ export default function FantasyPage() {
     >
       Sports Illustrated 
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 14</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/wf.svg"
+  alt="Walter football Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://walterfootball.com/fantasy.php"
@@ -187,7 +248,13 @@ export default function FantasyPage() {
     >
       Walter Football
     </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">Logo 15</td>
+              <tr><td className="border w-1/4 py-15 text-center"><Image
+  src="/images/fantasysharks.svg"
+  alt="Fantasy Sharks Logo"
+  width={100}
+  height={100}
+  className="mx-auto"
+/></td>
               <td className="border w-3/4 py-15 text-center">
               <a
       href="https://www.fantasysharks.com/"
