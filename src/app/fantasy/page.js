@@ -18,252 +18,47 @@ export default function FantasyPage() {
         <div className="bg-white p-6 rounded-lg shadow-md">
           <table className="table-fixed w-full border-collapse">
             <tbody>
-              <tr><td className="border w-1/4 py-15 text-center">
-              <Image
-  src="/images/ESPN.svg"
-  alt="ESPN Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/>
-    </td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.espn.com/fantasy/football/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      ESPN Fantasy Football
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">
-               <Image
-  src="/images/yahoo.svg"
-  alt="yahoo Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://football.fantasysports.yahoo.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Yahoo Fantasy Football
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">
-              <Image
-  src="/images/sleeper.svg"
-  alt="sleeper Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://sleeper.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Sleeper App
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">
-              <Image
-  src="/images/NflFantasy.svg"
-  alt="NFL Fantasy Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://fantasy.nfl.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      NFL Fantasy
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center">
-              <Image
-  src="/images/mfl-logo.svg"
-  alt="My fantasy League Fantasy Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://home.myfantasyleague.com/10"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      My Fantasy League (MFL)
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/fantasy pros.svg"
-  alt="Fantasypros Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.fantasypros.com/nfl/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      FantasyPros
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/CBS Fantasy.svg"
-  alt="CBS Fantasy Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.cbssports.com/fantasy/football/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      CBS Sports Fantasy
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/fantasycalc.svg"
-  alt="Fantasy calculator Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://fantasyfootballcalculator.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Fantasy Football Calculator
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/draftsharks.svg"
-  alt="Draftsharks Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.draftsharks.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Draft Sharks
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/fftoday.svg"
-  alt="fftoday Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.fftoday.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      FFToday
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/fanduelfantasy.svg"
-  alt="fanduel fantasy Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.numberfire.com/nfl/fantasy/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      FanDuel Fantasy
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/razzball 2.svg"
-  alt="razzball Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://football.razzball.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Razzball
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/Sports-Illustrated-Logo.svg"
-  alt="Sports Illustrated Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.si.com/fantasy/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Sports Illustrated 
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/wf.svg"
-  alt="Walter football Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://walterfootball.com/fantasy.php"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Walter Football
-    </a></td></tr>
-              <tr><td className="border w-1/4 py-15 text-center"><Image
-  src="/images/fantasysharks.svg"
-  alt="Fantasy Sharks Logo"
-  width={100}
-  height={100}
-  className="mx-auto"
-/></td>
-              <td className="border w-3/4 py-15 text-center">
-              <a
-      href="https://www.fantasysharks.com/"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:underline"
-    >
-      Fantasy Sharks 
-    </a></td></tr>
+              {[
+                { src: "/images/ESPN.svg", alt: "ESPN Logo", href: "https://www.espn.com/fantasy/football/", name: "ESPN Fantasy Football" },
+                { src: "/images/yahoo.svg", alt: "Yahoo Logo", href: "https://football.fantasysports.yahoo.com/", name: "Yahoo Fantasy Football" },
+                { src: "/images/sleeper.svg", alt: "Sleeper Logo", href: "https://sleeper.com/", name: "Sleeper App" },
+                { src: "/images/NflFantasy.svg", alt: "NFL Fantasy Logo", href: "https://fantasy.nfl.com/", name: "NFL Fantasy" },
+                { src: "/images/mfl-logo.svg", alt: "My Fantasy League Logo", href: "https://home.myfantasyleague.com/10", name: "My Fantasy League (MFL)" },
+                { src: "/images/fantasy pros.svg", alt: "FantasyPros Logo", href: "https://www.fantasypros.com/nfl/", name: "FantasyPros" },
+                { src: "/images/CBS Fantasy.svg", alt: "CBS Fantasy Logo", href: "https://www.cbssports.com/fantasy/football/", name: "CBS Sports Fantasy" },
+                { src: "/images/fantasycalc.svg", alt: "Fantasy Calculator Logo", href: "https://fantasyfootballcalculator.com/", name: "Fantasy Football Calculator" },
+                { src: "/images/draftsharks.svg", alt: "Draft Sharks Logo", href: "https://www.draftsharks.com/", name: "Draft Sharks" },
+                { src: "/images/fftoday.svg", alt: "FFToday Logo", href: "https://www.fftoday.com/", name: "FFToday" },
+                { src: "/images/fanduelfantasy.svg", alt: "FanDuel Fantasy Logo", href: "https://www.numberfire.com/nfl/fantasy/", name: "FanDuel Fantasy" },
+                { src: "/images/razzball 2.svg", alt: "Razzball Logo", href: "https://football.razzball.com/", name: "Razzball" },
+                { src: "/images/Sports-Illustrated-Logo.svg", alt: "Sports Illustrated Logo", href: "https://www.si.com/fantasy/", name: "Sports Illustrated" },
+                { src: "/images/wf.svg", alt: "Walter Football Logo", href: "https://walterfootball.com/fantasy.php", name: "Walter Football" },
+                { src: "/images/fantasysharks.svg", alt: "Fantasy Sharks Logo", href: "https://www.fantasysharks.com/", name: "Fantasy Sharks" },
+              ].map(({ src, alt, href, name }, index) => (
+                <tr key={index}>
+                  <td className="border w-1/5 px-2 py-3 text-center align-middle">
+                    <div className="w-24 h-24 flex items-center justify-center mx-auto">
+                      <Image
+                        src={src}
+                        alt={alt}
+                        width={100}
+                        height={100}
+                        className="object-contain w-full h-full"
+                      />
+                    </div>
+                  </td>
+                  <td className="border w-4/5 px-4 py-3 text-center align-middle">
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline text-xl font-semibold"
+                    >
+                      {name}
+                    </a>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
