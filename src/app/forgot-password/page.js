@@ -79,7 +79,7 @@ export default function ForgotPasswordPage() {
               required
             />
             <p className="mt-2 text-sm text-gray-600">
-              Enter the email address associated with your account, and we'll
+              Enter the email address associated with your account, and we will
               send you a link to reset your password.
             </p>
           </div>
