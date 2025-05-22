@@ -31,8 +31,8 @@ function formatDate(dateString) {
 export default async function Home() {
   const sources = await fetchRSS();
 
-  const regularSources = sources.filter(source => !source.source.isPodcast);
-  const podcastSources = sources.filter(source => source.source.isPodcast);
+  const regularSources = sources.filter((source) => !source.source.isPodcast);
+  const podcastSources = sources.filter((source) => source.source.isPodcast);
 
   return (
     <div>
@@ -56,7 +56,10 @@ export default async function Home() {
                 />
               )}
               <div>
-                <a href={source.link || "#"} className="text-blue-500 hover:text-blue-700">
+                <a
+                  href={source.link || "#"}
+                  className="text-blue-500 hover:text-blue-700"
+                >
                   <h2 className="text-lg font-bold uppercase text-black cursor-pointer">
                     {decodeHtmlEntities(source.title || "Unknown Source")}
                   </h2>
@@ -82,13 +85,17 @@ export default async function Home() {
                         {video.thumbnail ? (
                           <img
                             src={video.thumbnail}
-                            alt={decodeHtmlEntities(video.title || "Untitled Video")}
+                            alt={decodeHtmlEntities(
+                              video.title || "Untitled Video"
+                            )}
                             className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
                           />
                         ) : (
                           <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
                             <p className="text-center px-3 text-sm font-semibold truncate">
-                              {decodeHtmlEntities(video.title || "Untitled Video")}
+                              {decodeHtmlEntities(
+                                video.title || "Untitled Video"
+                              )}
                             </p>
                           </div>
                         )}
@@ -109,41 +116,52 @@ export default async function Home() {
                         className="w-12 h-12 mr-2"
                       />
                       <div>
-                        <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
+                        <h2 className="text-lg font-bold text-black">
+                          NFL Podcasts
+                        </h2>
                         <p className="text-gray-500 text-xs">
-                          Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
+                          Last Updated:{" "}
+                          {formatDate(podcastSources[0]?.source?.updatedAt)}
                         </p>
                       </div>
                     </div>
                     <div className="overflow-x-auto whitespace-nowrap flex gap-4">
-                      {podcastSources.flatMap(({ articles }) => articles.slice(0, 4)).map((video, index) => (
-                        <a
-                          key={index}
-                          href={video.link || "#"}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block min-w-[250px] max-w-[280px]"
-                        >
-                          <div className="w-full rounded-lg overflow-hidden group aspect-video">
-                            {video.thumbnail ? (
-                              <img
-                                src={video.thumbnail}
-                                alt={decodeHtmlEntities(video.title || "Untitled Video")}
-                                className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
-                              />
-                            ) : (
-                              <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
-                                <p className="text-center px-3 text-sm font-semibold truncate">
-                                  {decodeHtmlEntities(video.title || "Untitled Video")}
-                                </p>
-                              </div>
-                            )}
-                          </div>
-                          <p className="text-center mt-2 text-sm font-semibold w-full truncate">
-                            {decodeHtmlEntities(video.title || "Untitled Video")}
-                          </p>
-                        </a>
-                      ))}
+                      {podcastSources
+                        .flatMap(({ articles }) => articles.slice(0, 4))
+                        .map((video, index) => (
+                          <a
+                            key={index}
+                            href={video.link || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block min-w-[250px] max-w-[280px]"
+                          >
+                            <div className="w-full rounded-lg overflow-hidden group aspect-video">
+                              {video.thumbnail ? (
+                                <img
+                                  src={video.thumbnail}
+                                  alt={decodeHtmlEntities(
+                                    video.title || "Untitled Video"
+                                  )}
+                                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
+                                />
+                              ) : (
+                                <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
+                                  <p className="text-center px-3 text-sm font-semibold truncate">
+                                    {decodeHtmlEntities(
+                                      video.title || "Untitled Video"
+                                    )}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                            <p className="text-center mt-2 text-sm font-semibold w-full truncate">
+                              {decodeHtmlEntities(
+                                video.title || "Untitled Video"
+                              )}
+                            </p>
+                          </a>
+                        ))}
                     </div>
                   </>
                 )}
@@ -151,7 +169,10 @@ export default async function Home() {
             ) : (
               <ul className="space-y-2">
                 {articles.slice(0, 6).map((article, index) => (
-                  <li key={index} className="border-b pb-2 flex items-start gap-2">
+                  <li
+                    key={index}
+                    className="border-b pb-2 flex items-start gap-2"
+                  >
                     <div>
                       <a
                         href={article.link || "#"}
@@ -159,16 +180,44 @@ export default async function Home() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <h3>{decodeHtmlEntities(article.title || "Untitled Article")}</h3>
+                        <h3>
+                          {decodeHtmlEntities(
+                            article.title || "Untitled Article"
+                          )}
+                        </h3>
                       </a>
-                      <p className="text-gray-500 text-xs">{formatDate(article.pubDate)}</p>
+                      <a
+                        href={`/comments/${article.title}`}
+                        className="hover:text-blue-500"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="lucide lucide-message-circle"
+                        >
+                          <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                        </svg>
+                      </a>
+                      <p className="text-gray-500 text-xs">
+                        {formatDate(article.pubDate)}
+                      </p>
                     </div>
                   </li>
                 ))}
               </ul>
             )}
 
-            <a href={source.link || "#"} className="text-sm text-blue-500 mt-2 block font-semibold">
+            <a
+              href={source.link || "#"}
+              className="text-sm text-blue-500 mt-2 block font-semibold"
+            >
               MORE ...
             </a>
           </div>
