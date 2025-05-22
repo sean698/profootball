@@ -1,93 +1,177 @@
-"use client"
+"use client";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 const Nav = () => {
-  // State for mobile menu toggle
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
-  // Single color scheme for the navbar (light theme)
-  const colorScheme = {
-    bg: "bg-[#0B0B12]",  // Background color
-    text: "text-gray-900",  // Text color
-    hover: "",  // Hover effect for links
-    button: "bg-[#f5da9f] border border-[#f5da9f] p-4 text-black hover:text-[#f5da9f] hover:bg-[#0B0B12] py-2 px-4 rounded-md",  // Button styles
-    border: "border-gray-300",  // Border color
-  };
+  // Get auth context with try-catch to handle errors more gracefully
+  let user = null;
+  let userProfile = null;
+  let signOut = null;
 
-  // Toggle mobile menu open/close
+  try {
+    const auth = useAuth();
+    user = auth.user;
+    userProfile = auth.userProfile;
+    signOut = auth.signOut;
+  } catch (error) {
+    console.error("Auth context error:", error);
+    // Fallback: Show login/signup buttons if auth context fails
+  }
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleSignOut = async () => {
+    try {
+      if (signOut) {
+        const { error } = await signOut();
+        if (error) {
+          console.error("Sign out error:", error);
+          return;
+        }
+
+        // Force refresh the page after sign out to ensure state is reset
+        router.push("/");
+        router.refresh();
+      }
+    } catch (error) {
+      console.error("Sign out exception:", error);
+    }
+  };
+
+  // Get username for display - with fallback to email or anonymous
+  const displayName =
+    userProfile?.username || (user?.email ? user.email.split("@")[0] : "User");
+
   return (
-    <nav
-      className={`${colorScheme.bg} ${colorScheme.text} ${colorScheme.border} shadow-md px-6 py-1 mb-3 sticky top-0 z-50 transition-all duration-300 ease-in-out`}
-    >
+    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['DM Sans']">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="text-white">
-          <span className="navtitle">ProFootball News</span> 
+        {/* Logo + Title */}
+        <Link href="/" className="flex items-center space-x-4">
+          <Image src="/images/PFRlogo.jpg" alt="Logo" width={48} height={48} />
+          <div className="text-white uppercase leading-tight text-4xl sm:text-5xl md:text-6xl lg:text-6xl font-['montage']">
+            <div>PRO FOOTBALL REPORT</div>
+          </div>
         </Link>
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6">
-          <Link href="/" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Teams
-          </Link>
-          <Link href="/about" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Fantasy
-          </Link>
-          <Link href="/contact" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Betting
-          </Link>
-          <Link href="/contact" className={`${colorScheme.hover} ${colorScheme.button} transition-all duration-200 py-2 px-4 rounded-md`}>
-            Fanzone
-          </Link>
+        {/* Desktop Nav Links */}
+        <div className="hidden md:flex space-x-2 ml-50">
+          {["Teams", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase()}`}
+              className="bg-[#ECCE8B] text-black px-4 py-2 text-sm rounded-md font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B]"
+            >
+              {item}
+            </Link>
+          ))}
         </div>
 
-        {/* Mobile Menu Icon (Hamburger) */}
+        {/* Right Side Buttons */}
+        <div className="hidden md:flex items-center space-x-2">
+          {user ? (
+            <>
+              <div className="bg-[#ECCE8B] text-black px-3 py-1 rounded-md text-sm">
+                @{displayName}
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <button className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
+                  Login
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Mobile Hamburger */}
         <div className="md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="flex flex-col justify-between items-center w-8 h-6 space-y-1"
-          >
-            {/* Hamburger Bars */}
-            <div
-              className={`h-1 w-8 bg-white transition-all duration-300 ${
-                isOpen ? "rotate-45 absolute" : ""
-              }`}
-            />
-            <div
-              className={`h-1 w-8 bg-white transition-all duration-300 ${
-                isOpen ? "opacity-0" : ""
-              }`}
-            />
-            <div
-              className={`h-1 w-8 bg-white transition-all duration-300 ${
-                isOpen ? "-rotate-45 absolute" : ""
-              }`}
-            />
+          <button onClick={toggleMenu}>
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
-         <div
-         className={`md:hidden mt-4 space-y-4 px-4 pb-4 transition-all duration-100 ease-in-out ${
-           isOpen ? "translate-y-0" : "-translate-y-full"
-         }`}
-       >
-          <Link href="/" className={`${colorScheme.hover} ${colorScheme.button} block transition-all duration-200 py-2 px-4 rounded-md`}>
-            Teams
-          </Link>
-          <Link href="/about" className={`${colorScheme.hover} ${colorScheme.button} block transition-all duration-200 py-2 px-4 rounded-md`}>
-            Fantasy
-          </Link>
-          <Link href="/contact" className={`${colorScheme.hover} ${colorScheme.button} block transition-all duration-200 py-2 px-4 rounded-md`}>
-            Contact
-          </Link>
+        <div className="md:hidden mt-4 grid grid-cols-2 gap-4 place-items-center">
+          {["Teams", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
+            <Link
+              key={item}
+              href={`/${item.toLowerCase()}`}
+              className="w-36 text-center bg-[#ECCE8B] text-black px-4 py-2 text-sm rounded-md font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B]"
+            >
+              {item}
+            </Link>
+          ))}
+          {user ? (
+            <>
+              <div className="w-36 text-center bg-[#ECCE8B] text-black px-3 py-1 rounded-md text-sm truncate">
+                @{displayName}
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200"
+              >
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link href="/login">
+                <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
+                  Login
+                </button>
+              </Link>
+              <Link href="/signup">
+                <button className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          )}
         </div>
       )}
     </nav>

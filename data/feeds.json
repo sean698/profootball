@@ -1,57 +1,61 @@
 {
-    "feeds": [
-      {"url":"https://www.espn.com/espn/rss/nfl/news","image":""},
-      
-      {"url": "https://www.nbcsports.com/profootballtalk.rss",
-      "image":"https://nbcsports.brightspotcdn.com/dims4/default/f2fcd96/2147483647/strip/true/crop/1029x400+0+0/resize/400x155!/quality/90/?url=https%3A%2F%2Fnbc-sports-production-nbc-sports.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fe9%2F91%2Ff66679574a648b889aa492dda9aa%2Fpft.png"
-      },
-      
-      {"url": "https://sports.yahoo.com/nfl/news/rss/","image":""},
-      
-      {"url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDVYQ4Zhbm3S2dlz7P1GBDg",
-        "image": "https://yt3.googleusercontent.com/mTNz2WARw0gLIz_BM5cuB6oRAQCTapuIwiiAAHd-IeWMCfE_zNcRVOXt4N6c4YxJbQ_kibWOFg=s160-c-k-c0x00ffffff-no-rj"
-      },
-     
-      {"url":"https://www.cbssports.com/rss/headlines/nfl/","image":""},
-     
-     {"url": "https://www.allaccessfootball.com/feed/", "image": ""},
-     
-     {"url": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nfl", "image": ""},
-     
-     {"url": "https://www.pff.com/feed", "image": ""},
-     
-     {"url":"https://nfltraderumors.co/rss","image":""},
-     
-     {"url":"https://www.the33rdteam.com/rss", "image":""},
-     
-     {"url":"https://rsshub.app/twitter/user/NFL", 
-     "image":"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAilBMVEUAAAD////x8fHJyckmJibe3t7Pz8/5+fn8/Pza2trW1tZ+fn719fXn5+ezs7Pt7e10dHSrq6sQEBBTU1NnZ2ekpKRBQUE0NDRhYWG8vLyampoVFRV6enohISFKSkpcXFyRkZGHh4c6OjouLi4kJCS4uLiVlZWfn5/CwsJGRkY+Pj4bGxuLi4tOTk4SyONDAAAHc0lEQVR4nO2dfVsbKxDFm6hJqvEtWlO1aqK2tWq//9e7bb2ZM2ECYReyC89zfn9eegnsssyZF/DTJ0IIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCkjgf7W1ldJnpxx7kx0aLTF1u52oQwXSW5bfmY+nx+DZLj1EsYqb4kuOXZqd4ZPs5OozlMGaKRxl+6LP0NrnK0F08au34Gac/9Bf0luu7jmUZ8xJHqb/yBX0t0sfckFHMFN/TfkM9xvM8o27CLGadDl5TfuIr+tnLNewmnOHnRw4Y2eeEH3icSDfH2UbdCNkFzAp6xxR/tO9/KJ1kMq0JQzhzW9Rb/NW2d2UnktZ6Cg/yjO+cljclRFp2voeH1LWdUJx4NwJ8pC13wXN0sEweZwIiqYx8ucYIH1p0fJT6hHJxIeMw8gV6cti830tMsBc7oRDRYcwCJj/43rTXe3zGB3nGmcDxaig3bov6kr4263MGOzF097DumctgfrtNB9I0bebYHePZzLMNtD3iKp66LVfQJI1cRWUnGr78HSGu4onbovzkb/H9lWInwNz/xOEnj6N11xIT/JJ3oO0R22WkzQzr9DCyM2UnskRB8jDyjklJmzhX8R7PJMUtyc2dmC8jbRCFmDxG9PQMO3H6vIORtuabjMusUww5Zp3CwAxiHkiHiAoNSRujCQzK6brYyTjbg1cVkjbb3Lzy7IQCIRXj8UKhbNGYynwWYycU4ioaj1elAIKOkNp3r3c3zgTkVRlp8wNDD7iK9/hXsbazYySkEZI2RrsKKu7Rwp/sBtknTGRshtdjXvAK2IlxCf7EZmSdhqSNx1tQdqJN0KMjXmWQAWkz3Ogqfh/4/9+SuFmNcuJGbW4hbTbtk2ov2i4LekW2FCNtVArCuorF2wmATIMJ5kOvTN6cJiXsCrUTCiQsTNQG0sbJKs6n0nLcV36iAbJOjbRRFn1ddCKwaoOuBXIrhtsoNGwna66iqggw771I4Coau4a5qM9N2YkG0apeEdNnxNczJrNY/bd67ASYycZhpA3e7yrSW5GdUMD0BaTNx0ZUlZ1QyKc1eXJa3rBv/vVxH6fOjKvh1PtiVDT0QpvIaWFxp23AVVy4TRIK+OMqIlE/uO9+kGmc+4eOdaoyTD0m6tsiozfBJyVthGrshOLX2o6yxo2ZYOMUcRHAkgekzQd9J+rbItuIkTZP6xOszE4AhDSMWDnSE5y6NrMeljIJo6hVWey4OjuhkO/NlAqrqM3PXoaWiSdxFQPSpuDgaAT43kz+F15hcqF0r+B7M2X2kDaL7seVj1vxHULSpup1iu8tIG36r1xLAd+byVrDs6h6P8X3NnVbnib+2dcEQhoBaVOtcPsHXEVT7o4KPW9WsQqwTt0SIGy1JecMtwO7YIw7ttphBQkLPz9lHkbaIGpTUbR0A0jRm4gapE2FoRqArGJA2oz7GFk2kFUMSJtagxkfIDQTkDZFlyhsQ22abtMj1mm98QwVswlKm6qSM2vcDdUMQyf5Ft2PLQ8HeoK23P0O0qbSdbo3WMdIG6RJ63QVzwcupv4X0qZGV/HdTHBD3ALSpo5yDI1K1B+KtDE1Yb/lH1XnKiIH9WdaWIxG2kCdV+Yq4qjJv+pgLMaAtKnLVYSdmPz99rAYjbRBubu/ULpAlJ34eDNYjCYruvQ3lQu+O1HVeKkBaWOaSmVTQRcWo5U28s3W4ipuPkiIczGBSwoKOngYALvKus8Q8Aev/U0F4i38VaFuo7PFmtTgKqIcyB0tNs2AtCk/qxg6SIg2UymEa6HKO523jrr2w2796volM3tYk7KziqrsaVNBFzZNe0mBNBXtKm4t/MUrNvoF1qTgYjeVwPYcOFfHn02oG19psZU284gLlJBVNNIGxxlKdRVnUYW/kKwBadPv5UJeVOVhKHmNdRqQNkVmv2NvclSiztyxI9KmRFcx/oAIXMXAJQXluYrqyMjWwR34nwUCkKVlFVGjHyEs1TF9YxdktyrMVXxqdpMjjLv53l6lp7Kyik1v/IWrGLh/qSRXUfkTcZFrdXun/5KCDDf15iLoT2xmiZfunmHHJQXFuIqtbvzFaw9cUpB4U28uVP19g7i8ugwjIG2KCGmog4SNVpVytPz3L5WQ/cbu3tRzxZsy0gbWtf+sojo4OWx4Q5c6mBC4pKB3V1EdJGx8M7wKHPulTd+uYtrN8CiUNvMInIDrFGUnWm3sWKeB+5f6zCouMcF2Trnah/0n+Xpcp23thAKLwBTSvvnfb1eogq72EU64igFp05OruA87cepeOxOPqmfwS5ueXEV1M3xKJQyC5Pb+JXmGvWQVs934i3VqJBpiqz1kv1VBV6KjqsIDfmnTvau4xASTg7eqOOzARVq6dhXz3gwf9Uddug1pqFhZjkzY7cQ/MdClq6iO9OQ58HIWmJjQ5e3JqqCr9V8hWeclMDMh4Y+6NGQHN8O/Tf0TA1394a6d3Ph76Z8X6EiCH02G/zPN6bmdTIdbGXeT/Z7vr8i7ue1HUHaRBiGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgipgP8ATtlNE7NORasAAAAASUVORK5CYII="},
-     
-     {"url":"https://www.reddit.com/r/nfl/.rss", 
-     "image":"https://images.squarespace-cdn.com/content/v1/5c5554d316b64061c6f8a20d/1630949829757-WXNOUZ8R4QQCXMIY4YMG/What-Is-The-Reddit-Logo-Called.png"},
+  "feeds": [
+    { "url": "https://www.espn.com/espn/rss/nfl/news", "image": "" },
+    {
+      "url": "https://www.nbcsports.com/profootballtalk.rss",
+      "image": "https://nbcsports.brightspotcdn.com/dims4/default/f2fcd96/2147483647/strip/true/crop/1029x400+0+0/resize/400x155!/quality/90/?url=https%3A%2F%2Fnbc-sports-production-nbc-sports.s3.us-east-1.amazonaws.com%2Fbrightspot%2Fe9%2F91%2Ff66679574a648b889aa492dda9aa%2Fpft.png"
+    },
+    { "url": "https://sports.yahoo.com/nfl/news/rss/", "image": "" },
+    {
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDVYQ4Zhbm3S2dlz7P1GBDg",
+      "image": "https://yt3.googleusercontent.com/mTNz2WARw0gLIz_BM5cuB6oRAQCTapuIwiiAAHd-IeWMCfE_zNcRVOXt4N6c4YxJbQ_kibWOFg=s160-c-k-c0x00ffffff-no-rj"
+    },
+    { "url": "https://www.cbssports.com/rss/headlines/nfl/", "image": "" },
+    { "url": "https://www.allaccessfootball.com/feed/", "image": "" },
+    {
+      "url": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nfl",
+      "image": ""
+    },
+    { "url": "https://www.pff.com/feed", "image": "" },
+    { "url": "https://nfltraderumors.co/rss", "image": "" },
+    { "url": "https://www.the33rdteam.com/rss", "image": "" },
+    {
+      "url": "https://rsshub.app/twitter/user/NFL",
+      "image": "data:image/png;base64,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"
+    },
+    {
+      "url": "https://www.reddit.com/r/nfl/.rss",
+      "image": "https://images.squarespace-cdn.com/content/v1/5c5554d316b64061c6f8a20d/1630949829757-WXNOUZ8R4QQCXMIY4YMG/What-Is-The-Reddit-Logo-Called.png"
+    },
+    { "url": "https://apnews.com/hub/nfl?format=rss", "image": "" },
 
-     
+    { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gmLSYihwViI0cRROkkvFUSe", "image": "", "isPodcast": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gllZ72IErHeDGyJgOyZKWRM", "image": "", "isPodcast": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gldfLR6PNBa75I7ItCQbUlj", "image": "", "isPodcast": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2glQ1Tv-_5rqzBpc66a0q7TY", "image": "", "isPodcast": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gkgoyvT4p73q0DPLKTEpjqK", "image": "", "isPodcast": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gnqHjmcfGXTwpNkV2b8I-0q", "image": "", "isPodcast": true },
 
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCqMtxjKnR7ySbEZSs2N-v0Q", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCxcTeAKWJca6XyJ37_ZoKIQ", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXn8eue3paGXJyI5UDQIyWg", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCiio0ydw439X13KyZgMIcHw", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCvQrivswRDGK0lZ_AcUHp8g", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC7ZUfHFsuQcW7BkTHnXJtqw", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCVRm2Ho8cL3lvWDyp2ayuFw", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCI4D2tSAiHqZBRB67nTKqww", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCew5br5cO1ZKO7Z_F1WA8Bg", "image": "", "isTopChannel": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCdGdhYRjSX1TYLRvm87-jTA", "image": "", "isTopChannel": true },
 
-     {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gmLSYihwViI0cRROkkvFUSe",
-        "image": "",
-        "isPodcast": true},
-      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gllZ72IErHeDGyJgOyZKWRM",
-        "image": "",
-        "isPodcast": true},
-      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gldfLR6PNBa75I7ItCQbUlj",
-        "image": "",
-        "isPodcast": true},
-      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2glQ1Tv-_5rqzBpc66a0q7TY",
-        "image": "",
-        "isPodcast": true},
-      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gkgoyvT4p73q0DPLKTEpjqK",
-        "image": "",
-        "isPodcast": true},
-      {"url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gnqHjmcfGXTwpNkV2b8I-0q",
-        "image": "",
-        "isPodcast": true}
-    ]
-  }
-
-
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCazhpToa5Z07lgnUL6fYdEw", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCew5br5cO1ZKO7Z_F1WA8Bg", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYzfVBuCfGz-oF3aOCGgO5g", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCg6jOxpPC46mnBs9NsgLcvg", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCbA9oIvr6XJjzNSOKZG0IMw", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCGfxHp2yuimtLsFaq1r7aIQ", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCBJb4FwDLbfJzArYeM42Qiw", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCyKV3Zl7AKVj7ikyOlcfZTQ", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4qMMCxdNfU6cwpaXZOyUSg", "image": "", "isUpAndComing": true },
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDEqiSbNKsOsDFfN2GmTreg", "image": "", "isUpAndComing": true }
+  ]
+}
