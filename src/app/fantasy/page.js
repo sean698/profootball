@@ -34,58 +34,25 @@ export default function FantasyPage() {
         <h1 className="text-4xl font-bold mb-6">Top Fantasy Football Websites</h1>
 
         <div className="bg-white p-6 rounded-lg shadow-md">
-          {/* Desktop Table View */}
-          <div className="hidden md:block">
-            <table className="table-fixed w-full border-collapse">
-              <tbody>
-                {fantasyWebsites.map(({ src, alt, href, name }, index) => (
-                  <tr key={index}>
-                    <td className="border w-1/5 px-2 py-3 text-center align-middle">
-                      <div className="w-24 h-24 flex items-center justify-center mx-auto">
-                        <Image
-                          src={src}
-                          alt={alt}
-                          width={100}
-                          height={100}
-                          className="object-contain w-full h-full"
-                        />
-                      </div>
-                    </td>
-                    <td className="border w-4/5 px-4 py-3 text-center align-middle">
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline text-xl font-semibold"
-                      >
-                        {name}
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Mobile Card View */}
-          <div className="md:hidden space-y-4">
+          {/* Card View for All Screen Sizes */}
+          <div className="space-y-4">
             {fantasyWebsites.map(({ src, alt, href, name }, index) => (
-              <div key={index} className="border rounded-lg p-4 flex items-center space-x-4 bg-gray-50">
-                <div className="w-16 h-16 flex items-center justify-center flex-shrink-0">
+              <div key={index} className="border rounded-lg p-4 flex items-center space-x-4 bg-gray-50 hover:bg-gray-100 transition-colors">
+                <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center flex-shrink-0">
                   <Image
                     src={src}
                     alt={alt}
-                    width={64}
-                    height={64}
+                    width={80}
+                    height={80}
                     className="object-contain w-full h-full"
                   />
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 text-center">
                   <a
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline text-lg font-semibold block"
+                    className="text-blue-600 hover:underline text-lg md:text-xl font-semibold block"
                   >
                     {name}
                   </a>
