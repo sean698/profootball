@@ -16,17 +16,15 @@ export function AuthProvider({ children }) {
   // Fetch user profile data (username) - with error handling
   const fetchUserProfile = async (userId) => {
     try {
-      // First check if the user_profiles table exists
+      // First check if the users table exists
       const { error: tableCheckError } = await supabase
-        .from("user_profiles")
+        .schema("membership")
+        .from("users")
         .select("id")
         .limit(1);
-
       // If there's an error about the table not existing
       if (tableCheckError && tableCheckError.code === "42P01") {
-        console.error(
-          "user_profiles table does not exist, creating default profile"
-        );
+        console.error("users table does not exist, creating default profile");
         // Return a default profile with a generated username
         return {
           username: user?.email ? user.email.split("@")[0] : "user",
@@ -35,7 +33,8 @@ export function AuthProvider({ children }) {
 
       // If the table exists, proceed to fetch the profile
       const { data, error } = await supabase
-        .from("user_profiles")
+        .schema("membership")
+        .from("users")
         .select("username")
         .eq("id", userId)
         .single();
@@ -51,7 +50,7 @@ export function AuthProvider({ children }) {
           const defaultUsername = email.split("@")[0];
 
           const { data: newProfile, error: createError } = await supabase
-            .from("user_profiles")
+            .from("membership.users")
             .insert([{ id: userId, username: defaultUsername }])
             .select("username")
             .single();
@@ -138,22 +137,22 @@ export function AuthProvider({ children }) {
   // Sign up with email, password, and username
   const signUp = async (email, password, username) => {
     try {
-      // Check if the user_profiles table exists first
+      // Check if the users table exists first
       const { error: tableCheckError } = await supabase
-        .from("user_profiles")
+        .from("membership.users")
         .select("id")
         .limit(1);
 
       // If there's an error about the table not existing, we'll handle it later
       if (tableCheckError && tableCheckError.code === "42P01") {
         console.warn(
-          "user_profiles table does not exist yet. Will create during registration."
+          "users table does not exist yet. Will create during registration."
         );
         // Continue with registration, we'll handle the profile creation manually after
       } else {
         // If the table exists, check if username is already taken
         const { data: existingUser, error: checkError } = await supabase
-          .from("user_profiles")
+          .from("membership.users")
           .select("username")
           .eq("username", username)
           .single();
@@ -190,7 +189,7 @@ export function AuthProvider({ children }) {
       try {
         if (data?.user?.id) {
           const { error: profileError } = await supabase
-            .from("user_profiles")
+            .from("membership.users")
             .insert([{ id: data.user.id, username: username }]);
 
           if (profileError && profileError.code !== "23505") {
