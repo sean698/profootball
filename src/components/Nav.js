@@ -78,14 +78,11 @@ const Nav = () => {
         <div className="hidden md:flex items-center space-x-2">
           {user ? (
             <>
-              <div className="bg-[#ECCE8B] text-black px-3 py-1 rounded-md text-sm">
-                @{displayName}
-              </div>
               <button
                 onClick={handleSignOut}
                 className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base"
               >
-                Sign Out
+                Log Out
               </button>
             </>
           ) : (
@@ -148,14 +145,11 @@ const Nav = () => {
           ))}
           {user ? (
             <>
-              <div className="w-36 text-center bg-[#ECCE8B] text-black px-3 py-1 rounded-md text-sm truncate">
-                @{displayName}
-              </div>
               <button
                 onClick={handleSignOut}
                 className="w-36 bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200"
               >
-                Sign Out
+                Log Out
               </button>
             </>
           ) : (
