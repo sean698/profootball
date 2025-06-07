@@ -318,7 +318,7 @@ export default function CommentsPage({ title }) {
 
             <div className="border border-gray-300 rounded p-2 bg-white">
               <Editor
-                apiKey="9x7zxmnso7ilgccwk5yrg8zvqsb1rszbjv7ftjvontm8v0r1"
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
                 value={commentContent}
                 init={{
                   height: 200,
