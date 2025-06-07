@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-import { supabase } from "@/utils/supabaseClient";
+import { supabase } from "@/utils/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 
 // Dynamically import TinyMCE Editor for SSR compatibility
@@ -22,25 +22,24 @@ export default function CommentsPage({ title }) {
   const [commentContent, setCommentContent] = useState("");
   const decodedTitle = decodeURIComponent(title);
 
-  useEffect(() => {
-    const testQuery = async () => {
-      const { data, error } = await supabase
-        .schema("membership")
-        .from("comments")
-        .select("*")
-        .limit(1);
-      if (error) console.error("Test Query Error:", error);
-      else console.log("Test Query Data:", data);
-    };
-    testQuery();
-  }, []);
+  // You can remove this test query unless you specifically need it for debugging.
+  // useEffect(() => {
+  //   const testQuery = async () => {
+  //     const { data, error } = await supabase
+  //       .from("comments") // <--- REMOVED .schema("membership")
+  //       .select("*")
+  //       .limit(1);
+  //     if (error) console.error("Test Query Error:", error);
+  //     else console.log("Test Query Data:", data);
+  //   };
+  //   testQuery();
+  // }, []);
 
   // Fetch comments from Supabase when component mounts or title changes
   useEffect(() => {
     const fetchComments = async () => {
       const { data, error } = await supabase
-        .schema("membership")
-        .from("comments")
+        .from("comments") // <--- REMOVED .schema("membership")
         .select(
           `
           *,
@@ -51,7 +50,7 @@ export default function CommentsPage({ title }) {
         `
         )
         .eq("newsletter_title", decodedTitle)
-        .order("created_at", { ascending: true });
+        .order("created_at", { ascending: true }); // Order ascending to match insertion logic
 
       console.log("Fetched Comments:", data);
 
@@ -63,7 +62,31 @@ export default function CommentsPage({ title }) {
     };
 
     fetchComments();
-  }, [decodedTitle]);
+
+    // Setup real-time listener for new comments if you want them to appear automatically
+    const commentsChannel = supabase
+      .channel("comments_changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*", // Listen for all changes (INSERT, UPDATE, DELETE)
+          schema: "public", // Specify the schema
+          table: "comments",
+          filter: `newsletter_title=eq.${decodedTitle}`, // Only listen for changes related to this title
+        },
+        (payload) => {
+          console.log("Change received!", payload);
+          // Refetch all comments for simplicity, or handle specific payload types
+          fetchComments(); // Re-fetch to ensure order and full data
+        }
+      )
+      .subscribe();
+
+    // Clean up on component unmount
+    return () => {
+      commentsChannel.unsubscribe();
+    };
+  }, [decodedTitle]); // Depend on decodedTitle
 
   const handleSubmit = async () => {
     if (
@@ -79,7 +102,9 @@ export default function CommentsPage({ title }) {
       if (email.trim() === "") return alert("Please enter an email.");
       if (password.trim() === "") return alert("Please enter a password.");
 
-      const { data: signedInUser, error: loginError } = await signIn(
+      // Ensure that signIn also returns data and error correctly.
+      // Assuming signIn in AuthContext handles Supabase login and updates the user state.
+      const { user: signedInUser, error: loginError } = await signIn(
         email,
         password
       );
@@ -88,28 +113,28 @@ export default function CommentsPage({ title }) {
         return alert("Login failed: " + loginError.message);
       }
 
-      if (!signedInUser?.user) {
+      if (!signedInUser) {
+        // Check if user object is directly returned or nested
         alert("User not found after login. Please try again.");
         return;
       }
 
-      currentUser = signedInUser.user;
+      currentUser = signedInUser; // Assign the directly returned user object
     }
 
-    const newComment = {
+    const newCommentPayload = {
+      // Renamed to avoid confusion with newComment object
       user_id: currentUser.id,
       newsletter_title: decodedTitle,
       content: commentContent,
-      created_at: new Date().toISOString(),
-      votes_up: 0,
-      votes_down: 0,
+      // created_at and updated_at are handled by database defaults
+      // votes_up and votes_down are handled by database defaults
     };
 
     // Insert new comment into Supabase
     const { data, error } = await supabase
-      .schema("membership")
-      .from("comments")
-      .insert([newComment])
+      .from("comments") // <--- REMOVED .schema("membership")
+      .insert([newCommentPayload]) // Use the payload object
       .select(
         `
         *,
@@ -118,14 +143,20 @@ export default function CommentsPage({ title }) {
           last_name
         )
       `
-      )
-      .order("created_at", { ascending: true });
+      );
 
     if (error) {
       alert("Error adding comment: " + error.message);
       console.error(error);
     } else {
-      setComments([data[0], ...comments]);
+      // If using real-time subscriptions (recommended), you might not need to manually update state here.
+      // The real-time listener will trigger a fetch and update the comments.
+      // If not using real-time, ensure you add the new comment in the correct order.
+      // Since fetchComments orders ascending, newly added should go at the end.
+      // For immediate display, you can insert it and then let the real-time update sync.
+      // For now, let's keep it simple and rely on the fetchComments in useEffect.
+      // setComments((prevComments) => [...prevComments, data[0]]); // Add to end for ascending order
+      // If you implement real-time, just clear the content:
       if (!rememberMe) {
         setEmail("");
         setPassword("");
@@ -136,34 +167,37 @@ export default function CommentsPage({ title }) {
 
   const handleVote = async (index, type) => {
     const comment = comments[index];
-    const updatedComment = { ...comment };
-
-    if (type === "up") updatedComment.votes_up += 1;
-    if (type === "down") updatedComment.votes_down += 1;
+    const updatedVotes = {
+      votes_up: type === "up" ? comment.votes_up + 1 : comment.votes_up,
+      votes_down: type === "down" ? comment.votes_down + 1 : comment.votes_down,
+    };
 
     // Update votes in Supabase
     const { data, error } = await supabase
-      .schema("membership")
-      .from("comments")
-      .update({
-        votes_up: updatedComment.votes_up,
-        votes_down: updatedComment.votes_down,
-      })
+      .from("comments") // <--- REMOVED .schema("membership")
+      .update(updatedVotes)
       .eq("comment_id", comment.comment_id)
-      .select();
+      .select(); // Select the updated row
 
     if (error) {
       alert("Error updating vote: " + error.message);
       console.error(error);
     } else {
-      // Update local state
-      const updatedComment = {
-        ...data[0],
-        users: comment.users, // keep the existing user info
+      // Update local state, ensuring user info is preserved
+      // Supabase .update().select() will return the updated row, but won't include joined data.
+      // So, we manually preserve the user info from the original comment object.
+      const updatedCommentData = {
+        ...data[0], // The updated comment data from Supabase
+        users: comment.users, // Preserve the nested user object
       };
-      const updatedComments = [...comments];
-      updatedComments[index] = updatedComment;
-      setComments(updatedComments);
+
+      setComments((prevComments) =>
+        prevComments.map((c) =>
+          c.comment_id === updatedCommentData.comment_id
+            ? updatedCommentData
+            : c
+        )
+      );
     }
   };
 
@@ -182,7 +216,9 @@ export default function CommentsPage({ title }) {
           {comments.length > 0 ? (
             <ul className="border p-2 rounded bg-gray-50">
               {comments.map((c, index) => (
-                <li key={index} className="border-b p-2 last:border-0 ">
+                <li key={c.comment_id} className="border-b p-2 last:border-0 ">
+                  {" "}
+                  {/* Use unique ID for key */}
                   <div className="flex frontusername justify-between items-center bg-[#f5da9f] border">
                     <div className="ml-5 font-bold">
                       {c.users?.first_name} {c.users?.last_name}
@@ -253,7 +289,7 @@ export default function CommentsPage({ title }) {
                 required
               />
               <a
-                href="#"
+                href="/forgot-password"
                 className="text-blue-500 text-sm ml-2 hover:underline"
               >
                 Forgot password?
@@ -272,7 +308,7 @@ export default function CommentsPage({ title }) {
               </label>
               <div className="mt-2">
                 <a
-                  href="#"
+                  href="/signup"
                   className="text-blue-600 font-semibold hover:underline"
                 >
                   Create an account to make comments
@@ -282,7 +318,7 @@ export default function CommentsPage({ title }) {
 
             <div className="border border-gray-300 rounded p-2 bg-white">
               <Editor
-                apiKey="ji92wkc82n7s07nh64mrq1e6i8v2h9d4d37cw2r4neyylw3x"
+                apiKey="9x7zxmnso7ilgccwk5yrg8zvqsb1rszbjv7ftjvontm8v0r1"
                 value={commentContent}
                 init={{
                   height: 200,
@@ -357,7 +393,7 @@ export default function CommentsPage({ title }) {
 
             <div className="border border-gray-300 rounded p-2 bg-white">
               <Editor
-                apiKey="ji92wkc82n7s07nh64mrq1e6i8v2h9d4d37cw2r4neyylw3x"
+                apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
                 value={commentContent}
                 init={{
                   height: 200,

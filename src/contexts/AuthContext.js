@@ -1,5 +1,5 @@
 "use client";
-// src/contexts/AuthContext.js with improved login state management
+// src/contexts/AuthContext.js - Updated for public schema
 import { createContext, useContext, useState, useEffect } from "react";
 import { supabase } from "@/utils/supabase";
 
@@ -13,27 +13,29 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
 
-  // Fetch user profile data (username) - with error handling
+  // Fetch user profile data (username) - using public schema
   const fetchUserProfile = async (userId) => {
     try {
       // First check if the users table exists
       const { error: tableCheckError } = await supabase
-        .schema("membership")
         .from("users")
         .select("id")
         .limit(1);
+
       // If there's an error about the table not existing
       if (tableCheckError && tableCheckError.code === "42P01") {
         console.error("users table does not exist, creating default profile");
         // Return a default profile with a generated username
+        const currentUser = user || (await supabase.auth.getUser()).data?.user;
         return {
-          username: user?.email ? user.email.split("@")[0] : "user",
+          username: currentUser?.email
+            ? currentUser.email.split("@")[0]
+            : "user",
         };
       }
 
       // If the table exists, proceed to fetch the profile
       const { data, error } = await supabase
-        .schema("membership")
         .from("users")
         .select("username")
         .eq("id", userId)
@@ -45,12 +47,15 @@ export function AuthProvider({ children }) {
         // If the profile doesn't exist, try to create one
         if (error.code === "PGRST116") {
           console.log("Profile not found, attempting to create one");
-          // Create a default profile with username from email
-          const email = user?.email || "";
-          const defaultUsername = email.split("@")[0];
+          // Get current user data
+          const currentUser =
+            user || (await supabase.auth.getUser()).data?.user;
+          const email = currentUser?.email || "";
+          const defaultUsername = email.split("@")[0] || "user";
 
+          // Insert into public.users
           const { data: newProfile, error: createError } = await supabase
-            .from("membership.users")
+            .from("users")
             .insert([{ id: userId, username: defaultUsername }])
             .select("username")
             .single();
@@ -63,13 +68,22 @@ export function AuthProvider({ children }) {
           return newProfile;
         }
 
-        return { username: user?.email ? user.email.split("@")[0] : "user" };
+        // Fallback with current user data
+        const currentUser = user || (await supabase.auth.getUser()).data?.user;
+        return {
+          username: currentUser?.email
+            ? currentUser.email.split("@")[0]
+            : "user",
+        };
       }
 
       return data;
     } catch (error) {
       console.error("Error in fetchUserProfile:", error);
-      return { username: user?.email ? user.email.split("@")[0] : "user" };
+      const currentUser = user || (await supabase.auth.getUser()).data?.user;
+      return {
+        username: currentUser?.email ? currentUser.email.split("@")[0] : "user",
+      };
     }
   };
 
@@ -139,7 +153,7 @@ export function AuthProvider({ children }) {
     try {
       // Check if the users table exists first
       const { error: tableCheckError } = await supabase
-        .from("membership.users")
+        .from("users")
         .select("id")
         .limit(1);
 
@@ -152,7 +166,7 @@ export function AuthProvider({ children }) {
       } else {
         // If the table exists, check if username is already taken
         const { data: existingUser, error: checkError } = await supabase
-          .from("membership.users")
+          .from("users")
           .select("username")
           .eq("username", username)
           .single();
@@ -189,7 +203,7 @@ export function AuthProvider({ children }) {
       try {
         if (data?.user?.id) {
           const { error: profileError } = await supabase
-            .from("membership.users")
+            .from("users")
             .insert([{ id: data.user.id, username: username }]);
 
           if (profileError && profileError.code !== "23505") {

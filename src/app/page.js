@@ -16,13 +16,14 @@ const decodeHtmlEntities = (str) => {
 
 async function fetchRSS() {
   try {
-    const headersList = headers();
+    // Await headers() as required in Next.js 15
+    const headersList = await headers();
     const host = headersList.get("host") || "localhost:3000";
     const protocol = host.includes("localhost") ? "http" : "https";
 
     const apiUrl = `${protocol}://${host}/api/rss`;
+    // Remove conflicting cache options
     const response = await fetch(apiUrl, {
-      cache: "no-store",
       next: { revalidate: 600 },
     });
 
