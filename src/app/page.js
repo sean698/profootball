@@ -195,9 +195,9 @@ export default async function Home() {
                 {decodeHtmlEntities(source.title || "Unknown Source")}
               </h2>
             </a>
-            <p className="text-gray-500 text-xs">
+            {/* <p className="text-gray-500 text-xs">
               Last Updated: {formatDate(source.updatedAt)}
-            </p>
+            </p> */}
           </div>
         </div>
         <ul className="space-y-2">
@@ -233,9 +233,9 @@ export default async function Home() {
                     <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
                   </svg>
                 </a>
-                <p className="text-gray-500 text-xs">
+                {/* <p className="text-gray-500 text-xs">
                   {formatDate(article.pubDate)}
-                </p>
+                </p> */}
               </div>
             </li>
           ))}
@@ -288,7 +288,7 @@ export default async function Home() {
                   <h2 className="text-lg font-bold text-black">
                     NFL Latest Videos
                   </h2>
-                  <p className="text-gray-500 text-xs">
+                  {/* <p className="text-gray-500 text-xs">
                     Last Updated:{" "}
                     {formatDate(
                       regularSources.find(
@@ -297,7 +297,7 @@ export default async function Home() {
                           s.source.link.includes("youtube")
                       )?.source?.updatedAt
                     )}
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
@@ -366,10 +366,10 @@ export default async function Home() {
                 />
                 <div>
                   <h2 className="text-lg font-bold text-black">Top NFL Channels</h2>
-                  <p className="text-gray-500 text-xs">
+                  {/* <p className="text-gray-500 text-xs">
                     Last Updated:{" "}
                     {formatDate(topChannelSources[0]?.source?.updatedAt)}
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
@@ -431,10 +431,10 @@ export default async function Home() {
                   <h2 className="text-lg font-bold text-black">
                     Up & Coming NFL Channels
                   </h2>
-                  <p className="text-gray-500 text-xs">
+                  {/* <p className="text-gray-500 text-xs">
                     Last Updated:{" "}
                     {formatDate(upAndComingSources[0]?.source?.updatedAt)}
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
@@ -494,9 +494,9 @@ export default async function Home() {
                 />
                 <div>
                   <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
-                  <p className="text-gray-500 text-xs">
+                  {/* <p className="text-gray-500 text-xs">
                     Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
