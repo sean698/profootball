@@ -2,6 +2,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { TopBannerAd, SidebarAd, InContentAd } from "@/components/AdBanner";
 import { headers } from "next/headers";
+import { getCommentCounts, getAllCommentTitles } from "@/utils/supabase";
 
 const decodeHtmlEntities = (str) => {
   if (!str) return "";
@@ -128,6 +129,22 @@ export default async function Home() {
   const topGridSources = nonNFLYoutubeSources.slice(0, 3);
   const remainingSources = nonNFLYoutubeSources.slice(3);
 
+  // Fetch comment counts for displayed articles only (first 6 articles from each source)
+  const displayedArticles = [
+    ...topGridSources.flatMap(source => (source.articles || []).slice(0, 6)),
+    ...remainingSources.flatMap(source => (source.articles || []).slice(0, 6))
+  ];
+  
+  const articleTitles = displayedArticles.map(article => article.title).filter(Boolean);
+  console.log("Article titles to fetch comments for:", articleTitles.length, "titles");
+  console.log("Sample RSS article titles:", articleTitles.slice(0, 3));
+  
+  // Debug: Get sample titles from database
+  const dbTitles = await getAllCommentTitles();
+  
+  const commentCounts = await getCommentCounts(articleTitles);
+  console.log("Comment counts received:", commentCounts);
+
   const renderCard = ({ source, articles }) => {
     if (source.isFeatured) {
       return (
@@ -201,44 +218,55 @@ export default async function Home() {
           </div>
         </div>
         <ul className="space-y-2">
-          {articles.slice(0, 6).map((article, index) => (
-            <li key={index} className="border-b pb-2 flex items-start gap-2">
-              <div>
-                <a
-                  href={article.link || "#"}
-                  className="text-black hover:underline hover:text-blue-500 font-medium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <h3>
-                    {decodeHtmlEntities(article.title || "Untitled Article")}
-                  </h3>
-                </a>
-                <a
-                  href={`/comments/${article.title}`}
-                  className="hover:text-blue-500"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-message-circle"
+          {articles.slice(0, 6).map((article, index) => {
+            const commentCount = commentCounts[article.title] || 0;
+            console.log(`Article: "${article.title}" has ${commentCount} comments`);
+            return (
+              <li key={index} className="border-b pb-2 flex items-start gap-2">
+                <div className="flex-1">
+                  <a
+                    href={article.link || "#"}
+                    className="text-black hover:underline hover:text-blue-500 font-medium"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-                  </svg>
-                </a>
-                <p className="text-gray-500 text-xs">
-                  {formatDate(article.pubDate)}
-                </p>
-              </div>
-            </li>
-          ))}
+                    <h3>
+                      {decodeHtmlEntities(article.title || "Untitled Article")}
+                    </h3>
+                  </a>
+                  <p className="text-gray-500 text-xs">
+                    {formatDate(article.pubDate)}
+                  </p>
+                </div>
+                <div className="relative flex-shrink-0">
+                  <a
+                    href={`/comments/${article.title}`}
+                    className="hover:text-blue-500 relative inline-block"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="36"
+                      height="36"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-message-circle"
+                    >
+                      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    </svg>
+                    {commentCount > 0 && (
+                      <span className="absolute inset-0 flex items-center justify-center text-sm font-black text-gray-700 tracking-tight">
+                        {commentCount > 99 ? '99+' : commentCount}
+                      </span>
+                    )}
+                  </a>
+                </div>
+              </li>
+            );
+          })}
         </ul>
         <a
           href={source.link || "#"}
