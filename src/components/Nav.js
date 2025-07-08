@@ -62,12 +62,12 @@ const Nav = () => {
         </Link>
 
         {/* Desktop Nav Links */}
-        <div className="hidden md:flex space-x-2 ml-50">
-          {["Teams", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
+        <div className="hidden lg:flex space-x-2 ml-4">
+          {["Teams", "Standings", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}
-              className="bg-[#ECCE8B] text-black px-4 py-2 text-sm rounded-md font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B]"
+              className="bg-[#ECCE8B] text-black px-4 py-2 text-sm rounded-md font-['DM Sans'] transition-all duration-200 hover:bg-black hover:text-[#ECCE8B] hover:border hover:border-[#ECCE8B] whitespace-nowrap"
             >
               {item}
             </Link>
@@ -75,7 +75,7 @@ const Nav = () => {
         </div>
 
         {/* Right Side Buttons */}
-        <div className="hidden md:flex items-center space-x-2">
+        <div className="hidden lg:flex items-center space-x-2">
           {user ? (
             <>
               <button
@@ -102,7 +102,7 @@ const Nav = () => {
         </div>
 
         {/* Mobile Hamburger */}
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <button onClick={toggleMenu}>
             <svg
               className="w-6 h-6 text-white"
@@ -133,8 +133,8 @@ const Nav = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden mt-4 grid grid-cols-2 gap-4 place-items-center">
-          {["Teams", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
+        <div className="lg:hidden mt-4 grid grid-cols-3 gap-3 place-items-center">
+          {["Teams", "Standings", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}

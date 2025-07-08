@@ -1,6 +1,7 @@
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { TopBannerAd, SidebarAd, InContentAd } from "@/components/AdBanner";
+import UpcomingGamesCarousel from "@/components/UpcomingGamesCarousel";
 import { headers } from "next/headers";
 import { getCommentCounts, getAllCommentTitles } from "@/utils/supabase";
 
@@ -287,6 +288,11 @@ export default async function Home() {
       {/* Top Banner Ad */}
       <div className="px-4 pt-4">
         <TopBannerAd />
+      </div>
+
+      {/* Upcoming Games Carousel */}
+      <div className="px-4">
+        <UpcomingGamesCarousel />
       </div>
 
       {/* Main Layout with Sidebar */}
