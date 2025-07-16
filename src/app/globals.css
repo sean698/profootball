@@ -39,3 +39,21 @@ body {
   font-size: 3em;
   color: white !important;
 }
+
+/* Sports Ticker Animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-scroll {
+  animation: scroll-left 60s linear infinite;
+}
+
+.ticker-scroll:hover {
+  animation-play-state: paused;
+}
