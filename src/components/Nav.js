@@ -51,7 +51,7 @@ const Nav = () => {
     userProfile?.username || (user?.email ? user.email.split("@")[0] : "User");
 
   return (
-    <nav className="bg-[#0B0B12] text-white px-6 py-4 shadow-md sticky top-0 z-50 font-['DM Sans']">
+    <nav className="bg-[#0B0B12] text-white px-6 py-6 shadow-md sticky top-0 z-50 font-['DM Sans']">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo + Title */}
         <Link href="/" className="flex items-center space-x-4">
@@ -80,7 +80,7 @@ const Nav = () => {
             <>
               <button
                 onClick={handleSignOut}
-                className="bg-[#087994] text-white px-4 py-2 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base"
+                className="bg-[#087994] text-white px-4 py-5 text-sm rounded-md hover:opacity-90 transition-all duration-200 font-['DM Sans'] text-base"
               >
                 Log Out
               </button>
