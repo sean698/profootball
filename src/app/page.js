@@ -4,8 +4,6 @@ import { TopBannerAd, SidebarAd, InContentAd } from "@/components/AdBanner";
 import UpcomingGamesCarousel from "@/components/UpcomingGamesCarousel";
 import { headers } from "next/headers";
 import { getCommentCounts, getAllCommentTitles } from "@/utils/supabase";
-import HorizontalScroller from "@/components/HorizontalScroller";
-
 
 const decodeHtmlEntities = (str) => {
   if (!str) return "";
@@ -312,34 +310,39 @@ export default async function Home() {
           {/* MAIN NFL YOUTUBE CHANNEL CAROUSEL */}
           {regularSources.some(
             (s) => s.source.title === "NFL" && s.source.link.includes("youtube")
-          ) && (() => {
-            const nflYoutube = regularSources.find(
-              (s) =>
-                s.source.title === "NFL" && s.source.link.includes("youtube")
-            );
-            const videos = nflYoutube?.articles?.slice(0, 8) || [];
-
-            return (
-              <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
-                <div className="flex items-center mb-2">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-                    alt="YouTube Logo"
-                    className="w-12 h-12 mr-2"
-                  />
-                  <div>
-                    <h2 className="text-lg font-bold text-black">
-                      NFL Latest Videos
-                    </h2>
-                    <p className="text-gray-500 text-xs">
-                      Last Updated: {formatDate(nflYoutube?.source?.updatedAt)}
-                    </p>
-                  </div>
+          ) && (
+            <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
+              <div className="flex items-center mb-2">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                  alt="YouTube Logo"
+                  className="w-12 h-12 mr-2"
+                />
+                <div>
+                  <h2 className="text-lg font-bold text-black">
+                    NFL Latest Videos
+                  </h2>
+                  <p className="text-gray-500 text-xs">
+                    Last Updated:{" "}
+                    {formatDate(
+                      regularSources.find(
+                        (s) =>
+                          s.source.title === "NFL" &&
+                          s.source.link.includes("youtube")
+                      )?.source?.updatedAt
+                    )}
+                  </p>
                 </div>
-
-                {/* HorizontalScroller component */}
-                <HorizontalScroller>
-                  {videos.map((video, index) => (
+              </div>
+              <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
+                {(
+                  regularSources.find(
+                    (s) =>
+                      s.source.title === "NFL" && s.source.link.includes("youtube")
+                  )?.articles || []
+                )
+                  .slice(0, 8)
+                  .map((video, index) => (
                     <a
                       key={index}
                       href={video.link || "#"}
@@ -351,7 +354,9 @@ export default async function Home() {
                         {video.thumbnail ? (
                           <img
                             src={video.thumbnail}
-                            alt={decodeHtmlEntities(video.title || "Untitled Video")}
+                            alt={decodeHtmlEntities(
+                              video.title || "Untitled Video"
+                            )}
                             className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
                           />
                         ) : (
@@ -367,150 +372,211 @@ export default async function Home() {
                       </p>
                     </a>
                   ))}
-                </HorizontalScroller>
-
-                <a
-                  href="https://www.youtube.com/c/NFL"
-                  className="text-sm text-blue-500 block font-semibold"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  MORE ...
-                </a>
               </div>
-            );
-          })()}
-
-  {/* UP & COMING CHANNELS (with HorizontalScroller) */}
-  {upAndComingSources.length > 0 && (
-    <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
-      <div className="flex items-center mb-2">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-          alt="YouTube Logo"
-          className="w-12 h-12 mr-2"
-        />
-        <div>
-          <h2 className="text-lg font-bold text-black">
-            Up & Coming NFL Channels
-          </h2>
-          <p className="text-gray-500 text-xs">
-            Last Updated:{" "}
-            {formatDate(upAndComingSources[0]?.source?.updatedAt)}
-          </p>
-        </div>
-      </div>
-
-      {/* Use HorizontalScroller here */}
-      <HorizontalScroller>
-        {upAndComingSources
-          .map(({ articles }) => articles?.[0])
-          .filter(Boolean)
-          .map((video, index) => (
-            <a
-              key={index}
-              href={video.link || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block min-w-[200px] max-w-[220px] flex-shrink-0"
-            >
-              <div className="w-full rounded-lg overflow-hidden group aspect-video">
-                {video.thumbnail ? (
-                  <img
-                    src={video.thumbnail}
-                    alt={decodeHtmlEntities(
-                      video.title || "Untitled Video"
-                    )}
-                    className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
-                  />
-                ) : (
-                  <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
-                    <p className="text-center px-3 text-sm font-semibold truncate">
-                      {decodeHtmlEntities(video.title || "Untitled Video")}
-                    </p>
-                  </div>
-                )}
-              </div>
-              <p className="text-center mt-2 text-sm font-semibold w-full truncate">
-                {decodeHtmlEntities(video.title || "Untitled Video")}
-              </p>
-            </a>
-          ))}
-      </HorizontalScroller>
-
-      <a
-        href="https://www.youtube.com/results?search_query=nfl+up+and+coming"
-        className="text-sm text-blue-500 block font-semibold"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        MORE ...
-      </a>
-    </div>
-  )}
-
-
-        {/* NFL PODCASTS (Card Layout) */}
-        {podcastSources.length > 0 && (
-          <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
-            <div className="flex items-center mb-2">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-                alt="YouTube Logo"
-                className="w-12 h-12 mr-2"
-              />
-              <div>
-                <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
-                <p className="text-gray-500 text-xs">
-                  Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
-                </p>
-              </div>
+              <a
+                href="https://www.youtube.com/c/NFL"
+                className="text-sm text-blue-500 block font-semibold"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                MORE ...
+              </a>
             </div>
+          )}
 
-            {/* Use HorizontalScroller here */}
-            <HorizontalScroller>
-              {podcastSources
-                .flatMap(({ articles }) => articles?.slice(0, 4) || [])
-                .map((video, index) => (
-                  <a
-                    key={index}
-                    href={video.link || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block min-w-[200px] max-w-[220px] flex-shrink-0"
-                  >
-                    <div className="w-full rounded-lg overflow-hidden group aspect-video">
-                      {video.thumbnail ? (
-                        <img
-                          src={video.thumbnail}
-                          alt={decodeHtmlEntities(video.title || "Untitled Video")}
-                          className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
-                        />
-                      ) : (
-                        <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
-                          <p className="text-center px-3 text-sm font-semibold truncate">
-                            {decodeHtmlEntities(video.title || "Untitled Video")}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                    <p className="text-center mt-2 text-sm font-semibold w-full truncate">
-                      {decodeHtmlEntities(video.title || "Untitled Video")}
-                    </p>
-                  </a>
-                ))}
-            </HorizontalScroller>
-
-            <a
-              href="https://www.youtube.com/results?search_query=NFL+podcast"
-              className="text-sm text-blue-500 block font-semibold"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              MORE ...
-            </a>
+          {/* Remaining Articles Grid - Responsive columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+            {remainingSources.map(renderCard)}
           </div>
-        )}
+
+          {/* TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
+          {topChannelSources.length > 0 && (
+            <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
+              <div className="flex items-center mb-2">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                  alt="YouTube Logo"
+                  className="w-12 h-12 mr-2"
+                />
+                <div>
+                  <h2 className="text-lg font-bold text-black">Top NFL Channels</h2>
+                  <p className="text-gray-500 text-xs">
+                    Last Updated:{" "}
+                    {formatDate(topChannelSources[0]?.source?.updatedAt)}
+                  </p>
+                </div>
+              </div>
+              <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
+                {topChannelSources
+                  .map(({ articles }) => articles?.[0])
+                  .filter(Boolean)
+                  .map((video, index) => (
+                    <a
+                      key={index}
+                      href={video.link || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block min-w-[200px] max-w-[220px] flex-shrink-0"
+                    >
+                      <div className="w-full rounded-lg overflow-hidden group aspect-video">
+                        {video.thumbnail ? (
+                          <img
+                            src={video.thumbnail}
+                            alt={decodeHtmlEntities(
+                              video.title || "Untitled Video"
+                            )}
+                            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
+                          />
+                        ) : (
+                          <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
+                            <p className="text-center px-3 text-sm font-semibold truncate">
+                              {decodeHtmlEntities(video.title || "Untitled Video")}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-center mt-2 text-sm font-semibold w-full truncate">
+                        {decodeHtmlEntities(video.title || "Untitled Video")}
+                      </p>
+                    </a>
+                  ))}
+              </div>
+              <a
+                href="https://www.youtube.com/results?search_query=NFL"
+                className="text-sm text-blue-500 block font-semibold"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                MORE ...
+              </a>
+            </div>
+          )}
+
+          {/* UP & COMING CHANNELS (Card Layout) */}
+          {upAndComingSources.length > 0 && (
+            <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
+              <div className="flex items-center mb-2">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                  alt="YouTube Logo"
+                  className="w-12 h-12 mr-2"
+                />
+                <div>
+                  <h2 className="text-lg font-bold text-black">
+                    Up & Coming NFL Channels
+                  </h2>
+                  <p className="text-gray-500 text-xs">
+                    Last Updated:{" "}
+                    {formatDate(upAndComingSources[0]?.source?.updatedAt)}
+                  </p>
+                </div>
+              </div>
+              <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
+                {upAndComingSources
+                  .map(({ articles }) => articles?.[0])
+                  .filter(Boolean)
+                  .map((video, index) => (
+                    <a
+                      key={index}
+                      href={video.link || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block min-w-[200px] max-w-[220px] flex-shrink-0"
+                    >
+                      <div className="w-full rounded-lg overflow-hidden group aspect-video">
+                        {video.thumbnail ? (
+                          <img
+                            src={video.thumbnail}
+                            alt={decodeHtmlEntities(
+                              video.title || "Untitled Video"
+                            )}
+                            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
+                          />
+                        ) : (
+                          <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
+                            <p className="text-center px-3 text-sm font-semibold truncate">
+                              {decodeHtmlEntities(video.title || "Untitled Video")}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-center mt-2 text-sm font-semibold w-full truncate">
+                        {decodeHtmlEntities(video.title || "Untitled Video")}
+                      </p>
+                    </a>
+                  ))}
+              </div>
+              <a
+                href="https://www.youtube.com/results?search_query=nfl+up+and+coming"
+                className="text-sm text-blue-500 block font-semibold"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                MORE ...
+              </a>
+            </div>
+          )}
+
+          {/* NFL PODCASTS (Card Layout) */}
+          {podcastSources.length > 0 && (
+            <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
+              <div className="flex items-center mb-2">
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                  alt="YouTube Logo"
+                  className="w-12 h-12 mr-2"
+                />
+                <div>
+                  <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
+                  <p className="text-gray-500 text-xs">
+                    Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
+                  </p>
+                </div>
+              </div>
+              <div className="overflow-x-auto whitespace-nowrap flex gap-4 mb-4">
+                {podcastSources
+                  .flatMap(({ articles }) => articles?.slice(0, 4) || [])
+                  .map((video, index) => (
+                    <a
+                      key={index}
+                      href={video.link || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block min-w-[200px] max-w-[220px] flex-shrink-0"
+                    >
+                      <div className="w-full rounded-lg overflow-hidden group aspect-video">
+                        {video.thumbnail ? (
+                          <img
+                            src={video.thumbnail}
+                            alt={decodeHtmlEntities(
+                              video.title || "Untitled Video"
+                            )}
+                            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:-translate-y-1 group-hover:brightness-80 group-hover:shadow-lg"
+                          />
+                        ) : (
+                          <div className="bg-gray-200 h-40 w-full flex items-center justify-center">
+                            <p className="text-center px-3 text-sm font-semibold truncate">
+                              {decodeHtmlEntities(video.title || "Untitled Video")}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-center mt-2 text-sm font-semibold w-full truncate">
+                        {decodeHtmlEntities(video.title || "Untitled Video")}
+                      </p>
+                    </a>
+                  ))}
+              </div>
+              <a
+                href="https://www.youtube.com/results?search_query=NFL+podcast"
+                className="text-sm text-blue-500 block font-semibold"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                MORE ...
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Sidebar - Only visible on large screens */}
