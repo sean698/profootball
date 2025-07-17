@@ -6,6 +6,8 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { supabase } from "@/utils/supabase";
 import { useAuth } from "@/contexts/AuthContext";
+import { censorText } from "@/utils/censor";
+import { decodeHtmlEntities } from "@/utils/decodeHtmlEntities";
 
 // Dynamically import TinyMCE Editor for SSR compatibility
 const Editor = dynamic(
@@ -122,11 +124,16 @@ export default function CommentsPage({ title }) {
       currentUser = signedInUser; // Assign the directly returned user object
     }
 
+    // Censor the comment content before saving
+    // 1. Strip HTML tags, 2. Decode entities, 3. Censor
+    const plainText = decodeHtmlEntities(commentContent.replace(/<[^>]+>/g, ' '));
+    const censoredContent = censorText(plainText);
+
     const newCommentPayload = {
       // Renamed to avoid confusion with newComment object
       user_id: currentUser.id,
       newsletter_title: decodedTitle,
-      content: commentContent,
+      content: censoredContent,
       // created_at and updated_at are handled by database defaults
       // votes_up and votes_down are handled by database defaults
     };
@@ -149,14 +156,10 @@ export default function CommentsPage({ title }) {
       alert("Error adding comment: " + error.message);
       console.error(error);
     } else {
-      // If using real-time subscriptions (recommended), you might not need to manually update state here.
-      // The real-time listener will trigger a fetch and update the comments.
-      // If not using real-time, ensure you add the new comment in the correct order.
-      // Since fetchComments orders ascending, newly added should go at the end.
-      // For immediate display, you can insert it and then let the real-time update sync.
-      // For now, let's keep it simple and rely on the fetchComments in useEffect.
-      // setComments((prevComments) => [...prevComments, data[0]]); // Add to end for ascending order
-      // If you implement real-time, just clear the content:
+      // Optimistically add the new comment to the state for instant feedback
+      if (data && data[0]) {
+        setComments((prevComments) => [...prevComments, data[0]]);
+      }
       if (!rememberMe) {
         setEmail("");
         setPassword("");
