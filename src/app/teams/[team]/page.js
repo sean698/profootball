@@ -325,11 +325,7 @@ export default async function TeamPage({ params }) {
   const socials = teamSocials[teamName] || {};
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #ece9f6 0%, #d1d1d1 100%)',
-      paddingBottom: 40
-    }}>
+    <div className="bg-[#ECCE8B] min-h-screen">
       <Nav />
       {/* Team Header Banner */}
       <div style={{
