@@ -31,8 +31,6 @@ export default function FantasyPage() {
     <div>
       <Nav />
       <div className="max-w-7xl mx-auto px-4 py-15">
-        <h1 className="text-4xl font-bold mb-6">Top Fantasy Football Websites</h1>
-
         <div className="bg-white p-6 rounded-lg shadow-md">
           {/* Card View for All Screen Sizes */}
           <div className="space-y-4">
