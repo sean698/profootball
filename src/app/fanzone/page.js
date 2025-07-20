@@ -349,13 +349,9 @@ export default function FanzonePage() {
   };
 
   return (
-    <div>
+    <div className="bg-[#ECCE8B] min-h-screen">
       <Nav />
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <h1 className="text-4xl font-bold mb-6">Fan Zone</h1>
-        <p className="text-lg mb-8 text-gray-600">
-          Explore team-specific forums and join the conversation with fellow fans.
-        </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* AFC Teams */}

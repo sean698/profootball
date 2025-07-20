@@ -28,10 +28,9 @@ export default function SportsbookPage() {
   ];
 
   return (
-    <div>
+    <div className="bg-[#ECCE8B] min-h-screen">
       <Nav />
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <h1 className="text-4xl font-bold mb-6">Highest Rated Sportsbooks </h1>
 
         {/* Disclaimer Banner */}
         <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-8">
