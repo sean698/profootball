@@ -152,11 +152,10 @@ export default function StandingsPage() {
   }
 
   return (
-    <div>
+    <div className="bg-[#ECCE8B] min-h-screen">
       <Nav />
       <div className="max-w-7xl mx-auto px-4 py-10">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-6">NFL Standings</h1>
           <p className="text-lg mb-8 text-gray-600">{showYear} Season Standings</p>
         </div>
 
