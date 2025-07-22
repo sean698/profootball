@@ -71,24 +71,28 @@ export default function TeamsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* AFC Divisions */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 relative">
-                <Image
-                  src="https://sports.cbsimg.net/fly/images/conference/225.svg"
-                  alt="AFC Logo"
-                  fill
-                  className="object-contain"
-                />
+            <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4 rounded-lg mb-6">
+              <div className="flex items-center justify-center space-x-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 relative">
+                    <Image
+                      src="https://sports.cbsimg.net/fly/images/conference/225.svg"
+                      alt="AFC Logo"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <h2 className="text-2xl font-['DM Sans'] font-bold text-white">American Football Conference</h2>
+                </div>
               </div>
-              <h2 className="text-2xl font-bold text-red-600">AFC</h2>
             </div>
             <div className="grid grid-cols-1 gap-6">
               {Object.entries(divisions)
                 .filter(([division]) => division.startsWith("AFC"))
                 .map(([division, teams]) => (
                   <div key={division} className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div className="bg-gray-100 px-6 py-3">
-                      <h3 className="text-xl font-semibold">{division}</h3>
+                    <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-3">
+                      <h3 className="text-xl font-['DM Sans'] font-semibold text-white">{division}</h3>
                     </div>
                     <div className="divide-y">
                       {teams.map((team) => (
@@ -122,24 +126,28 @@ export default function TeamsPage() {
 
           {/* NFC Divisions */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 relative">
-                <Image
-                  src="https://sports.cbsimg.net/fly/images/conference/226.svg"
-                  alt="NFC Logo"
-                  fill
-                  className="object-contain"
-                />
+            <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4 rounded-lg mb-6">
+              <div className="flex items-center justify-center space-x-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 relative">
+                    <Image
+                      src="https://sports.cbsimg.net/fly/images/conference/226.svg"
+                      alt="NFC Logo"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <h2 className="text-2xl font-['DM Sans'] font-bold text-white">National Football Conference</h2>
+                </div>
               </div>
-              <h2 className="text-2xl font-bold text-blue-600">NFC</h2>
             </div>
             <div className="grid grid-cols-1 gap-6">
               {Object.entries(divisions)
                 .filter(([division]) => division.startsWith("NFC"))
                 .map(([division, teams]) => (
                   <div key={division} className="bg-white rounded-lg shadow-md overflow-hidden">
-                    <div className="bg-gray-100 px-6 py-3">
-                      <h3 className="text-xl font-semibold">{division}</h3>
+                    <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-3">
+                      <h3 className="text-xl font-['DM Sans'] font-semibold text-white">{division}</h3>
                     </div>
                     <div className="divide-y">
                       {teams.map((team) => (

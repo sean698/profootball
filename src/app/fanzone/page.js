@@ -356,16 +356,20 @@ export default function FanzonePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* AFC Teams */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 relative">
-                <Image
-                  src="https://sports.cbsimg.net/fly/images/conference/225.svg"
-                  alt="AFC Logo"
-                  fill
-                  className="object-contain"
-                />
+            <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4 rounded-lg mb-6">
+              <div className="flex items-center justify-center space-x-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 relative">
+                    <Image
+                      src="https://sports.cbsimg.net/fly/images/conference/225.svg"
+                      alt="AFC Logo"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <h2 className="text-2xl font-['DM Sans'] font-bold text-white">AFC Forums</h2>
+                </div>
               </div>
-              <h2 className="text-2xl font-bold text-red-600">AFC Forums</h2>
             </div>
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="divide-y">
@@ -455,16 +459,20 @@ export default function FanzonePage() {
 
           {/* NFC Teams */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 relative">
-                <Image
-                  src="https://sports.cbsimg.net/fly/images/conference/226.svg"
-                  alt="NFC Logo"
-                  fill
-                  className="object-contain"
-                />
+            <div className="bg-gradient-to-r from-gray-800 to-gray-700 px-6 py-4 rounded-lg mb-6">
+              <div className="flex items-center justify-center space-x-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 relative">
+                    <Image
+                      src="https://sports.cbsimg.net/fly/images/conference/226.svg"
+                      alt="NFC Logo"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <h2 className="text-2xl font-['DM Sans'] font-bold text-white">NFC Forums</h2>
+                </div>
               </div>
-              <h2 className="text-2xl font-bold text-blue-600">NFC Forums</h2>
             </div>
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="divide-y">
