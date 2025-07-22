@@ -270,13 +270,13 @@ export default async function Home() {
           })}
         </ul>
         <a
-          href={source.link || "#"}
-          className="text-sm text-blue-500 mt-2 block font-semibold"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          MORE ...
-        </a>
+  href={source.link || "#"}
+  className="text-base text-blue-500 mt-2 block font-semibold"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  MORE ...
+</a>
       </div>
     );
   };
@@ -375,7 +375,7 @@ export default async function Home() {
               </div>
               <a
                 href="https://www.youtube.com/c/NFL"
-                className="text-sm text-blue-500 block font-semibold"
+                className="text-lg text-blue-500 block font-semibold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -443,7 +443,7 @@ export default async function Home() {
               </div>
               <a
                 href="https://www.youtube.com/results?search_query=NFL"
-                className="text-sm text-blue-500 block font-semibold"
+                className="text-lg text-blue-500 block font-semibold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -508,7 +508,7 @@ export default async function Home() {
               </div>
               <a
                 href="https://www.youtube.com/results?search_query=nfl+up+and+coming"
-                className="text-sm text-blue-500 block font-semibold"
+                className="text-lg text-blue-500 block font-semibold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -569,7 +569,7 @@ export default async function Home() {
               </div>
               <a
                 href="https://www.youtube.com/results?search_query=NFL+podcast"
-                className="text-sm text-blue-500 block font-semibold"
+                className="text-lg text-blue-500 block font-semibold"
                 target="_blank"
                 rel="noopener noreferrer"
               >
