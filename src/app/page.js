@@ -130,6 +130,12 @@ export default async function Home() {
   const topGridSources = nonNFLYoutubeSources.slice(0, 3);
   const remainingSources = nonNFLYoutubeSources.slice(3);
 
+  // Split remaining sources into chunks for better distribution
+  const chunkSize = Math.ceil(remainingSources.length / 3);
+  const remainingSourcesChunk1 = remainingSources.slice(0, chunkSize);
+  const remainingSourcesChunk2 = remainingSources.slice(chunkSize, chunkSize * 2);
+  const remainingSourcesChunk3 = remainingSources.slice(chunkSize * 2);
+
   // Fetch comment counts for displayed articles only (first 6 articles from each source)
   const displayedArticles = [
     ...topGridSources.flatMap(source => (source.articles || []).slice(0, 6)),
@@ -384,10 +390,12 @@ export default async function Home() {
             </div>
           )}
 
-          {/* Remaining Articles Grid - Responsive columns */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-            {remainingSources.map(renderCard)}
-          </div>
+          {/* First chunk of remaining articles */}
+          {remainingSourcesChunk1.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+              {remainingSourcesChunk1.map(renderCard)}
+            </div>
+          )}
 
           {/* TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
           {topChannelSources.length > 0 && (
@@ -449,6 +457,13 @@ export default async function Home() {
               >
                 MORE ...
               </a>
+            </div>
+          )}
+
+          {/* Second chunk of remaining articles */}
+          {remainingSourcesChunk2.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+              {remainingSourcesChunk2.map(renderCard)}
             </div>
           )}
 
@@ -514,6 +529,13 @@ export default async function Home() {
               >
                 MORE ...
               </a>
+            </div>
+          )}
+
+          {/* Third chunk of remaining articles */}
+          {remainingSourcesChunk3.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+              {remainingSourcesChunk3.map(renderCard)}
             </div>
           )}
 
