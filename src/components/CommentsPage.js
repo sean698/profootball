@@ -15,6 +15,20 @@ const Editor = dynamic(
   { ssr: false }
 );
 
+const getStoredVotes = () => {
+  if (typeof window === 'undefined') return {};
+  try {
+    return JSON.parse(localStorage.getItem('commentVotes') || '{}');
+  } catch {
+    return {};
+  }
+};
+
+const setStoredVotes = (votes) => {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem('commentVotes', JSON.stringify(votes));
+};
+
 export default function CommentsPage({ title }) {
   const { user, signIn } = useAuth();
   const [email, setEmail] = useState("");
@@ -23,6 +37,11 @@ export default function CommentsPage({ title }) {
   const [comments, setComments] = useState([]);
   const [commentContent, setCommentContent] = useState("");
   const decodedTitle = decodeURIComponent(title);
+  const [userVotes, setUserVotes] = useState({});
+
+  useEffect(() => {
+    setUserVotes(getStoredVotes());
+  }, []);
 
   // You can remove this test query unless you specifically need it for debugging.
   // useEffect(() => {
@@ -170,35 +189,52 @@ export default function CommentsPage({ title }) {
 
   const handleVote = async (index, type) => {
     const comment = comments[index];
-    const updatedVotes = {
-      votes_up: type === "up" ? comment.votes_up + 1 : comment.votes_up,
-      votes_down: type === "down" ? comment.votes_down + 1 : comment.votes_down,
-    };
+    const votes = getStoredVotes();
+    const prevVote = votes[comment.comment_id];
+    if (prevVote === type) {
+      // Already voted this way, do nothing
+      return;
+    }
+    let updatedVotes = { ...votes, [comment.comment_id]: type };
+    setStoredVotes(updatedVotes);
+    setUserVotes(updatedVotes);
+
+    // Calculate vote changes
+    let votes_up = comment.votes_up;
+    let votes_down = comment.votes_down;
+    if (!prevVote) {
+      // First time voting
+      if (type === 'up') votes_up++;
+      else votes_down++;
+    } else {
+      // Changing vote
+      if (type === 'up') {
+        votes_up++;
+        votes_down--;
+      } else {
+        votes_down++;
+        votes_up--;
+      }
+    }
 
     // Update votes in Supabase
     const { data, error } = await supabase
-      .from("comments") // <--- REMOVED .schema("membership")
-      .update(updatedVotes)
-      .eq("comment_id", comment.comment_id)
-      .select(); // Select the updated row
+      .from('comments')
+      .update({ votes_up, votes_down })
+      .eq('comment_id', comment.comment_id)
+      .select();
 
     if (error) {
-      alert("Error updating vote: " + error.message);
+      alert('Error updating vote: ' + error.message);
       console.error(error);
     } else {
-      // Update local state, ensuring user info is preserved
-      // Supabase .update().select() will return the updated row, but won't include joined data.
-      // So, we manually preserve the user info from the original comment object.
       const updatedCommentData = {
-        ...data[0], // The updated comment data from Supabase
-        users: comment.users, // Preserve the nested user object
+        ...data[0],
+        users: comment.users,
       };
-
       setComments((prevComments) =>
         prevComments.map((c) =>
-          c.comment_id === updatedCommentData.comment_id
-            ? updatedCommentData
-            : c
+          c.comment_id === updatedCommentData.comment_id ? updatedCommentData : c
         )
       );
     }
@@ -229,15 +265,17 @@ export default function CommentsPage({ title }) {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleVote(index, "up")}
-                        className="text-green-500"
+                        className={`text-green-500 ${userVotes[c.comment_id] === 'up' ? 'font-bold' : ''}`}
                         type="button"
+                        disabled={userVotes[c.comment_id] === 'up'}
                       >
                         👍 ({c.votes_up ?? 0})
                       </button>
                       <button
                         onClick={() => handleVote(index, "down")}
-                        className="text-red-500"
+                        className={`text-red-500 ${userVotes[c.comment_id] === 'down' ? 'font-bold' : ''}`}
                         type="button"
+                        disabled={userVotes[c.comment_id] === 'down'}
                       >
                         👎 ({c.votes_down ?? 0})
                       </button>
