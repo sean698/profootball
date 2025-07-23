@@ -1,141 +1,153 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 
+// Get the correct NFL season year to display
+function getNflSeasonYear() {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth(); // 0-11
+  
+  // Since we're in July 2025 and the 2025 season hasn't started yet,
+  // we should look for upcoming games in the 2025 season
+  // NFL season typically starts in September (month 8)
+  if (currentMonth < 8) {
+    return currentYear; // Return current year for upcoming season
+  }
+  
+  // If we're in September or later, we're in the current year's season
+  return currentYear;
+}
+
+// Team logo mapping using CBS Sports logos (same as teams page)
+const teamLogos = {
+  "Buffalo Bills": "https://sports.cbsimg.net/fly/images/team-logos/407.svg",
+  "Miami Dolphins": "https://sports.cbsimg.net/fly/images/team-logos/418.svg",
+  "New York Jets": "https://sports.cbsimg.net/fly/images/team-logos/423.svg",
+  "New England Patriots": "https://sports.cbsimg.net/fly/images/team-logos/420.svg",
+  "Baltimore Ravens": "https://sports.cbsimg.net/fly/images/team-logos/406.svg",
+  "Cincinnati Bengals": "https://sports.cbsimg.net/fly/images/team-logos/410.svg",
+  "Cleveland Browns": "https://sports.cbsimg.net/fly/images/team-logos/434.svg",
+  "Pittsburgh Steelers": "https://sports.cbsimg.net/fly/images/team-logos/426.svg",
+  "Houston Texans": "https://sports.cbsimg.net/fly/images/team-logos/247415.svg",
+  "Indianapolis Colts": "https://sports.cbsimg.net/fly/images/team-logos/415.svg",
+  "Jacksonville Jaguars": "https://sports.cbsimg.net/fly/images/team-logos/416.svg",
+  "Tennessee Titans": "https://sports.cbsimg.net/fly/images/team-logos/432.svg",
+  "Denver Broncos": "https://sports.cbsimg.net/fly/images/team-logos/412.svg",
+  "Kansas City Chiefs": "https://sports.cbsimg.net/fly/images/team-logos/417.svg",
+  "Las Vegas Raiders": "https://sports.cbsimg.net/fly/images/team-logos/424.svg",
+  "Los Angeles Chargers": "https://sports.cbsimg.net/fly/images/team-logos/428.svg",
+  "Dallas Cowboys": "https://sports.cbsimg.net/fly/images/team-logos/411.svg",
+  "New York Giants": "https://sports.cbsimg.net/fly/images/team-logos/422.svg",
+  "Philadelphia Eagles": "https://sports.cbsimg.net/fly/images/team-logos/425.svg",
+  "Washington Commanders": "https://sports.cbsimg.net/fly/images/team-logos/433.svg",
+  "Chicago Bears": "https://sports.cbsimg.net/fly/images/team-logos/409.svg",
+  "Detroit Lions": "https://sports.cbsimg.net/fly/images/team-logos/413.svg",
+  "Green Bay Packers": "https://sports.cbsimg.net/fly/images/team-logos/414.svg",
+  "Minnesota Vikings": "https://sports.cbsimg.net/fly/images/team-logos/419.svg",
+  "Atlanta Falcons": "https://sports.cbsimg.net/fly/images/team-logos/405.svg",
+  "Carolina Panthers": "https://sports.cbsimg.net/fly/images/team-logos/408.svg",
+  "New Orleans Saints": "https://sports.cbsimg.net/fly/images/team-logos/421.svg",
+  "Tampa Bay Buccaneers": "https://sports.cbsimg.net/fly/images/team-logos/431.svg",
+  "Arizona Cardinals": "https://sports.cbsimg.net/fly/images/team-logos/404.svg",
+  "Los Angeles Rams": "https://sports.cbsimg.net/fly/images/team-logos/427.svg",
+  "San Francisco 49ers": "https://sports.cbsimg.net/fly/images/team-logos/429.svg",
+  "Seattle Seahawks": "https://sports.cbsimg.net/fly/images/team-logos/430.svg"
+};
+
+// Function to get team logo
+function getTeamLogo(teamName) {
+  return teamLogos[teamName] || null;
+}
+
+const showYear = getNflSeasonYear();
+
 // Function to fetch upcoming games from ESPN API
 async function fetchUpcomingGames() {
+  console.log("🔍 Starting fetchUpcomingGames for 2025 season");
+  
   try {
-    // Get current week's games
-    const response = await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard');
-    const data = await response.json();
+    // Go directly to 2025 season since that's where the future games are
+    console.log("📡 Fetching 2025 season events");
+    const seasonResponse = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2025/types/2/events?limit=50`);
     
-    if (!data.events || data.events.length === 0) {
-      throw new Error('No events found');
+    if (!seasonResponse.ok) {
+      throw new Error(`2025 season API failed with status: ${seasonResponse.status}`);
     }
-
-    // Transform ESPN API data to our format
-    const games = data.events
-      .filter(event => {
-        // Only include games that haven't started yet or are upcoming
-        const gameDate = new Date(event.date);
+    
+    const seasonData = await seasonResponse.json();
+    console.log(`📡 Found ${seasonData.items?.length || 0} events in 2025 season`);
+    
+    if (!seasonData.items || seasonData.items.length === 0) {
+      throw new Error('No events found in 2025 season');
+    }
+    
+    const futureGames = [];
+    
+    // Process first 8 events (should all be future games)
+    for (let i = 0; i < Math.min(8, seasonData.items.length); i++) {
+      try {
+        const eventRef = seasonData.items[i];
+        console.log(`📡 Processing event ${i + 1}/8`);
+        
+        const eventResponse = await fetch(eventRef.$ref);
+        if (!eventResponse.ok) {
+          console.log(`❌ Event ${i + 1} failed with status: ${eventResponse.status}`);
+          continue;
+        }
+        
+        const eventData = await eventResponse.json();
+        const gameDate = new Date(eventData.date);
         const now = new Date();
-        return gameDate > now || event.status.type.name === 'STATUS_SCHEDULED';
-      })
-      .map(event => {
-        const competition = event.competitions[0];
-        const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
-        const awayTeam = competition.competitors.find(c => c.homeAway === 'away');
         
-        return {
-          id: event.id,
-          homeTeam: {
-            name: homeTeam.team.displayName,
-            logo: homeTeam.team.logo,
-            record: homeTeam.records?.[0]?.summary || '0-0'
-          },
-          awayTeam: {
-            name: awayTeam.team.displayName,
-            logo: awayTeam.team.logo,
-            record: awayTeam.records?.[0]?.summary || '0-0'
-          },
-          date: event.date,
-          week: `Week ${data.week?.number || 'TBD'}`,
-          venue: competition.venue?.fullName || 'TBD',
-          network: competition.broadcasts?.[0]?.names?.[0] || 'TBD'
-        };
-      });
-
-    // If no upcoming games in current week, fetch next few weeks
-    if (games.length === 0) {
-      // Fallback to get more games from the season
-      const seasonResponse = await fetch('https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2025/types/2/events?limit=50');
-      const seasonData = await seasonResponse.json();
-      
-      if (seasonData.items) {
-        const futureGames = await Promise.all(
-          seasonData.items.slice(0, 10).map(async (eventRef) => {
-            try {
-              const eventResponse = await fetch(eventRef.$ref);
-              const eventData = await eventResponse.json();
-              
-              const gameDate = new Date(eventData.date);
-              const now = new Date();
-              
-              if (gameDate > now) {
-                const competition = eventData.competitions[0];
-                const homeTeam = competition.competitors.find(c => c.homeAway === 'home');
-                const awayTeam = competition.competitors.find(c => c.homeAway === 'away');
-                
-                return {
-                  id: eventData.id,
-                  homeTeam: {
-                    name: homeTeam.team.displayName,
-                    logo: homeTeam.team.logo,
-                    record: homeTeam.records?.[0]?.summary || '0-0'
-                  },
-                  awayTeam: {
-                    name: awayTeam.team.displayName,
-                    logo: awayTeam.team.logo,
-                    record: awayTeam.records?.[0]?.summary || '0-0'
-                  },
-                  date: eventData.date,
-                  week: `Week ${eventData.week?.number || 'TBD'}`,
-                  venue: competition.venue?.fullName || 'TBD',
-                  network: competition.broadcasts?.[0]?.names?.[0] || 'TBD'
-                };
-              }
-              return null;
-            } catch (error) {
-              console.error('Error fetching individual event:', error);
-              return null;
+        if (gameDate > now) {
+          // Extract team names from event name
+          const eventName = eventData.name || '';
+          let awayTeamName = 'Unknown';
+          let homeTeamName = 'Unknown';
+          
+          if (eventName.includes(' at ')) {
+            const parts = eventName.split(' at ');
+            if (parts.length === 2) {
+              awayTeamName = parts[0].trim();
+              homeTeamName = parts[1].trim();
             }
-          })
-        );
-        
-        return futureGames.filter(game => game !== null).slice(0, 8);
+          }
+          
+          const game = {
+            id: eventData.id,
+            homeTeam: {
+              name: homeTeamName,
+              logo: getTeamLogo(homeTeamName),
+              record: '0-0'
+            },
+            awayTeam: {
+              name: awayTeamName,
+              logo: getTeamLogo(awayTeamName),
+              record: '0-0'
+            },
+            date: eventData.date,
+            week: `Week ${eventData.week?.number || 'TBD'}`
+          };
+          
+          futureGames.push(game);
+          console.log(`✅ Added game ${i + 1}: ${game.awayTeam.name} @ ${game.homeTeam.name}`);
+        }
+      } catch (error) {
+        console.error(`❌ Error processing event ${i + 1}:`, error);
+        continue;
       }
     }
-
-    return games.slice(0, 8); // Limit to 8 games for display
-  } catch (error) {
-    console.error('Error fetching ESPN API data:', error);
     
-    // Fallback mock data if API fails
-    return [
-      {
-        id: 1,
-        homeTeam: { 
-          name: 'Kansas City Chiefs', 
-          logo: 'https://a.espncdn.com/i/teamlogos/nfl/500/kc.png',
-          record: '10-1' 
-        },
-        awayTeam: { 
-          name: 'Buffalo Bills', 
-          logo: 'https://a.espncdn.com/i/teamlogos/nfl/500/buf.png',
-          record: '9-2' 
-        },
-        date: '2024-01-14T20:30:00Z',
-        week: 'Wild Card',
-        venue: 'Arrowhead Stadium',
-        network: 'CBS'
-      },
-      {
-        id: 2,
-        homeTeam: { 
-          name: 'San Francisco 49ers', 
-          logo: 'https://a.espncdn.com/i/teamlogos/nfl/500/sf.png',
-          record: '8-3' 
-        },
-        awayTeam: { 
-          name: 'Green Bay Packers', 
-          logo: 'https://a.espncdn.com/i/teamlogos/nfl/500/gb.png',
-          record: '7-4' 
-        },
-        date: '2024-01-15T16:30:00Z',
-        week: 'Wild Card',
-        venue: "Levi's Stadium",
-        network: 'FOX'
-      }
-    ];
+    if (futureGames.length > 0) {
+      console.log(`✅ Found ${futureGames.length} upcoming games`);
+      return futureGames;
+    } else {
+      throw new Error('No future games found in 2025 season');
+    }
+    
+  } catch (error) {
+    console.error('💥 Error in fetchUpcomingGames:', error);
+    throw error;
   }
 }
 
@@ -176,12 +188,13 @@ const UpcomingGamesCarousel = () => {
     const loadGames = async () => {
       try {
         setLoading(true);
+        setError(null);
         const gamesData = await fetchUpcomingGames();
         setGames(gamesData);
-        setError(null);
       } catch (err) {
-        console.error('Error loading games:', err);
-        setError('Failed to load games');
+        console.error('💥 Error loading games:', err);
+        console.error('💥 Error stack:', err.stack);
+        setError('Failed to load games. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -243,7 +256,7 @@ const UpcomingGamesCarousel = () => {
                   {/* Away Team */}
                   <div className="flex items-center mr-3">
                     <img 
-                      src={game.awayTeam.logo} 
+                      src={game.awayTeam.logo}
                       alt={game.awayTeam.name}
                       className="w-8 h-8 mr-2"
                       onError={(e) => {
@@ -266,7 +279,7 @@ const UpcomingGamesCarousel = () => {
                   {/* Home Team */}
                   <div className="flex items-center mr-4">
                     <img 
-                      src={game.homeTeam.logo} 
+                      src={game.homeTeam.logo}
                       alt={game.homeTeam.name}
                       className="w-8 h-8 mr-2"
                       onError={(e) => {
@@ -283,13 +296,10 @@ const UpcomingGamesCarousel = () => {
                     </div>
                   </div>
                   
-                  {/* Game Time & Network */}
+                  {/* Game Time */}
                   <div className="text-right mr-6">
                     <div className="text-xs font-semibold text-yellow-400 leading-none">
                       {gameDate.fullDate} {gameDate.time}
-                    </div>
-                    <div className="text-xs text-gray-300 leading-none mt-0.5">
-                      {game.network}
                     </div>
                   </div>
                   

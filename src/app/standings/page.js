@@ -463,7 +463,6 @@ export default function StandingsPage() {
           <h1 className="text-3xl font-['DM Sans'] font-bold text-gray-900 mb-2">
             NFL Standings
           </h1>
-          <p className="text-lg text-gray-600">{showYear} Season</p>
         </div>
 
         {/* Conference Filter */}
