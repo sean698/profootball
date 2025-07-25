@@ -6,6 +6,8 @@ import { headers } from "next/headers";
 import { getCommentCounts, getAllCommentTitles } from "@/utils/supabase";
 import HorizontalScroller from "@/components/HorizontalScroller";
 import PollCard from "@/components/PollCard";
+import BlogCard from "@/components/Blog";
+
 
 
 const decodeHtmlEntities = (str) => {
@@ -464,6 +466,7 @@ export default async function Home() {
           {remainingSourcesChunk3.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
               {remainingSourcesChunk3.map(renderCard)}
+              <BlogCard />
             </div>
           )}
 
