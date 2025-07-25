@@ -5,6 +5,7 @@ import UpcomingGamesCarousel from "@/components/UpcomingGamesCarousel";
 import { headers } from "next/headers";
 import { getCommentCounts, getAllCommentTitles } from "@/utils/supabase";
 import HorizontalScroller from "@/components/HorizontalScroller";
+import PollCard from "@/components/PollCard";
 
 
 const decodeHtmlEntities = (str) => {
@@ -128,20 +129,25 @@ export default async function Home() {
       },
     ],
   });
-
   const topGridSources = nonNFLYoutubeSources.slice(0, 3);
+  
   const remainingSources = nonNFLYoutubeSources.slice(3);
 
+  const topGridWithPoll = [...topGridSources];
+  
+
   // Split remaining sources into chunks for better distribution
-  const chunkSize = Math.ceil(remainingSources.length / 3);
-  const remainingSourcesChunk1 = remainingSources.slice(0, chunkSize);
-  const remainingSourcesChunk2 = remainingSources.slice(chunkSize, chunkSize * 2);
-  const remainingSourcesChunk3 = remainingSources.slice(chunkSize * 2);
+    const chunkSize = Math.ceil(remainingSources.length / 3);
+
+    const remainingSourcesChunk1 = remainingSources.slice(0, chunkSize);
+    const remainingSourcesChunk2 = remainingSources.slice(chunkSize, chunkSize * 2);
+    const remainingSourcesChunk3 = remainingSources.slice(chunkSize * 2);
 
   // Fetch comment counts for displayed articles only (first 6 articles from each source)
   const displayedArticles = [
     ...topGridSources.flatMap(source => (source.articles || []).slice(0, 6)),
     ...remainingSources.flatMap(source => (source.articles || []).slice(0, 6))
+    
   ];
   
   const articleTitles = displayedArticles.map(article => article.title).filter(Boolean);
@@ -309,7 +315,9 @@ export default async function Home() {
         <div className="flex-1 min-w-0">
           {/* Top Grid (ESPN, Featured, ProFootballTalk) - 3 columns on large screens, 2 on medium */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-            {topGridSources.map(renderCard)}
+            {topGridWithPoll.map((source, index) =>
+              source.isPollCard ? <PollCard key="poll-card" /> : renderCard(source)
+            )}
           </div>
 
           {/* In-Content Ad */}
@@ -355,7 +363,18 @@ export default async function Home() {
           {/* First chunk of remaining articles */}
           {remainingSourcesChunk1.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-              {remainingSourcesChunk1.map(renderCard)}
+              {remainingSourcesChunk1.map((source, index) => {
+                // Insert poll card after the first card (index 1)
+                if (index === 0) {
+                  return (
+                    <>
+                      {renderCard(source)}
+                      <PollCard key="poll-card-middle" />
+                    </>
+                  );
+                }
+                return renderCard(source);
+              })}
             </div>
           )}
 
