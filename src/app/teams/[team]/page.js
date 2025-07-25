@@ -1,7 +1,12 @@
+"use client";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import Card from "./Card";
+import TeamInfoEditModal from "@/components/TeamInfoEditModal";
+import TeamStatsEditModal from "@/components/TeamStatsEditModal";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState, useEffect } from "react";
 
 // Helper: Map team names to primary colors
 const teamColors = {
@@ -303,23 +308,95 @@ const teamSocials = {
   }
 };
 
-export async function generateMetadata({ params }) {
-  const resolvedParams = await params;
-  const teamName = resolvedParams.team.split('-').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ');
-  
-  return {
-    title: `${teamName} | Pro Football Report`,
-    description: `Latest news, scores, stats, and schedule for the ${teamName}`,
-  };
-}
+export default function TeamPage({ params }) {
+  const { isAdmin } = useAuth();
+  const [teamName, setTeamName] = useState('');
+  const [teamInfo, setTeamInfo] = useState({
+    headCoach: 'Coach Name',
+    stadium: 'Stadium Name',
+    established: 'Year'
+  });
+  const [teamStats, setTeamStats] = useState({
+    record: 'W-L-T',
+    divisionPosition: 'Division Position'
+  });
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [statsModalOpen, setStatsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-export default async function TeamPage({ params }) {
-  const resolvedParams = await params;
-  const teamName = resolvedParams.team.split('-').map(word => 
-    word.charAt(0).toUpperCase() + word.slice(1)
-  ).join(' ');
+  useEffect(() => {
+    const initializeTeam = async () => {
+      try {
+        const resolvedParams = await params;
+        const name = resolvedParams.team.split('-').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        setTeamName(name);
+
+        // Fetch team info and stats from API
+        const [infoResponse, statsResponse] = await Promise.all([
+          fetch(`/api/manage-team-info?teamName=${encodeURIComponent(name)}`),
+          fetch(`/api/manage-team-stats?teamName=${encodeURIComponent(name)}`)
+        ]);
+        
+        if (infoResponse.ok) {
+          const infoData = await infoResponse.json();
+          setTeamInfo(infoData.teamInfo);
+        }
+        
+        if (statsResponse.ok) {
+          const statsData = await statsResponse.json();
+          setTeamStats(statsData.teamStats);
+        }
+      } catch (error) {
+        console.error('Error initializing team:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeTeam();
+  }, [params]);
+
+  const handleEditTeamInfo = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleEditTeamStats = () => {
+    setStatsModalOpen(true);
+  };
+
+  const handleTeamInfoSave = (updatedTeamInfo) => {
+    setTeamInfo(updatedTeamInfo.teamInfo);
+  };
+
+  const handleTeamStatsSave = (updatedTeamStats) => {
+    setTeamStats(updatedTeamStats.teamStats);
+  };
+
+  const handleModalClose = () => {
+    setEditModalOpen(false);
+  };
+
+  const handleStatsModalClose = () => {
+    setStatsModalOpen(false);
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-[#ECCE8B] min-h-screen">
+        <Nav />
+        <div className="flex justify-center items-center h-96">
+          <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-bold mb-4">Loading team...</h2>
+            <p>Please wait while we fetch the team information.</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   const accent = teamColors[teamName] || '#222';
   const conference = teamConference[teamName] || 'NFL Team';
   const socials = teamSocials[teamName] || {};
@@ -385,26 +462,25 @@ export default async function TeamPage({ params }) {
             {socials.instagram && (
               <a href={socials.instagram} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram" width={20} height={20} style={{ filter: 'invert(1)' }} />
-                <span style={{ fontWeight: 500, fontSize: 16 }}>@{teamName.replace(/ /g, '').toLowerCase()}</span>
+                <span style={{ fontWeight: 500, fontSize: 16 }}>@{teamName.toLowerCase().replace(/ /g, '')}</span>
               </a>
             )}
             {socials.snapchat && (
               <a href={socials.snapchat} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/snapchat.svg" alt="Snapchat" width={20} height={20} style={{ filter: 'invert(1)' }} />
-                <span style={{ fontWeight: 500, fontSize: 16 }}>@BillsNFL</span>
+                <span style={{ fontWeight: 500, fontSize: 16 }}>@{teamName.replace(/ /g, '')}</span>
               </a>
             )}
             {socials.twitter && (
               <a href={socials.twitter} target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg" alt="X" width={20} height={20} style={{ filter: 'invert(1)' }} />
-                <span style={{ fontWeight: 500, fontSize: 16 }}>@{teamName.replace(/ /g, '').toLowerCase()}</span>
+                <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg" alt="X (Twitter)" width={20} height={20} style={{ filter: 'invert(1)' }} />
+                <span style={{ fontWeight: 500, fontSize: 16 }}>@{teamName.toLowerCase().replace(/ /g, '')}</span>
               </a>
             )}
           </div>
         </div>
       </div>
 
-      {/* Team Content */}
       <div className="max-w-7xl mx-auto px-4 py-2" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 32 }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
           {/* Latest News */}
@@ -434,40 +510,79 @@ export default async function TeamPage({ params }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
           {/* Team Info */}
           <Card accent={accent}>
-            <h2 className="text-2xl font-bold mb-4" style={{ color: accent }}>Team Info</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold" style={{ color: accent }}>Team Info</h2>
+              {isAdmin() && (
+                <button
+                  onClick={handleEditTeamInfo}
+                  className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors"
+                >
+                  Edit
+                </button>
+              )}
+            </div>
             <div className="space-y-4">
               <div>
                 <h3 className="font-semibold">Head Coach</h3>
-                <p className="text-gray-600">Coach Name</p>
+                <p className="text-gray-600">{teamInfo.headCoach}</p>
               </div>
               <div>
                 <h3 className="font-semibold">Stadium</h3>
-                <p className="text-gray-600">Stadium Name</p>
+                <p className="text-gray-600">{teamInfo.stadium}</p>
               </div>
               <div>
                 <h3 className="font-semibold">Established</h3>
-                <p className="text-gray-600">Year</p>
+                <p className="text-gray-600">{teamInfo.established}</p>
               </div>
             </div>
           </Card>
 
           {/* Stats */}
           <Card accent={accent}>
-            <h2 className="text-2xl font-bold mb-4" style={{ color: accent }}>Team Stats</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold" style={{ color: accent }}>Team Stats</h2>
+              {isAdmin() && (
+                <button
+                  onClick={handleEditTeamStats}
+                  className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors"
+                >
+                  Edit
+                </button>
+              )}
+            </div>
             <div className="space-y-4">
               <div>
                 <h3 className="font-semibold">Record</h3>
-                <p className="text-gray-600">W-L-T</p>
+                <p className="text-gray-600">{teamStats.record}</p>
               </div>
               <div>
                 <h3 className="font-semibold">Standings</h3>
-                <p className="text-gray-600">Division Position</p>
+                <p className="text-gray-600">{teamStats.divisionPosition}</p>
               </div>
             </div>
           </Card>
         </div>
       </div>
       <Footer />
+
+      {isAdmin() && (
+        <>
+          <TeamInfoEditModal
+            isOpen={editModalOpen}
+            onClose={handleModalClose}
+            teamName={teamName}
+            teamInfo={teamInfo}
+            onSave={handleTeamInfoSave}
+          />
+          <TeamStatsEditModal
+            isOpen={statsModalOpen}
+            onClose={handleStatsModalClose}
+            teamName={teamName}
+            teamStats={teamStats}
+            onSave={handleTeamStatsSave}
+          />
+        </>
+      )}
     </div>
   );
 }
