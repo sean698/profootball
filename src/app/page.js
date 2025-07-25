@@ -8,6 +8,7 @@ import HorizontalScroller from "@/components/HorizontalScroller";
 import PollCard from "@/components/PollCard";
 import BlogCard from "@/components/Blog";
 import ManageSourceModal from "@/components/ManageSourceModal";
+import ManageVideoModal from "@/components/ManageVideoModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 
@@ -66,11 +67,15 @@ export default function Home() {
   const { isAdmin } = useAuth();
   const [sources, setSources] = useState([]);
   const [customArticles, setCustomArticles] = useState({});
+  const [customVideos, setCustomVideos] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [manageModalOpen, setManageModalOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [selectedSource, setSelectedSource] = useState(null);
+  const [selectedVideoSection, setSelectedVideoSection] = useState(null);
   const [editingArticle, setEditingArticle] = useState(null);
+  const [editingVideo, setEditingVideo] = useState(null);
   const [commentCounts, setCommentCounts] = useState({});
 
   // Fetch custom articles
@@ -90,13 +95,15 @@ export default function Home() {
     const loadData = async () => {
       try {
         setLoading(true);
-        const [fetchedSources, customArticlesData] = await Promise.all([
+        const [fetchedSources, customArticlesData, customVideosData] = await Promise.all([
           fetchRSS(),
-          fetch('/api/manage-articles').then(res => res.ok ? res.json() : { articles: {} })
+          fetch('/api/manage-articles').then(res => res.ok ? res.json() : { articles: {} }),
+          fetch('/api/manage-videos').then(res => res.ok ? res.json() : { videos: {} })
         ]);
         
         setSources(fetchedSources);
         setCustomArticles(customArticlesData.articles || {});
+        setCustomVideos(customVideosData.videos || {});
 
         // Get comment counts for displayed articles
         const displayedArticles = fetchedSources.flatMap(source => 
@@ -134,6 +141,18 @@ export default function Home() {
     setManageModalOpen(true);
   };
 
+  const handleManageVideo = (sectionType) => {
+    setSelectedVideoSection(sectionType);
+    setEditingVideo(null);
+    setVideoModalOpen(true);
+  };
+
+  const handleEditVideo = (sectionType, video) => {
+    setSelectedVideoSection(sectionType);
+    setEditingVideo(video);
+    setVideoModalOpen(true);
+  };
+
   const handleArticleSave = async (result) => {
     // Refresh both sources and custom articles after save
     try {
@@ -152,10 +171,47 @@ export default function Home() {
     }
   };
 
+  const handleVideoSave = async (result) => {
+    // Refresh custom videos after save
+    try {
+      const customVideosData = await fetch('/api/manage-videos').then(res => res.ok ? res.json() : { videos: {} });
+      setCustomVideos(customVideosData.videos || {});
+      
+      console.log('Videos refreshed after video save');
+      console.log('Custom videos:', customVideosData.videos);
+    } catch (error) {
+      console.error('Error refreshing videos after save:', error);
+    }
+  };
+
   const handleModalClose = () => {
     setManageModalOpen(false);
     setSelectedSource(null);
     setEditingArticle(null);
+  };
+
+  const handleVideoModalClose = () => {
+    setVideoModalOpen(false);
+    setSelectedVideoSection(null);
+    setEditingVideo(null);
+  };
+
+  // Merge custom videos with YouTube sections
+  const mergeCustomVideos = (sectionType, originalVideos) => {
+    const customSectionVideos = customVideos[sectionType] || [];
+    
+    console.log(`Merging videos for section: ${sectionType}`);
+    console.log(`Original videos: ${originalVideos.length}`);
+    console.log(`Custom videos: ${customSectionVideos.length}`);
+    
+    // Combine custom videos first, then original videos
+    const mergedVideos = [
+      ...customSectionVideos,
+      ...originalVideos
+    ];
+    
+    console.log(`Total merged videos: ${mergedVideos.length}`);
+    return mergedVideos;
   };
 
   // Merge custom articles with RSS articles for each source
@@ -304,43 +360,106 @@ export default function Home() {
     console.log(`First few articles:`, displayArticles.slice(0, 3).map(a => ({ title: a.title, isCustom: a.isCustom })));
 
     if (source.isFeatured) {
+      // Merge custom videos with the default featured video for this section
+      const defaultVideo = displayArticles[0];
+      const customFeaturedVideos = customVideos['featured-nfl-video'] || [];
+      
+      // Combine custom videos with default, then take first 3
+      const allFeaturedVideos = [...customFeaturedVideos, defaultVideo].filter(Boolean);
+      const featuredVideos = allFeaturedVideos.slice(0, 3); // Show up to 3 videos
+
       return (
         <div
           key="featured-nfl-video"
           className="bg-white shadow-lg rounded-lg p-4"
         >
-          <div className="flex items-center mb-2">
-            <img
-              src={source.image}
-              alt="YouTube Logo"
-              className="w-10 h-10 mr-2"
-            />
-            <h2 className="text-lg font-bold text-black">Featured NFL Video</h2>
-          </div>
-          <div className="overflow-hidden group aspect-video mb-2 rounded-lg">
-            <a
-              href={displayArticles[0]?.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center">
               <img
-                src={displayArticles[0]?.thumbnail}
-                alt="Featured NFL Video"
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-90"
+                src={source.image}
+                alt="YouTube Logo"
+                className="w-10 h-10 mr-2"
               />
-            </a>
+              <h2 className="text-lg font-bold text-black">Featured NFL Video</h2>
+            </div>
+            {isAdmin() && (
+              <button
+                onClick={() => handleManageVideo('featured-nfl-video')}
+                className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+              >
+                Add Video
+              </button>
+            )}
           </div>
 
-          <p className="text-center mt-2 text-lg font-semibold w-full truncate">
-            <a
-              href={displayArticles[0]?.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-black-600 hover:text-blue-800"
-            >
-              {decodeHtmlEntities(displayArticles[0]?.title || "Untitled")}
-            </a>
-          </p>
+          {/* Vertical scrolling container for up to 3 featured videos */}
+          {featuredVideos.length > 0 ? (
+            <div className="max-h-[600px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              <div className="space-y-3 pr-2">
+                {featuredVideos.map((video, index) => (
+                  <div key={index}>
+                    <div className="relative overflow-hidden group aspect-video rounded-lg">
+                      <a
+                        href={video?.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          src={video?.thumbnail}
+                          alt={video?.title || "Featured NFL Video"}
+                          className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-90"
+                        />
+                      </a>
+                      
+                      {/* Edit button for custom featured video */}
+                      {video?.isCustom && isAdmin() && (
+                        <button
+                          onClick={() => handleEditVideo('featured-nfl-video', video)}
+                          className="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 text-xs rounded hover:bg-yellow-600 transition-colors"
+                          title="Edit featured video"
+                        >
+                          Edit
+                        </button>
+                      )}
+                      
+                      {/* Custom badge for featured video */}
+                      {video?.isCustom && (
+                        <div className="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 text-xs rounded">
+                          Custom
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="text-center mt-2 text-lg font-semibold w-full truncate">
+                      <a
+                        href={video?.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-black-600 hover:text-blue-800"
+                      >
+                        {decodeHtmlEntities(video?.title || "Untitled")}
+                      </a>
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            /* Show placeholder if no videos */
+            <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center mb-2">
+              <div className="text-center">
+                <div className="w-12 h-12 mx-auto mb-3 bg-gray-300 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <p className="text-gray-500 text-sm">No featured videos available</p>
+                {isAdmin() && (
+                  <p className="text-gray-400 text-xs mt-1">Click "Add Video" to set featured content</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       );
     }
@@ -499,23 +618,38 @@ export default function Home() {
             const nflSource = regularSources.find(
               (s) => s.source.title === "NFL" && s.source.link.includes("youtube")
             );
+            
+            // Merge custom videos with original NFL videos
+            const originalVideos = nflSource?.articles?.slice(0, 8) || [];
+            const mergedVideos = mergeCustomVideos('nfl-latest-videos', originalVideos);
+            
             return (
               <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
-                <div className="flex items-center mb-2">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-                    alt="YouTube Logo"
-                    className="w-12 h-12 mr-2"
-                  />
-                  <div>
-                    <h2 className="text-lg font-bold text-black">NFL Latest Videos</h2>
-                    <p className="text-gray-500 text-xs">
-                      Last Updated: {formatDate(nflSource?.source?.updatedAt)}
-                    </p>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                      alt="YouTube Logo"
+                      className="w-12 h-12 mr-2"
+                    />
+                    <div>
+                      <h2 className="text-lg font-bold text-black">NFL Latest Videos</h2>
+                      <p className="text-gray-500 text-xs">
+                        Last Updated: {formatDate(nflSource?.source?.updatedAt)}
+                      </p>
+                    </div>
                   </div>
+                  {isAdmin() && (
+                    <button
+                      onClick={() => handleManageVideo('nfl-latest-videos')}
+                      className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+                    >
+                      Add Video
+                    </button>
+                  )}
                 </div>
 
-                <HorizontalScroller videos={nflSource?.articles?.slice(0, 8) || []} />
+                <HorizontalScroller videos={mergedVideos} onEditVideo={isAdmin() ? (video) => handleEditVideo('nfl-latest-videos', video) : null} />
 
                 <a
                   href="https://www.youtube.com/c/NFL"
@@ -554,23 +688,36 @@ export default function Home() {
               .map(({ articles }) => articles?.[0])
               .filter(Boolean);
 
+            // Merge custom videos with original top channel videos
+            const mergedTopVideos = mergeCustomVideos('top-nfl-channels', topSourceVideos);
+
             return (
               <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
-                <div className="flex items-center mb-2">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-                    alt="YouTube Logo"
-                    className="w-12 h-12 mr-2"
-                  />
-                  <div>
-                    <h2 className="text-lg font-bold text-black">Top NFL Channels</h2>
-                    <p className="text-gray-500 text-xs">
-                      Last Updated: {formatDate(topChannelSources[0]?.source?.updatedAt)}
-                    </p>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                      alt="YouTube Logo"
+                      className="w-12 h-12 mr-2"
+                    />
+                    <div>
+                      <h2 className="text-lg font-bold text-black">Top NFL Channels</h2>
+                      <p className="text-gray-500 text-xs">
+                        Last Updated: {formatDate(topChannelSources[0]?.source?.updatedAt)}
+                      </p>
+                    </div>
                   </div>
+                  {isAdmin() && (
+                    <button
+                      onClick={() => handleManageVideo('top-nfl-channels')}
+                      className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+                    >
+                      Add Video
+                    </button>
+                  )}
                 </div>
 
-                <HorizontalScroller videos={topSourceVideos} />
+                <HorizontalScroller videos={mergedTopVideos} onEditVideo={isAdmin() ? (video) => handleEditVideo('top-nfl-channels', video) : null} />
 
                 <a
                   href="https://www.youtube.com/results?search_query=NFL"
@@ -599,23 +746,36 @@ export default function Home() {
               .map(({ articles }) => articles?.[0])
               .filter(Boolean);
 
+            // Merge custom videos with original up & coming videos
+            const mergedUpComingVideos = mergeCustomVideos('up-coming-channels', upComingVideos);
+
             return (
               <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
-                <div className="flex items-center mb-2">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-                    alt="YouTube Logo"
-                    className="w-12 h-12 mr-2"
-                  />
-                  <div>
-                    <h2 className="text-lg font-bold text-black">Up & Coming NFL Channels</h2>
-                    <p className="text-gray-500 text-xs">
-                      Last Updated: {formatDate(upAndComingSources[0]?.source?.updatedAt)}
-                    </p>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                      alt="YouTube Logo"
+                      className="w-12 h-12 mr-2"
+                    />
+                    <div>
+                      <h2 className="text-lg font-bold text-black">Up & Coming NFL Channels</h2>
+                      <p className="text-gray-500 text-xs">
+                        Last Updated: {formatDate(upAndComingSources[0]?.source?.updatedAt)}
+                      </p>
+                    </div>
                   </div>
+                  {isAdmin() && (
+                    <button
+                      onClick={() => handleManageVideo('up-coming-channels')}
+                      className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+                    >
+                      Add Video
+                    </button>
+                  )}
                 </div>
 
-                <HorizontalScroller videos={upComingVideos} />
+                <HorizontalScroller videos={mergedUpComingVideos} onEditVideo={isAdmin() ? (video) => handleEditVideo('up-coming-channels', video) : null} />
 
                 <a
                   href="https://www.youtube.com/results?search_query=nfl+up+and+coming"
@@ -642,23 +802,36 @@ export default function Home() {
             // Flatten and get up to 4 articles from each source
             const podcastVideos = podcastSources.flatMap(({ articles }) => articles?.slice(0, 4) || []);
 
+            // Merge custom videos with original podcast videos
+            const mergedPodcastVideos = mergeCustomVideos('nfl-podcasts', podcastVideos);
+
             return (
               <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
-                <div className="flex items-center mb-2">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
-                    alt="YouTube Logo"
-                    className="w-12 h-12 mr-2"
-                  />
-                  <div>
-                    <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
-                    <p className="text-gray-500 text-xs">
-                      Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
-                    </p>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/commons/7/75/YouTube_social_white_squircle_(2017).svg"
+                      alt="YouTube Logo"
+                      className="w-12 h-12 mr-2"
+                    />
+                    <div>
+                      <h2 className="text-lg font-bold text-black">NFL Podcasts</h2>
+                      <p className="text-gray-500 text-xs">
+                        Last Updated: {formatDate(podcastSources[0]?.source?.updatedAt)}
+                      </p>
+                    </div>
                   </div>
+                  {isAdmin() && (
+                    <button
+                      onClick={() => handleManageVideo('nfl-podcasts')}
+                      className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+                    >
+                      Add Video
+                    </button>
+                  )}
                 </div>
 
-                <HorizontalScroller videos={podcastVideos} />
+                <HorizontalScroller videos={mergedPodcastVideos} onEditVideo={isAdmin() ? (video) => handleEditVideo('nfl-podcasts', video) : null} />
 
                 <a
                   href="https://www.youtube.com/results?search_query=NFL+podcast"
@@ -691,6 +864,16 @@ export default function Home() {
           sourceData={selectedSource}
           onSave={handleArticleSave}
           editingArticle={editingArticle}
+        />
+      )}
+
+      {isAdmin() && (
+        <ManageVideoModal
+          isOpen={videoModalOpen}
+          onClose={handleVideoModalClose}
+          sectionType={selectedVideoSection}
+          editingVideo={editingVideo}
+          onSave={handleVideoSave}
         />
       )}
     </div>

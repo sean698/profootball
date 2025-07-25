@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 
-export default function HorizontalScroller({ videos }) {
+export default function HorizontalScroller({ videos, onEditVideo = null }) {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -63,9 +63,9 @@ export default function HorizontalScroller({ videos }) {
               href={video.link || "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 w-[220px] group/item"
+              className="group/item flex-none w-60 hover:cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg transition-all duration-200"
             >
-              <div className="w-full rounded-xl overflow-hidden aspect-video bg-gray-100 relative">
+              <div className="relative bg-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200" style={{ aspectRatio: "16/9" }}>
                 {video.thumbnail ? (
                   <>
                     <img
@@ -75,6 +75,28 @@ export default function HorizontalScroller({ videos }) {
                     />
                     {/* Subtle overlay for better text contrast */}
                     <div className="absolute inset-0 bg-black opacity-0 group-hover/item:opacity-10 transition-opacity duration-300" />
+                    
+                    {/* Edit button for custom videos */}
+                    {video.isCustom && onEditVideo && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          onEditVideo(video);
+                        }}
+                        className="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 text-xs rounded hover:bg-yellow-600 transition-colors opacity-0 group-hover/item:opacity-100"
+                        title="Edit custom video"
+                      >
+                        Edit
+                      </button>
+                    )}
+                    
+                    {/* Custom badge */}
+                    {video.isCustom && (
+                      <div className="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 text-xs rounded">
+                        Custom
+                      </div>
+                    )}
                   </>
                 ) : (
                   <div className="bg-gradient-to-br from-gray-100 to-gray-200 h-full w-full flex items-center justify-center">
