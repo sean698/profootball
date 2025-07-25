@@ -6,6 +6,7 @@ import Card from "./Card";
 import TeamInfoEditModal from "@/components/TeamInfoEditModal";
 import TeamStatsEditModal from "@/components/TeamStatsEditModal";
 import TeamScheduleEditModal from "@/components/TeamScheduleEditModal";
+import TeamNewsEditModal from "@/components/TeamNewsEditModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 
@@ -322,9 +323,12 @@ export default function TeamPage({ params }) {
     divisionPosition: 'Division Position'
   });
   const [teamSchedule, setTeamSchedule] = useState([]);
+  const [teamNews, setTeamNews] = useState([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [statsModalOpen, setStatsModalOpen] = useState(false);
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
+  const [newsModalOpen, setNewsModalOpen] = useState(false);
+  const [editingNews, setEditingNews] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -336,11 +340,12 @@ export default function TeamPage({ params }) {
         ).join(' ');
         setTeamName(name);
 
-        // Fetch team info, stats, and schedule from API
-        const [infoResponse, statsResponse, scheduleResponse] = await Promise.all([
+        // Fetch team info, stats, schedule, and news from API
+        const [infoResponse, statsResponse, scheduleResponse, newsResponse] = await Promise.all([
           fetch(`/api/manage-team-info?teamName=${encodeURIComponent(name)}`),
           fetch(`/api/manage-team-stats?teamName=${encodeURIComponent(name)}`),
-          fetch(`/api/manage-team-schedule?teamName=${encodeURIComponent(name)}`)
+          fetch(`/api/manage-team-schedule?teamName=${encodeURIComponent(name)}`),
+          fetch(`/api/manage-team-news?teamName=${encodeURIComponent(name)}`)
         ]);
         
         if (infoResponse.ok) {
@@ -356,6 +361,11 @@ export default function TeamPage({ params }) {
         if (scheduleResponse.ok) {
           const scheduleData = await scheduleResponse.json();
           setTeamSchedule(scheduleData.schedules);
+        }
+        
+        if (newsResponse.ok) {
+          const newsData = await newsResponse.json();
+          setTeamNews(newsData.newsArticles || []);
         }
       } catch (error) {
         console.error('Error initializing team:', error);
@@ -379,6 +389,16 @@ export default function TeamPage({ params }) {
     setScheduleModalOpen(true);
   };
 
+  const handleAddNews = () => {
+    setEditingNews(null);
+    setNewsModalOpen(true);
+  };
+
+  const handleEditNews = (newsArticle) => {
+    setEditingNews(newsArticle);
+    setNewsModalOpen(true);
+  };
+
   const handleTeamInfoSave = (updatedTeamInfo) => {
     setTeamInfo(updatedTeamInfo.teamInfo);
   };
@@ -389,6 +409,10 @@ export default function TeamPage({ params }) {
 
   const handleScheduleSave = (updatedSchedule) => {
     setTeamSchedule(updatedSchedule.schedules);
+  };
+
+  const handleNewsSave = (result) => {
+    setTeamNews(result.newsArticles || []);
   };
 
   const handleModalClose = () => {
@@ -403,6 +427,11 @@ export default function TeamPage({ params }) {
     setScheduleModalOpen(false);
   };
 
+  const handleNewsModalClose = () => {
+    setNewsModalOpen(false);
+    setEditingNews(null);
+  };
+
   const formatDateTime = (date, time) => {
     if (!date || !time) return 'TBD';
     const gameDate = new Date(`${date}T${time}`);
@@ -413,6 +442,19 @@ export default function TeamPage({ params }) {
       hour: 'numeric',
       minute: '2-digit'
     });
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    } catch (e) {
+      return '';
+    }
   };
 
   if (loading) {
@@ -518,12 +560,65 @@ export default function TeamPage({ params }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
           {/* Latest News */}
           <Card accent={accent}>
-            <h2 className="text-2xl font-bold mb-4" style={{ color: accent }}>Latest News</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold" style={{ color: accent }}>Latest News</h2>
+              {isAdmin() && (
+                <div className="flex space-x-2">
+                  <button
+                    onClick={handleAddNews}
+                    className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+                  >
+                    {teamNews && teamNews.length >= 5 ? 'Replace Oldest' : 'Add News'}
+                  </button>
+                </div>
+              )}
+            </div>
             <div className="space-y-4">
-              <div className="border-b pb-4">
-                <h3 className="font-semibold text-lg">Team News Headline</h3>
-                <p className="text-gray-600 mt-2">Latest news and updates about the team...</p>
-              </div>
+              {teamNews && teamNews.length > 0 ? (
+                teamNews.map((newsArticle, index) => (
+                  <div key={index} className="border-b pb-4 last:border-b-0">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-lg">
+                          <a
+                            href={newsArticle.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-black hover:underline hover:text-blue-500"
+                          >
+                            {newsArticle.title}
+                          </a>
+                        </h3>
+                        <span className="text-xs text-gray-500 mt-1 block">
+                          {formatDate(newsArticle.updatedAt)}
+                        </span>
+                      </div>
+                      {isAdmin() && (
+                        <button
+                          onClick={() => handleEditNews(newsArticle)}
+                          className="text-xs bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition-colors ml-4"
+                        >
+                          Edit
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No news available</p>
+                  {isAdmin() && (
+                    <p className="text-gray-400 text-sm mt-1">Click "Add News" to create a news article</p>
+                  )}
+                </div>
+              )}
+              {teamNews && teamNews.length >= 5 && isAdmin() && (
+                <div className="text-center pt-2">
+                  <p className="text-xs text-gray-500">
+                    Maximum 5 news articles reached. Adding new articles will remove the oldest ones.
+                  </p>
+                </div>
+              )}
             </div>
           </Card>
 
@@ -657,6 +752,13 @@ export default function TeamPage({ params }) {
             teamName={teamName}
             schedules={teamSchedule}
             onSave={handleScheduleSave}
+          />
+          <TeamNewsEditModal
+            isOpen={newsModalOpen}
+            onClose={handleNewsModalClose}
+            teamName={teamName}
+            newsArticle={editingNews}
+            onSave={handleNewsSave}
           />
         </>
       )}
