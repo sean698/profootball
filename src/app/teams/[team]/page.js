@@ -5,6 +5,7 @@ import Image from "next/image";
 import Card from "./Card";
 import TeamInfoEditModal from "@/components/TeamInfoEditModal";
 import TeamStatsEditModal from "@/components/TeamStatsEditModal";
+import TeamScheduleEditModal from "@/components/TeamScheduleEditModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 
@@ -320,8 +321,10 @@ export default function TeamPage({ params }) {
     record: 'W-L-T',
     divisionPosition: 'Division Position'
   });
+  const [teamSchedule, setTeamSchedule] = useState([]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [statsModalOpen, setStatsModalOpen] = useState(false);
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -333,10 +336,11 @@ export default function TeamPage({ params }) {
         ).join(' ');
         setTeamName(name);
 
-        // Fetch team info and stats from API
-        const [infoResponse, statsResponse] = await Promise.all([
+        // Fetch team info, stats, and schedule from API
+        const [infoResponse, statsResponse, scheduleResponse] = await Promise.all([
           fetch(`/api/manage-team-info?teamName=${encodeURIComponent(name)}`),
-          fetch(`/api/manage-team-stats?teamName=${encodeURIComponent(name)}`)
+          fetch(`/api/manage-team-stats?teamName=${encodeURIComponent(name)}`),
+          fetch(`/api/manage-team-schedule?teamName=${encodeURIComponent(name)}`)
         ]);
         
         if (infoResponse.ok) {
@@ -347,6 +351,11 @@ export default function TeamPage({ params }) {
         if (statsResponse.ok) {
           const statsData = await statsResponse.json();
           setTeamStats(statsData.teamStats);
+        }
+        
+        if (scheduleResponse.ok) {
+          const scheduleData = await scheduleResponse.json();
+          setTeamSchedule(scheduleData.schedules);
         }
       } catch (error) {
         console.error('Error initializing team:', error);
@@ -366,6 +375,10 @@ export default function TeamPage({ params }) {
     setStatsModalOpen(true);
   };
 
+  const handleEditSchedule = () => {
+    setScheduleModalOpen(true);
+  };
+
   const handleTeamInfoSave = (updatedTeamInfo) => {
     setTeamInfo(updatedTeamInfo.teamInfo);
   };
@@ -374,12 +387,32 @@ export default function TeamPage({ params }) {
     setTeamStats(updatedTeamStats.teamStats);
   };
 
+  const handleScheduleSave = (updatedSchedule) => {
+    setTeamSchedule(updatedSchedule.schedules);
+  };
+
   const handleModalClose = () => {
     setEditModalOpen(false);
   };
 
   const handleStatsModalClose = () => {
     setStatsModalOpen(false);
+  };
+
+  const handleScheduleModalClose = () => {
+    setScheduleModalOpen(false);
+  };
+
+  const formatDateTime = (date, time) => {
+    if (!date || !time) return 'TBD';
+    const gameDate = new Date(`${date}T${time}`);
+    return gameDate.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short', 
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit'
+    });
   };
 
   if (loading) {
@@ -496,12 +529,49 @@ export default function TeamPage({ params }) {
 
           {/* Schedule */}
           <Card accent={accent}>
-            <h2 className="text-2xl font-bold mb-4" style={{ color: accent }}>Schedule</h2>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold" style={{ color: accent }}>Schedule</h2>
+              {isAdmin() && (
+                <button
+                  onClick={handleEditSchedule}
+                  className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition-colors"
+                >
+                  Edit
+                </button>
+              )}
+            </div>
             <div className="space-y-4">
-              <div className="border-b pb-4">
-                <h3 className="font-semibold">Upcoming Games</h3>
-                <p className="text-gray-600 mt-2">Schedule information will be displayed here...</p>
-              </div>
+              {teamSchedule && teamSchedule.length > 0 ? (
+                teamSchedule.slice(0, 5).map((game, index) => (
+                  <div key={index} className="border-b pb-4 last:border-b-0">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h3 className="font-semibold text-lg">
+                          {game.homeTeam} vs {game.awayTeam}
+                        </h3>
+                        <p className="text-gray-600 text-sm">{game.location}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium">{formatDateTime(game.gameDate, game.gameTime)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-gray-500">No games scheduled</p>
+                  {isAdmin() && (
+                    <p className="text-gray-400 text-sm mt-1">Click "Edit" to add games</p>
+                  )}
+                </div>
+              )}
+              {teamSchedule && teamSchedule.length > 5 && (
+                <div className="text-center pt-2">
+                  <p className="text-sm text-gray-500">
+                    Showing 5 of {teamSchedule.length} games
+                  </p>
+                </div>
+              )}
             </div>
           </Card>
         </div>
@@ -580,6 +650,13 @@ export default function TeamPage({ params }) {
             teamName={teamName}
             teamStats={teamStats}
             onSave={handleTeamStatsSave}
+          />
+          <TeamScheduleEditModal
+            isOpen={scheduleModalOpen}
+            onClose={handleScheduleModalClose}
+            teamName={teamName}
+            schedules={teamSchedule}
+            onSave={handleScheduleSave}
           />
         </>
       )}
