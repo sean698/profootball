@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 
-export default function ManageSourceModal({ isOpen, onClose, sourceData = null, onSave }) {
-  const { isAdmin } = useAuth();
+export default function ManageSourceModal({ isOpen, onClose, sourceData = null, editingArticle = null, onSave }) {
+  const { isAdmin, user } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
     link: ''
@@ -11,17 +11,27 @@ export default function ManageSourceModal({ isOpen, onClose, sourceData = null, 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Reset form when modal opens
+  // Reset form when modal opens or when editing article changes
   useEffect(() => {
     if (isOpen) {
-      setFormData({
-        title: '',
-        link: ''
-      });
+      if (editingArticle) {
+        // Populate form with existing article data for editing
+        setFormData({
+          title: editingArticle.title || '',
+          link: editingArticle.link || ''
+        });
+      } else {
+        // Reset form for new article
+        setFormData({
+          title: '',
+          link: ''
+        });
+      }
       setError('');
       console.log('Modal opened with sourceData:', sourceData);
+      console.log('Editing article:', editingArticle);
     }
-  }, [isOpen, sourceData]);
+  }, [isOpen, sourceData, editingArticle]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,27 +58,33 @@ export default function ManageSourceModal({ isOpen, onClose, sourceData = null, 
 
     console.log('Using source URL:', sourceUrl);
 
-    console.log('Submitting article with data:', {
-      sourceUrl: sourceUrl,
-      title: formData.title.trim(),
-      link: formData.link.trim(),
-      sourceTitle: sourceData?.title || sourceData?.source?.title
-    });
+    const requestData = editingArticle 
+      ? {
+          sourceUrl: sourceUrl,
+          originalTitle: editingArticle.title,
+          title: formData.title.trim(),
+          link: formData.link.trim(),
+          userEmail: user?.email
+        }
+      : {
+          sourceUrl: sourceUrl,
+          title: formData.title.trim(),
+          link: formData.link.trim(),
+          userEmail: user?.email
+        };
+
+    console.log('Submitting article with data:', requestData);
 
     setLoading(true);
     setError('');
 
     try {
       const response = await fetch('/api/manage-articles', {
-        method: 'POST',
+        method: editingArticle ? 'PUT' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          sourceUrl: sourceUrl,  // Pass the extracted source URL
-          title: formData.title.trim(),
-          link: formData.link.trim()
-        }),
+        body: JSON.stringify(requestData),
       });
 
       console.log('Response status:', response.status);
@@ -76,7 +92,7 @@ export default function ManageSourceModal({ isOpen, onClose, sourceData = null, 
       if (!response.ok) {
         const errorData = await response.json();
         console.error('Server error:', errorData);
-        throw new Error(errorData.error || 'Failed to add article');
+        throw new Error(errorData.error || `Failed to ${editingArticle ? 'update' : 'add'} article`);
       }
 
       const result = await response.json();
@@ -85,7 +101,51 @@ export default function ManageSourceModal({ isOpen, onClose, sourceData = null, 
       onClose();
     } catch (err) {
       console.error('Error in handleSubmit:', err);
-      setError(err.message || 'Failed to add article');
+      setError(err.message || `Failed to ${editingArticle ? 'update' : 'add'} article`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!isAdmin() || !editingArticle) return;
+
+    if (!confirm('Are you sure you want to delete this custom article?')) {
+      return;
+    }
+
+    const sourceUrl = sourceData?.url || sourceData?.source?.url || sourceData?.link || sourceData?.source?.link;
+    
+    if (!sourceUrl) {
+      setError('No source URL found. Cannot delete article.');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/manage-articles', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          sourceUrl: sourceUrl,
+          title: editingArticle.title,
+          userEmail: user?.email
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to delete article');
+      }
+
+      onSave({ deleted: true });
+      onClose();
+    } catch (err) {
+      setError(err.message || 'Failed to delete article');
     } finally {
       setLoading(false);
     }
@@ -98,12 +158,12 @@ export default function ManageSourceModal({ isOpen, onClose, sourceData = null, 
       <div className="bg-white rounded-lg max-w-md w-full">
         <div className="p-6">
           <h2 className="text-xl font-bold mb-4">
-            Add Custom Article
+            {editingArticle ? 'Edit Custom Article' : 'Add Custom Article'}
           </h2>
           
           {sourceData && (
             <div className="mb-4 p-3 bg-gray-100 rounded">
-              <p className="text-sm text-gray-600">Adding to:</p>
+              <p className="text-sm text-gray-600">{editingArticle ? 'Editing in:' : 'Adding to:'}</p>
               <p className="font-semibold">{sourceData?.title || sourceData?.source?.title || 'Unknown Source'}</p>
               <p className="text-xs text-gray-500">URL: {sourceData?.url || sourceData?.source?.url || sourceData?.link || sourceData?.source?.link || 'No URL found'}</p>
             </div>
@@ -150,8 +210,19 @@ export default function ManageSourceModal({ isOpen, onClose, sourceData = null, 
                 disabled={loading}
                 className="flex-1 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Adding...' : 'Add Article'}
+                {loading ? (editingArticle ? 'Updating...' : 'Adding...') : (editingArticle ? 'Update Article' : 'Add Article')}
               </button>
+              
+              {editingArticle && (
+                <button
+                  type="button"
+                  onClick={handleDelete}
+                  disabled={loading}
+                  className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Deleting...' : 'Delete'}
+                </button>
+              )}
               
               <button
                 type="button"

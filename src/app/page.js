@@ -70,6 +70,7 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [manageModalOpen, setManageModalOpen] = useState(false);
   const [selectedSource, setSelectedSource] = useState(null);
+  const [editingArticle, setEditingArticle] = useState(null);
   const [commentCounts, setCommentCounts] = useState({});
 
   // Fetch custom articles
@@ -123,6 +124,13 @@ export default function Home() {
 
   const handleManageSource = (sourceData) => {
     setSelectedSource(sourceData);
+    setEditingArticle(null); // Reset editing article for new article
+    setManageModalOpen(true);
+  };
+
+  const handleEditArticle = (sourceData, article) => {
+    setSelectedSource(sourceData);
+    setEditingArticle(article);
     setManageModalOpen(true);
   };
 
@@ -142,6 +150,12 @@ export default function Home() {
     } catch (error) {
       console.error('Error refreshing data after article save:', error);
     }
+  };
+
+  const handleModalClose = () => {
+    setManageModalOpen(false);
+    setSelectedSource(null);
+    setEditingArticle(null);
   };
 
   // Merge custom articles with RSS articles for each source
@@ -385,31 +399,44 @@ export default function Home() {
                     {formatDate(article.pubDate)}
                   </p>
                 </div>
-                <div className="relative flex-shrink-0">
-                  <a
-                    href={`/comments/${article.title}`}
-                    className="hover:text-blue-500 relative inline-block"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="36"
-                      height="36"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-message-circle"
+                <div className="flex items-center gap-2">
+                  {/* Edit button for custom articles (admin only) */}
+                  {article.isCustom && isAdmin() && (
+                    <button
+                      onClick={() => handleEditArticle(source, article)}
+                      className="text-xs bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 transition-colors"
+                      title="Edit custom article"
                     >
-                      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
-                    </svg>
-                    {commentCount > 0 && (
-                      <span className="absolute inset-0 flex items-center justify-center text-sm font-black text-gray-700 tracking-tight">
-                        {commentCount > 99 ? '99+' : commentCount}
-                      </span>
-                    )}
-                  </a>
+                      Edit
+                    </button>
+                  )}
+                  {/* Comment count */}
+                  <div className="relative flex-shrink-0">
+                    <a
+                      href={`/comments/${article.title}`}
+                      className="hover:text-blue-500 relative inline-block"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="36"
+                        height="36"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="lucide lucide-message-circle"
+                      >
+                        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                      </svg>
+                      {commentCount > 0 && (
+                        <span className="absolute inset-0 flex items-center justify-center text-sm font-black text-gray-700 tracking-tight">
+                          {commentCount > 99 ? '99+' : commentCount}
+                        </span>
+                      )}
+                    </a>
+                  </div>
                 </div>
               </li>
             );
@@ -660,9 +687,10 @@ export default function Home() {
       {isAdmin() && (
         <ManageSourceModal
           isOpen={manageModalOpen}
-          onClose={() => setManageModalOpen(false)}
+          onClose={handleModalClose}
           sourceData={selectedSource}
           onSave={handleArticleSave}
+          editingArticle={editingArticle}
         />
       )}
     </div>
