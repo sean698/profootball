@@ -1,13 +1,15 @@
+"use client";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import { TopBannerAd, SidebarAd, InContentAd } from "@/components/AdBanner";
 import UpcomingGamesCarousel from "@/components/UpcomingGamesCarousel";
-import { headers } from "next/headers";
 import { getCommentCounts, getAllCommentTitles } from "@/utils/supabase";
 import HorizontalScroller from "@/components/HorizontalScroller";
 import PollCard from "@/components/PollCard";
 import BlogCard from "@/components/Blog";
-
+import ManageSourceModal from "@/components/ManageSourceModal";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState, useEffect } from "react";
 
 
 const decodeHtmlEntities = (str) => {
@@ -24,15 +26,14 @@ const decodeHtmlEntities = (str) => {
 
 async function fetchRSS() {
   try {
-    // Await headers() as required in Next.js 15
-    const headersList = await headers();
-    const host = headersList.get("host") || "localhost:3000";
-    const protocol = host.includes("localhost") ? "http" : "https";
+    // For client-side, use window.location or a simple fallback
+    const baseUrl = typeof window !== "undefined" 
+      ? `${window.location.protocol}//${window.location.host}`
+      : "http://localhost:3000";
 
-    const apiUrl = `${protocol}://${host}/api/rss`;
-    // Remove conflicting cache options
+    const apiUrl = `${baseUrl}/api/rss`;
     const response = await fetch(apiUrl, {
-      next: { revalidate: 600 },
+      cache: "no-store", // Don't cache in client components
     });
 
     if (!response.ok) {
@@ -61,8 +62,142 @@ function formatDate(dateString) {
   }
 }
 
-export default async function Home() {
-  const sources = await fetchRSS();
+export default function Home() {
+  const { isAdmin } = useAuth();
+  const [sources, setSources] = useState([]);
+  const [customArticles, setCustomArticles] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [manageModalOpen, setManageModalOpen] = useState(false);
+  const [selectedSource, setSelectedSource] = useState(null);
+  const [commentCounts, setCommentCounts] = useState({});
+
+  // Fetch custom articles
+  const fetchCustomArticles = async () => {
+    try {
+      const response = await fetch('/api/manage-articles');
+      if (response.ok) {
+        const data = await response.json();
+        setCustomArticles(data.articles || {});
+      }
+    } catch (error) {
+      console.error('Error fetching custom articles:', error);
+    }
+  };
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const [fetchedSources, customArticlesData] = await Promise.all([
+          fetchRSS(),
+          fetch('/api/manage-articles').then(res => res.ok ? res.json() : { articles: {} })
+        ]);
+        
+        setSources(fetchedSources);
+        setCustomArticles(customArticlesData.articles || {});
+
+        // Get comment counts for displayed articles
+        const displayedArticles = fetchedSources.flatMap(source => 
+          (source.articles || []).slice(0, 6)
+        );
+        const articleTitles = displayedArticles.map(article => article.title).filter(Boolean);
+        
+        if (articleTitles.length > 0) {
+          const counts = await getCommentCounts(articleTitles);
+          setCommentCounts(counts);
+        }
+      } catch (err) {
+        console.error('Error loading data:', err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+    // Refresh every 10 minutes
+    const interval = setInterval(loadData, 600000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleManageSource = (sourceData) => {
+    setSelectedSource(sourceData);
+    setManageModalOpen(true);
+  };
+
+  const handleArticleSave = async (result) => {
+    // Refresh both sources and custom articles after save
+    try {
+      const [fetchedSources, customArticlesData] = await Promise.all([
+        fetchRSS(),
+        fetch('/api/manage-articles').then(res => res.ok ? res.json() : { articles: {} })
+      ]);
+      
+      setSources(fetchedSources);
+      setCustomArticles(customArticlesData.articles || {});
+      
+      console.log('Data refreshed after article save');
+      console.log('Custom articles:', customArticlesData.articles);
+    } catch (error) {
+      console.error('Error refreshing data after article save:', error);
+    }
+  };
+
+  // Merge custom articles with RSS articles for each source
+  const mergeSourceArticles = (source) => {
+    const rssArticles = source.articles || [];
+    const sourceUrl = source.url || source.source?.url || source.link || source.source?.link;
+    const customSourceArticles = customArticles[sourceUrl] || [];
+    
+    console.log(`Merging articles for source: ${source.title || 'Unknown'}`);
+    console.log(`Source URL: ${sourceUrl}`);
+    console.log(`RSS articles: ${rssArticles.length}`);
+    console.log(`Custom articles: ${customSourceArticles.length}`);
+    
+    // Combine and sort by date (custom articles first, then RSS)
+    const mergedArticles = [
+      ...customSourceArticles,
+      ...rssArticles
+    ];
+    
+    console.log(`Total merged articles: ${mergedArticles.length}`);
+    
+    return {
+      ...source,
+      articles: mergedArticles
+    };
+  };
+
+  if (loading && !sources.length) {
+    return (
+      <div className="bg-[#ECCE8B] min-h-screen">
+        <Nav />
+        <div className="flex justify-center items-center h-96">
+          <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-bold mb-4">Loading news...</h2>
+            <p>Please wait while we fetch the latest news.</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-[#ECCE8B] min-h-screen">
+        <Nav />
+        <div className="flex justify-center items-center h-96">
+          <div className="bg-white p-8 rounded-lg shadow-lg text-center">
+            <h2 className="text-2xl font-bold mb-4">Error loading news</h2>
+            <p>Failed to load news. Please try again later.</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!sources || sources.length === 0) {
     return (
@@ -139,30 +274,21 @@ export default async function Home() {
   
 
   // Split remaining sources into chunks for better distribution
-    const chunkSize = Math.ceil(remainingSources.length / 3);
+  const chunkSize = Math.ceil(remainingSources.length / 3);
 
-    const remainingSourcesChunk1 = remainingSources.slice(0, chunkSize);
-    const remainingSourcesChunk2 = remainingSources.slice(chunkSize, chunkSize * 2);
-    const remainingSourcesChunk3 = remainingSources.slice(chunkSize * 2);
-
-  // Fetch comment counts for displayed articles only (first 6 articles from each source)
-  const displayedArticles = [
-    ...topGridSources.flatMap(source => (source.articles || []).slice(0, 6)),
-    ...remainingSources.flatMap(source => (source.articles || []).slice(0, 6))
-    
-  ];
-  
-  const articleTitles = displayedArticles.map(article => article.title).filter(Boolean);
-  console.log("Article titles to fetch comments for:", articleTitles.length, "titles");
-  console.log("Sample RSS article titles:", articleTitles.slice(0, 3));
-  
-  // Debug: Get sample titles from database
-  const dbTitles = await getAllCommentTitles();
-  
-  const commentCounts = await getCommentCounts(articleTitles);
-  console.log("Comment counts received:", commentCounts);
+  const remainingSourcesChunk1 = remainingSources.slice(0, chunkSize);
+  const remainingSourcesChunk2 = remainingSources.slice(chunkSize, chunkSize * 2);
+  const remainingSourcesChunk3 = remainingSources.slice(chunkSize * 2);
 
   const renderCard = ({ source, articles }) => {
+    // Merge custom and RSS articles
+    const mergedSource = mergeSourceArticles({ source, articles });
+    const displayArticles = mergedSource.articles;
+
+    console.log(`Rendering card for: ${source.title || 'Unknown'}`);
+    console.log(`Display articles count: ${displayArticles.length}`);
+    console.log(`First few articles:`, displayArticles.slice(0, 3).map(a => ({ title: a.title, isCustom: a.isCustom })));
+
     if (source.isFeatured) {
       return (
         <div
@@ -179,12 +305,12 @@ export default async function Home() {
           </div>
           <div className="overflow-hidden group aspect-video mb-2 rounded-lg">
             <a
-              href={articles[0].link}
+              href={displayArticles[0]?.link}
               target="_blank"
               rel="noopener noreferrer"
             >
               <img
-                src={articles[0].thumbnail}
+                src={displayArticles[0]?.thumbnail}
                 alt="Featured NFL Video"
                 className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105 group-hover:brightness-90"
               />
@@ -193,12 +319,12 @@ export default async function Home() {
 
           <p className="text-center mt-2 text-lg font-semibold w-full truncate">
             <a
-              href={articles[0].link}
+              href={displayArticles[0]?.link}
               target="_blank"
               rel="noopener noreferrer"
               className="text-black-600 hover:text-blue-800"
             >
-              {decodeHtmlEntities(articles[0]?.title || "Untitled")}
+              {decodeHtmlEntities(displayArticles[0]?.title || "Untitled")}
             </a>
           </p>
         </div>
@@ -235,9 +361,8 @@ export default async function Home() {
           </div>
         </div>
         <ul className="space-y-2">
-          {articles.slice(0, 6).map((article, index) => {
+          {displayArticles.slice(0, 6).map((article, index) => {
             const commentCount = commentCounts[article.title] || 0;
-            console.log(`Article: "${article.title}" has ${commentCount} comments`);
             return (
               <li key={index} className="border-b pb-2 flex items-start gap-2">
                 <div className="flex-1">
@@ -247,8 +372,13 @@ export default async function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <h3>
+                    <h3 className="flex items-center gap-2">
                       {decodeHtmlEntities(article.title || "Untitled Article")}
+                      {article.isCustom && (
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                          Custom
+                        </span>
+                      )}
                     </h3>
                   </a>
                   <p className="text-gray-500 text-xs">
@@ -285,14 +415,24 @@ export default async function Home() {
             );
           })}
         </ul>
-        <a
-  href={source.link || "#"}
-  className="text-base text-blue-500 mt-2 block font-semibold"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  MORE ...
-</a>
+        <div className="flex items-center justify-between mt-2">
+          <a
+            href={source.link || "#"}
+            className="text-base text-blue-500 font-semibold"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            MORE ...
+          </a>
+          {isAdmin() && (
+            <button
+              onClick={() => handleManageSource(source)}
+              className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition-colors"
+            >
+              Add Article
+            </button>
+          )}
+        </div>
       </div>
     );
   };
@@ -516,6 +656,15 @@ export default async function Home() {
       </div>
 
       <Footer />
+
+      {isAdmin() && (
+        <ManageSourceModal
+          isOpen={manageModalOpen}
+          onClose={() => setManageModalOpen(false)}
+          sourceData={selectedSource}
+          onSave={handleArticleSave}
+        />
+      )}
     </div>
   );
 }

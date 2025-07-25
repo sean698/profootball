@@ -6,12 +6,24 @@ import { supabase } from "@/utils/supabase";
 // Create a context for auth
 const AuthContext = createContext();
 
+// Admin user emails - Add your admin email addresses here
+const ADMIN_EMAILS = [
+  'minseo7532@gmail.com', 
+  'anthonymskim@example.com', // Replace with your actual email
+  // Add more admin emails as needed
+];
+
 // Context provider component
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
+
+  // Check if current user is admin
+  const isAdmin = () => {
+    return user && ADMIN_EMAILS.includes(user.email);
+  };
 
   // Fetch user profile data (username) - using public schema
   const fetchUserProfile = async (userId) => {
@@ -305,6 +317,7 @@ export function AuthProvider({ children }) {
     signUp,
     signIn,
     signOut,
+    isAdmin,
     refreshUserProfile: async (userId) => {
       if (!userId && user) userId = user.id;
       if (userId) {

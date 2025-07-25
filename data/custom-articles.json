@@ -1,0 +1,24 @@
+{
+  "articles": {
+    "https://www.espn.com": [
+      {
+        "title": "test",
+        "link": "https://www.espn.com/nfl/story/_/id/45812832/nfl-women-coaches-jen-welter-bruce-arians-amelia-wilson-ron-rivera",
+        "pubDate": "2025-07-25T16:46:20.662Z",
+        "isCustom": true
+      },
+      {
+        "title": "test3",
+        "link": "https://www.espn.com/nfl/story/_/id/45812832/nfl-women-coaches-jen-welter-bruce-arians-amelia-wilson-ron-rivera",
+        "pubDate": "2025-07-25T16:45:50.664Z",
+        "isCustom": true
+      },
+      {
+        "title": "test2",
+        "link": "https://www.espn.com/nfl/story/_/id/45812832/nfl-women-coaches-jen-welter-bruce-arians-amelia-wilson-ron-rivera",
+        "pubDate": "2025-07-25T16:45:41.732Z",
+        "isCustom": true
+      }
+    ]
+  }
+}
