@@ -167,7 +167,7 @@ export default async function Home() {
       return (
         <div
           key="featured-nfl-video"
-          className="bg-white shadow-lg rounded-lg p-4"
+          className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col"
         >
           <div className="flex items-center mb-2">
             <img
@@ -201,6 +201,11 @@ export default async function Home() {
               {decodeHtmlEntities(articles[0]?.title || "Untitled")}
             </a>
           </p>
+          {/* PollCard in the white space at the bottom */}
+          <div className="mt-4">
+            <PollCard key="poll-card-in-featured" />
+          </div>
+          <div className="flex-1" />
         </div>
       );
     }
@@ -315,39 +320,24 @@ export default async function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-6 px-4 pb-4 max-w-screen-2xl mx-auto">
         {/* Main Content Area */}
         <div className="min-w-0">
-          {/* Featured NFL Video Card - stays at top */}
-          {topGridSources.find(source => source.source.isFeatured) && (
-            <div className="mb-6">
-              <div className="max-w-sm mx-auto md:max-w-md lg:max-w-lg xl:max-w-sm">
+          {/* --- NEW TOP GRID LAYOUT --- */}
+          {/* Top grid: Card 1 | Featured NFL Video | Card 2 */}
+          {topGridSources.length >= 3 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 items-stretch">
+              {/* Card 1 */}
+              <div className="h-full flex flex-col">
+                {renderCard(topGridSources.filter(source => !source.source.isFeatured)[0])}
+              </div>
+              {/* Featured NFL Video */}
+              <div className="h-full flex flex-col">
                 {renderCard(topGridSources.find(source => source.source.isFeatured))}
+              </div>
+              {/* Card 2 */}
+              <div className="h-full flex flex-col">
+                {renderCard(topGridSources.filter(source => !source.source.isFeatured)[1])}
               </div>
             </div>
           )}
-          
-          {/* Content Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-          {topGridSources.filter(source => !source.source.isFeatured).map((source, index) => {
-              if (index === 0) {
-          return (
-            <div key={source.id || index} className="md:col-span-2 xl:col-span-2">
-              <div className="flex flex-col md:flex-row gap-6 h-full">
-                <div className="flex-1 flex flex-col">
-                  {renderCard(source)}
-                </div>
-                <div className="flex-1 flex flex-col justify-center">
-                  <PollCard key="poll-card-beside-espn" />
-                </div>
-              </div>
-            </div>
-          );
-          }
-            return (
-              <div key={source.id || index}>
-                {renderCard(source)}
-              </div>
-            );
-          })}
-          </div>
 
           {/* In-Content Ad */}
           <InContentAd />
@@ -390,10 +380,15 @@ export default async function Home() {
           })()}
 
           {/* First chunk of remaining articles */}
-            {remainingSourcesChunk1.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-                {remainingSourcesChunk1.map(renderCard)}
-              </div>
+          {remainingSourcesChunk1.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+              {remainingSourcesChunk1.map((source, idx) => {
+                if (idx === 1) {
+                  return [<BlogCard key="blog-card-in-grid" />, renderCard(source)];
+                }
+                return renderCard(source);
+              })}
+            </div>
           )}
 
           {/* TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
@@ -482,7 +477,6 @@ export default async function Home() {
           {remainingSourcesChunk3.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
               {remainingSourcesChunk3.map(renderCard)}
-              <BlogCard />
             </div>
           )}
 
