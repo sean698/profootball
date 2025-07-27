@@ -383,10 +383,15 @@ export default async function Home() {
           })()}
 
           {/* First chunk of remaining articles */}
-            {remainingSourcesChunk1.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-                {remainingSourcesChunk1.map(renderCard)}
-              </div>
+          {remainingSourcesChunk1.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+              {remainingSourcesChunk1.map((source, idx) => {
+                if (idx === 1) {
+                  return [<BlogCard key="blog-card-in-grid" />, renderCard(source)];
+                }
+                return renderCard(source);
+              })}
+            </div>
           )}
 
           {/* TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
@@ -475,7 +480,6 @@ export default async function Home() {
           {remainingSourcesChunk3.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
               {remainingSourcesChunk3.map(renderCard)}
-              <BlogCard />
             </div>
           )}
 
