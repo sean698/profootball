@@ -312,14 +312,41 @@ export default async function Home() {
       </div>
 
       {/* Main Layout with Sidebar */}
-      <div className="flex flex-col lg:flex-row gap-6 px-4 pb-4 max-w-screen-2xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_256px] gap-6 px-4 pb-4 max-w-screen-2xl mx-auto">
         {/* Main Content Area */}
-        <div className="flex-1 min-w-0">
-          {/* Top Grid (ESPN, Featured, ProFootballTalk) - 3 columns on large screens, 2 on medium */}
+        <div className="min-w-0">
+          {/* Featured NFL Video Card - stays at top */}
+          {topGridSources.find(source => source.source.isFeatured) && (
+            <div className="mb-6">
+              <div className="max-w-sm mx-auto md:max-w-md lg:max-w-lg xl:max-w-sm">
+                {renderCard(topGridSources.find(source => source.source.isFeatured))}
+              </div>
+            </div>
+          )}
+          
+          {/* Content Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-            {topGridWithPoll.map((source, index) =>
-              source.isPollCard ? <PollCard key="poll-card" /> : renderCard(source)
-            )}
+          {topGridSources.filter(source => !source.source.isFeatured).map((source, index) => {
+              if (index === 0) {
+          return (
+            <div key={source.id || index} className="md:col-span-2 xl:col-span-2">
+              <div className="flex flex-col md:flex-row gap-6 h-full">
+                <div className="flex-1 flex flex-col">
+                  {renderCard(source)}
+                </div>
+                <div className="flex-1 flex flex-col justify-center">
+                  <PollCard key="poll-card-beside-espn" />
+                </div>
+              </div>
+            </div>
+          );
+          }
+            return (
+              <div key={source.id || index}>
+                {renderCard(source)}
+              </div>
+            );
+          })}
           </div>
 
           {/* In-Content Ad */}
@@ -363,21 +390,10 @@ export default async function Home() {
           })()}
 
           {/* First chunk of remaining articles */}
-          {remainingSourcesChunk1.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-              {remainingSourcesChunk1.map((source, index) => {
-                // Insert poll card after the first card (index 1)
-                if (index === 0) {
-                  return (
-                    <>
-                      {renderCard(source)}
-                      <PollCard key="poll-card-middle" />
-                    </>
-                  );
-                }
-                return renderCard(source);
-              })}
-            </div>
+            {remainingSourcesChunk1.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+                {remainingSourcesChunk1.map(renderCard)}
+              </div>
           )}
 
           {/* TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
