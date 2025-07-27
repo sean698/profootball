@@ -201,6 +201,10 @@ export default async function Home() {
               {decodeHtmlEntities(articles[0]?.title || "Untitled")}
             </a>
           </p>
+          {/* PollCard in the white space at the bottom */}
+          <div className="mt-4">
+            <PollCard key="poll-card-in-featured" />
+          </div>
           <div className="flex-1" />
         </div>
       );
@@ -334,13 +338,6 @@ export default async function Home() {
               </div>
             </div>
           )}
-
-          {/* PollCard centered below the top grid */}
-          <div className="flex justify-center mb-6">
-            <div className="w-full max-w-sm">
-              <PollCard key="poll-card-below-topgrid" />
-            </div>
-          </div>
 
           {/* In-Content Ad */}
           <InContentAd />
