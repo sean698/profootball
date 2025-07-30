@@ -179,9 +179,7 @@ export default async function Home() {
           </div>
           <div className="overflow-hidden group aspect-video mb-2 rounded-lg">
             <a
-              href={articles[0].link}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/external/${encodeURIComponent(articles[0].link)}`}
             >
               <img
                 src={articles[0].thumbnail}
@@ -190,18 +188,16 @@ export default async function Home() {
               />
             </a>
           </div>
-
+  
           <p className="text-center mt-2 text-lg font-semibold w-full truncate">
             <a
-              href={articles[0].link}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`/external/${encodeURIComponent(articles[0].link)}`}
               className="text-black-600 hover:text-blue-800"
             >
               {decodeHtmlEntities(articles[0]?.title || "Untitled")}
             </a>
           </p>
-          {/* PollCard in the white space at the bottom */}
+  
           <div className="mt-4">
             <PollCard key="poll-card-in-featured" />
           </div>
@@ -209,7 +205,7 @@ export default async function Home() {
         </div>
       );
     }
-
+  
     return (
       <div
         key={source.link || source.title}
@@ -225,10 +221,8 @@ export default async function Home() {
           )}
           <div>
             <a
-              href={source.link || "#"}
+              href={`/external/${encodeURIComponent(source.link || "#")}`}
               className="text-blue-500 hover:text-blue-700"
-              target="_blank"
-              rel="noopener noreferrer"
             >
               <h2 className="text-lg font-bold uppercase text-black cursor-pointer">
                 {decodeHtmlEntities(source.title || "Unknown Source")}
@@ -247,10 +241,8 @@ export default async function Home() {
               <li key={index} className="border-b pb-2 flex items-start gap-2">
                 <div className="flex-1">
                   <a
-                    href={article.link || "#"}
+                    href={`/external/${encodeURIComponent(article.link || "#")}`}
                     className="text-black hover:underline hover:text-blue-500 font-medium"
-                    target="_blank"
-                    rel="noopener noreferrer"
                   >
                     <h3>
                       {decodeHtmlEntities(article.title || "Untitled Article")}
@@ -291,16 +283,15 @@ export default async function Home() {
           })}
         </ul>
         <a
-  href={source.link || "#"}
-  className="text-base text-blue-500 mt-2 block font-semibold"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  MORE ...
-</a>
+          href={`/external/${encodeURIComponent(source.link || "#")}`}
+          className="text-base text-blue-500 mt-2 block font-semibold"
+        >
+          MORE ...
+        </a>
       </div>
     );
   };
+  
 
   return (
     <div className="bg-[#ECCE8B] min-h-screen">
