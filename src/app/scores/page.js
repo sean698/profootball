@@ -460,12 +460,7 @@ export default function ScoresPage() {
       <Nav />
       
       <div className="max-w-7xl mx-auto px-4 py-10">
-        {/* Header Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-['DM Sans'] font-bold text-gray-900 mb-2">
-            NFL Scores
-          </h1>
-        </div>
+
 
         {/* Week Selector */}
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">

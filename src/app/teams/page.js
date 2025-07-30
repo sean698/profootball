@@ -61,12 +61,7 @@ export default function TeamsPage() {
     <div className="bg-[#ECCE8B] min-h-screen">
       <Nav />
       <div className="max-w-7xl mx-auto px-4 py-10">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-['DM Sans'] font-bold text-gray-900 mb-2">
-            NFL Teams
-          </h1>
-          <p className="text-lg text-gray-600">Browse all NFL teams by conference and division</p>
-        </div>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* AFC Divisions */}
