@@ -373,7 +373,7 @@ export default async function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MORE ...
+                  
                 </a>
               </div>
             );
@@ -422,7 +422,7 @@ export default async function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MORE ...
+                  
                 </a>
               </div>
             );
@@ -467,7 +467,7 @@ export default async function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MORE ...
+                  
                 </a>
               </div>
             );
@@ -509,7 +509,7 @@ export default async function Home() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  MORE ...
+                  
                 </a>
               </div>
             );
