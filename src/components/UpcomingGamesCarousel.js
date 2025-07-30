@@ -68,7 +68,20 @@ async function fetchUpcomingGames() {
   try {
     // Go directly to 2025 season since that's where the future games are
     console.log("📡 Fetching 2025 season events");
-    const seasonResponse = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2025/types/2/events?limit=50`);
+    
+    // Add timeout and better error handling
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    
+    const seasonResponse = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2025/types/2/events?limit=50`, {
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (compatible; ProFootball/1.0)'
+      }
+    });
+    
+    clearTimeout(timeoutId);
     
     if (!seasonResponse.ok) {
       throw new Error(`2025 season API failed with status: ${seasonResponse.status}`);
@@ -89,7 +102,20 @@ async function fetchUpcomingGames() {
         const eventRef = seasonData.items[i];
         console.log(`📡 Processing event ${i + 1}/8`);
         
-        const eventResponse = await fetch(eventRef.$ref);
+        // Add timeout for individual event requests
+        const eventController = new AbortController();
+        const eventTimeoutId = setTimeout(() => eventController.abort(), 5000); // 5 second timeout
+        
+        const eventResponse = await fetch(eventRef.$ref, {
+          signal: eventController.signal,
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (compatible; ProFootball/1.0)'
+          }
+        });
+        
+        clearTimeout(eventTimeoutId);
+        
         if (!eventResponse.ok) {
           console.log(`❌ Event ${i + 1} failed with status: ${eventResponse.status}`);
           continue;
