@@ -518,8 +518,8 @@ export default function ScoresPage() {
             <p className="text-gray-600 text-lg font-medium mb-4">No games found for Week {selectedWeek}</p>
             <p className="text-sm text-gray-500 mb-6">This could be because:</p>
             <ul className="text-sm text-gray-500 space-y-1 mb-6">
-              <li>• The season hasn't started yet</li>
-              <li>• Games haven't been scheduled for this week</li>
+              <li>• The season hasn&apos;t started yet</li>
+              <li>• Games haven&apos;t been scheduled for this week</li>
               <li>• The API data is not available</li>
             </ul>
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
