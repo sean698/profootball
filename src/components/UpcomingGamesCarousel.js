@@ -71,14 +71,18 @@ async function fetchUpcomingGames() {
     
     // Add timeout and better error handling
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
     
     const seasonResponse = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2025/types/2/events?limit=50`, {
       signal: controller.signal,
       headers: {
         'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (compatible; ProFootball/1.0)'
-      }
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Origin': 'https://pro-football.netlify.app',
+        'Referer': 'https://pro-football.netlify.app/'
+      },
+      mode: 'cors',
+      credentials: 'omit'
     });
     
     clearTimeout(timeoutId);
@@ -104,14 +108,18 @@ async function fetchUpcomingGames() {
         
         // Add timeout for individual event requests
         const eventController = new AbortController();
-        const eventTimeoutId = setTimeout(() => eventController.abort(), 5000); // 5 second timeout
+        const eventTimeoutId = setTimeout(() => eventController.abort(), 8000); // 8 second timeout
         
         const eventResponse = await fetch(eventRef.$ref, {
           signal: eventController.signal,
           headers: {
             'Accept': 'application/json',
-            'User-Agent': 'Mozilla/5.0 (compatible; ProFootball/1.0)'
-          }
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Origin': 'https://pro-football.netlify.app',
+            'Referer': 'https://pro-football.netlify.app/'
+          },
+          mode: 'cors',
+          credentials: 'omit'
         });
         
         clearTimeout(eventTimeoutId);
