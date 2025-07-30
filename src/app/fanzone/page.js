@@ -89,7 +89,7 @@ const conferences = {
       forums: [
         { name: "Steelers Nation", url: "https://www.steelernationforum.com/" },
         { name: "TheSteelersFans", url: "https://thesteelersfans.com/forums/" },
-        { name: "Steelers Universe", url: "http://www.steelersuniverse.com/forums/forum.php" },
+        { name: "Steelers Universe", url: "https://www.steelersuniverse.com/forums/forum.php" },
         { name: "Planet Steelers", url: "https://www.planetsteelers.com" },
         { name: "Reddit - r/steelers", url: "https://www.reddit.com/r/steelers/" }
       ]
@@ -137,7 +137,7 @@ const conferences = {
       name: "Denver Broncos", 
       logo: "https://sports.cbsimg.net/fly/images/team-logos/412.svg",
       forums: [
-        { name: "Broncos Forums", url: "http://www.broncosforums.com/forums/forumdisplay.php?f=6" },
+        { name: "Broncos Forums", url: "https://www.broncosforums.com/forums/forumdisplay.php?f=6" },
         { name: "Orange Huddle", url: "https://www.broncosboard.com/" },
         { name: "Reddit - r/DenverBroncos", url: "https://www.reddit.com/r/DenverBroncos/" },
         { name: "ProFootballForums – Broncos", url: "https://www.profootballforums.com/forums/denver-broncos-forum.11/" },
@@ -181,7 +181,7 @@ const conferences = {
       logo: "https://sports.cbsimg.net/fly/images/team-logos/411.svg",
       forums: [
         { name: "CowboysZone", url: "https://cowboyszone.com/" },
-        { name: "Dallas Cowboys Central", url: "http://www.dallascowboyscentral.com/" },
+        { name: "Dallas Cowboys Central", url: "https://www.dallascowboyscentral.com/" },
         { name: "Inside The Star Forums", url: "https://boards.insidethestar.com" },
         { name: "Reddit - r/cowboys", url: "https://www.reddit.com/r/cowboys/" },
         { name: "FootballsFuture – Cowboys", url: "https://forums.footballsfuture.com/forum/33-dallas-cowboys/" }
@@ -233,10 +233,10 @@ const conferences = {
       logo: "https://sports.cbsimg.net/fly/images/team-logos/413.svg",
       forums: [
         { name: "The Den", url: "https://thedenforum.com/" },
-        { name: "LionsRedZone", url: "http://www.lionsredzone.com/" },
-        { name: "MotownSports Lions Forum", url: "http://www.motownsports.com/forums/forum/43-the-den/" },
+        { name: "LionsRedZone", url: "https://www.lionsredzone.com/" },
+        { name: "MotownSports Lions Forum", url: "https://www.motownsports.com/forums/forum/43-the-den/" },
         { name: "Reddit - r/detroitlions", url: "https://www.reddit.com/r/detroitlions/" },
-        { name: "DetroitLionsForum.com", url: "http://www.detroitlionsforum.com/forums/" }
+        { name: "DetroitLionsForum.com", url: "https://www.detroitlionsforum.com/forums/" }
       ]
     },
     { 
@@ -246,7 +246,7 @@ const conferences = {
         { name: "PackerForum.com", url: "https://www.packerforum.com/" },
         { name: "Times Four", url: "https://packers.timesfour.com/forum/green-bay-packers" },
         { name: "Packers-Huddle", url: "https://packers-huddle.com/phpBB/viewforum.php?f=7" },
-        { name: "PackerChatters", url: "http://packerchatters.com/" },
+        { name: "PackerChatters", url: "https://packerchatters.com/" },
         { name: "Reddit - r/GreenBayPackers", url: "https://www.reddit.com/r/GreenBayPackers/" }
       ]
     },
@@ -255,7 +255,7 @@ const conferences = {
       logo: "https://sports.cbsimg.net/fly/images/team-logos/419.svg",
       forums: [
         { name: "Purple Pain Forums", url: "https://purplepainforums.com/" },
-        { name: "Vikings Territory", url: "http://www.vikingsmessageboard.com/viewforum.php?f=1" },
+        { name: "Vikings Territory", url: "https://www.vikingsmessageboard.com/viewforum.php?f=1" },
         { name: "Reddit - r/minnesotavikings", url: "https://www.reddit.com/r/minnesotavikings/" }
       ]
     },
@@ -304,7 +304,7 @@ const conferences = {
       logo: "https://sports.cbsimg.net/fly/images/team-logos/404.svg",
       forums: [
         { name: "Arizona Sports Fans Forum", url: "https://www.arizonasportsfans.com/forum/forums/arizona-cardinals.4/" },
-        { name: "Cardinals Free Forums", url: "http://arizonacardinals.freeforums.net/" },
+        { name: "Cardinals Free Forums", url: "https://arizonacardinals.freeforums.net/" },
         { name: "Reddit - r/AZCardinals", url: "https://www.reddit.com/r/AZCardinals/" },
         { name: "RealGM Cardinals Board", url: "https://forums.realgm.com/boards/viewforum.php?f=145" }
       ]
