@@ -2,11 +2,12 @@ const BlogCard = () => {
   return (
     <div className="bg-white shadow-lg rounded-lg p-4">
       <div className="mb-4 overflow-hidden rounded-lg aspect-video">
-        <img
-          src="https://via.placeholder.com/600x300/4F46E5/FFFFFF?text=Blog+Image+Placeholder"
-          alt="Blog Placeholder"
-          className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
-        />
+        <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+          <div className="text-white text-center">
+            <div className="text-2xl font-bold mb-2">📰</div>
+            <div className="text-sm">Blog Image</div>
+          </div>
+        </div>
       </div>
       <h2 className="text-xl font-bold text-black mb-1">Letter From the Editor</h2>
       <p className="text-gray-600 text-sm mb-2">By Rob Croley</p>

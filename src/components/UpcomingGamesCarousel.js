@@ -110,7 +110,15 @@ async function fetchUpcomingGames() {
         const eventController = new AbortController();
         const eventTimeoutId = setTimeout(() => eventController.abort(), 8000); // 8 second timeout
         
-        const eventResponse = await fetch(eventRef.$ref, {
+        // Convert HTTP URLs to HTTPS to avoid mixed content errors
+        let eventUrl = eventRef.$ref;
+        if (eventUrl.startsWith('http://')) {
+          eventUrl = eventUrl.replace('http://', 'https://');
+        } else if (!eventUrl.startsWith('https://')) {
+          eventUrl = `https://${eventUrl}`;
+        }
+        console.log(`🔗 Fetching event URL: ${eventUrl}`);
+        const eventResponse = await fetch(eventUrl, {
           signal: eventController.signal,
           headers: {
             'Accept': 'application/json',
@@ -125,7 +133,7 @@ async function fetchUpcomingGames() {
         clearTimeout(eventTimeoutId);
         
         if (!eventResponse.ok) {
-          console.log(`❌ Event ${i + 1} failed with status: ${eventResponse.status}`);
+          console.log(`❌ Event ${i + 1} failed with status: ${eventResponse.status} for URL: ${eventUrl}`);
           continue;
         }
         
@@ -176,7 +184,8 @@ async function fetchUpcomingGames() {
       console.log(`✅ Found ${futureGames.length} upcoming games`);
       return futureGames;
     } else {
-      throw new Error('No future games found in 2025 season');
+      console.log('⚠️ No future games found, this is expected during off-season');
+      return []; // Return empty array instead of throwing error
     }
     
   } catch (error) {
