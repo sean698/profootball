@@ -199,7 +199,7 @@ export default async function Home() {
           </p>
   
           <div className="mt-4">
-            <PollCard key="poll-card-in-featured" />
+            
           </div>
           <div className="flex-1" />
         </div>
@@ -330,6 +330,7 @@ export default async function Home() {
             </div>
           )}
 
+
           {/* In-Content Ad */}
           <InContentAd />
 
@@ -370,19 +371,29 @@ export default async function Home() {
             );
           })()}
 
-          {/* First chunk of remaining articles */}
-          {remainingSourcesChunk1.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-              {remainingSourcesChunk1.map((source, idx) => {
-                if (idx === 1) {
-                  return [<BlogCard key="blog-card-in-grid" />, renderCard(source)];
-                }
-                return renderCard(source);
-              })}
-            </div>
-          )}
+{remainingSourcesChunk1.length > 0 && (
+  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+    {remainingSourcesChunk1.map((source, idx) => {
+      if (idx === 1) {
+        return [<BlogCard key="blog-card-in-grid" />, renderCard(source)];
+      }
+      return renderCard(source);
+    })}
 
-          {/* TOP 10 NFL YOUTUBE CHANNELS (Card Layout) */}
+    {/* poll card */}
+    <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
+    <PollCard />
+    </div>
+
+    {/* ✅ Blank Card 2 */}
+    <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
+      Blank Card
+    </div>
+  </div>
+)}
+
+
+          {/* TOP 20 NFL YOUTUBE CHANNELS (Card Layout) */}
           {topChannelSources.length > 0 && (() => {
             // Prepare the videos array
             const topSourceVideos = topChannelSources
@@ -398,7 +409,7 @@ export default async function Home() {
                     className="w-12 h-12 mr-2"
                   />
                   <div>
-                    <h2 className="text-lg font-bold text-black">Top NFL Channels</h2>
+                    <h2 className="text-lg font-bold text-black">Top 20 NFL Channels</h2>
                     <p className="text-gray-500 text-xs">
                       Last Updated: {formatDate(topChannelSources[0]?.source?.updatedAt)}
                     </p>
@@ -464,12 +475,17 @@ export default async function Home() {
             );
           })()}
 
-          {/* Third chunk of remaining articles */}
-          {remainingSourcesChunk3.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-              {remainingSourcesChunk3.map(renderCard)}
-            </div>
-          )}
+{/* Third chunk of remaining articles */}
+{remainingSourcesChunk3.length > 0 && (
+  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
+    {remainingSourcesChunk3.map(renderCard)}
+
+    {/* ✅ Extra Card */}
+    <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
+      Extra Card
+    </div>
+  </div>
+)}
 
           {/* NFL PODCASTS (Card Layout) */}
           {podcastSources.length > 0 && (() => {
