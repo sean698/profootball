@@ -380,17 +380,30 @@ export default async function Home() {
       return renderCard(source);
     })}
 
-    {/* poll card */}
+    {/* ✅ Poll Card */}
     <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
-    <PollCard />
+      <PollCard />
     </div>
 
-    {/* ✅ Blank Card 2 */}
-    <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
-      Blank Card
+    {/* ✅ SB Nation Card (Updated) */}
+    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
+      <div className="flex items-center mb-4">
+        <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
+        <div>
+          <h2 className="text-lg font-bold uppercase text-gray-800">SB Nation</h2>
+          <p className="text-gray-500 text-xs">Last Updated: --</p>
+        </div>
+      </div>
+      <ul className="space-y-2 flex-1">
+        <li className="border-b pb-2 text-black">Recent Story 1</li>
+        <li className="border-b pb-2 text-black">Recent Story 2</li>
+        <li className="border-b pb-2 text-black">Recent Story 3</li>
+      </ul>
+      <div className="mt-2 text-blue-500 font-semibold">MORE ...</div>
     </div>
   </div>
 )}
+
 
 
           {/* TOP 20 NFL YOUTUBE CHANNELS (Card Layout) */}
@@ -480,12 +493,25 @@ export default async function Home() {
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
     {remainingSourcesChunk3.map(renderCard)}
 
-    {/* ✅ Extra Card */}
-    <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
-      Extra Card
+    {/* ✅ Sports Illustrated Card (Updated) */}
+    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
+      <div className="flex items-center mb-4">
+        <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
+        <div>
+          <h2 className="text-lg font-bold uppercase text-gray-800">Sports Illustrated</h2>
+          <p className="text-gray-500 text-xs">Last Updated: --</p>
+        </div>
+      </div>
+      <ul className="space-y-2 flex-1">
+        <li className="border-b pb-2 text-black">Top Story 1</li>
+        <li className="border-b pb-2 text-black">Top Story 2</li>
+        <li className="border-b pb-2 text-black">Top Story 3</li>
+      </ul>
+      <div className="mt-2 text-blue-500 font-semibold">MORE ...</div>
     </div>
   </div>
 )}
+
 
           {/* NFL PODCASTS (Card Layout) */}
           {podcastSources.length > 0 && (() => {
@@ -508,6 +534,7 @@ export default async function Home() {
                   </div>
                 </div>
 
+
                 <HorizontalScroller videos={podcastVideos} />
 
                 <a
@@ -523,6 +550,8 @@ export default async function Home() {
           })()}
         </div>
 
+
+
         {/* Sidebar - Only visible on large screens */}
         <div className="hidden lg:block w-64 flex-shrink-0 space-y-4">
           <SidebarAd size="medium" />
@@ -532,6 +561,43 @@ export default async function Home() {
         </div>
       </div>
 
+{/* ✅ 12 CUSTOMIZABLE BLANK CARDS ABOVE FOOTER */}
+<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 px-4 max-w-screen-xl">
+
+  {[
+    "USA Today",
+    "The Sporting News ",
+    "The Ringer*",
+    "FANSIDED*",
+    "The Score",
+    "TOUCHDOWNWIRE",
+    "NFL Spin Zone",
+    "Bleacher Report",
+    "AP News",
+    "AtoZ Sports",
+    "RedZone Recap *TEMP NAMES*",
+    "Clutch Highlights *TEMP NAMES*"
+  ].map((sourceName, i) => (
+    <div
+      key={`blank-card-${i}`}
+      className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col"
+    >
+       <div className="flex items-start mb-4">
+        <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
+        <div>
+          <h2 className="text-lg font-bold uppercase text-gray-800">{sourceName}</h2>
+          <p className="text-gray-500 text-xs">Last Updated: --</p>
+        </div>
+      </div>
+      <ul className="space-y-2 flex-1">
+        <li className="border-b pb-2 text-gray-400">Blank Article 1</li>
+        <li className="border-b pb-2 text-gray-400">Blank Article 2</li>
+        <li className="border-b pb-2 text-gray-400">Blank Article 3</li>
+      </ul>
+      <div className="mt-2 text-blue-400 font-semibold">MORE ...</div>
+    </div>
+  ))}
+</div>
       <Footer />
     </div>
   );
