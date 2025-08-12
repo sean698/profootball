@@ -55,7 +55,7 @@
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4qMMCxdNfU6cwpaXZOyUSg", "image": "", "isUpAndComing": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDEqiSbNKsOsDFfN2GmTreg", "image": "", "isUpAndComing": true },
 
-    { "url": "https://rss.app/feeds/v1.1/x4bxHTsKzwzSd2f3.json", "image": "", "source": "USA Today NFL" },
+    { "url": "http://rssfeeds.usatoday.com/UsatodaycomSports-TopStories", "image": "", "source": "USA Today NFL" },
     { "url": "https://rss.app/feeds/v1.1/2a3f7b5c5c5b5c5b.json", "image": "", "source": "The Sporting News NFL" },
     { "url": "https://www.theringer.com/rss/tag/nfl/index.xml", "image": "", "source": "The Ringer" },
     { "url": "https://fansided.com/feed/", "image": "", "source": "FANSIDED" },
@@ -65,7 +65,7 @@
     { "url": "https://bleacherreport.com/articles/feed?tag_id=40", "image": "", "source": "Bleacher Report" },
     { "url": "https://apnews.com/hub/nfl?format=rss", "image": "", "source": "AP News" },
     { "url": "https://atozsports.com/feed/", "image": "", "source": "AtoZ Sports" },
-    { "url": "https://substack.com/feed/tag/nfl", "image": "", "source": "Substack" },
-    { "url": "https://nflnews.us/feed/", "image": "", "source": "NFL News" }
+    { "url": "https://nfldraftblog.substack.com/feed", "image": "", "source": "Substack" },
+    { "url": "https://www.nfl.com/news/", "image": "", "source": "NFL News" }
   ]
 }

@@ -562,6 +562,7 @@ export default async function Home() {
         </div>
       </div>
 
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 px-4 max-w-screen-xl">
   {[
     "USA Today NFL",
@@ -577,6 +578,7 @@ export default async function Home() {
     "Substack",  
     "NFL News",
   ].map((sourceName, i) => {
+    // render source cards
     const matchedSource = sources.find(
       (s) =>
         s.source.title?.toLowerCase().includes(sourceName.toLowerCase())
