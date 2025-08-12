@@ -63,6 +63,7 @@ function formatDate(dateString) {
 
 export default async function Home() {
   const sources = await fetchRSS();
+  console.log("RSS sources titles:", sources.map(s => s.source.title));
 
   if (!sources || sources.length === 0) {
     return (
@@ -561,43 +562,89 @@ export default async function Home() {
         </div>
       </div>
 
-{/* ✅ 12 CUSTOMIZABLE BLANK CARDS ABOVE FOOTER */}
-<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 px-4 max-w-screen-xl">
-
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-6 px-4 max-w-screen-xl">
   {[
-    "USA Today",
-    "The Sporting News ",
-    "The Ringer*",
-    "FANSIDED*",
+    "USA Today NFL",
+    "The Sporting News NFL",
+    "The Ringer",
+    "FANSIDED",
     "The Score",
     "TOUCHDOWNWIRE",
     "NFL Spin Zone",
     "Bleacher Report",
     "AP News",
     "AtoZ Sports",
-    "RedZone Recap *TEMP NAMES*",
-    "Clutch Highlights *TEMP NAMES*"
-  ].map((sourceName, i) => (
-    <div
-      key={`blank-card-${i}`}
-      className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col"
-    >
-       <div className="flex items-start mb-4">
-        <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
-        <div>
-          <h2 className="text-lg font-bold uppercase text-gray-800">{sourceName}</h2>
-          <p className="text-gray-500 text-xs">Last Updated: --</p>
+    "Substack",  
+    "NFL News",
+  ].map((sourceName, i) => {
+    const matchedSource = sources.find(
+      (s) =>
+        s.source.title?.toLowerCase().includes(sourceName.toLowerCase())
+    );
+
+    return matchedSource ? (
+      <div
+        key={`rss-card-${i}`}
+        className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col"
+      >
+        <div className="flex items-start mb-4">
+          <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
+          <div>
+            <h2 className="text-lg font-bold uppercase text-gray-800">
+              {matchedSource.source.title}
+            </h2>
+            <p className="text-gray-500 text-xs">
+              Last Updated: {formatDate(matchedSource.source.updatedAt)}
+            </p>
+          </div>
+        </div>
+        <ul className="space-y-2 flex-1">
+          {matchedSource.articles && matchedSource.articles.length > 0 ? (
+            matchedSource.articles.slice(0, 3).map((article, idx) => (
+              <li key={idx} className="border-b pb-2">
+                <a
+                  href={`/external/${encodeURIComponent(article.link)}`}
+                  className="text-blue-600 hover:underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {article.title}
+                </a>
+              </li>
+            ))
+          ) : (
+            <li className="border-b pb-2 text-gray-400">No articles found</li>
+          )}
+        </ul>
+        <div className="mt-2 text-blue-400 font-semibold cursor-pointer">
+          MORE ...
         </div>
       </div>
-      <ul className="space-y-2 flex-1">
-        <li className="border-b pb-2 text-gray-400">Blank Article 1</li>
-        <li className="border-b pb-2 text-gray-400">Blank Article 2</li>
-        <li className="border-b pb-2 text-gray-400">Blank Article 3</li>
-      </ul>
-      <div className="mt-2 text-blue-400 font-semibold">MORE ...</div>
-    </div>
-  ))}
+    ) : (
+      <div
+        key={`blank-card-${i}`}
+        className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col"
+      >
+        <div className="flex items-start mb-4">
+          <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
+          <div>
+            <h2 className="text-lg font-bold uppercase text-gray-800">
+              {sourceName}
+            </h2>
+            <p className="text-gray-500 text-xs">Last Updated: --</p>
+          </div>
+        </div>
+        <ul className="space-y-2 flex-1">
+          <li className="border-b pb-2 text-gray-400">No articles found</li>
+        </ul>
+        <div className="mt-2 text-blue-400 font-semibold cursor-pointer">
+          MORE ...
+        </div>
+      </div>
+    );
+  })}
 </div>
+
       <Footer />
     </div>
   );

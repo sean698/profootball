@@ -28,14 +28,12 @@
       "image": "https://images.squarespace-cdn.com/content/v1/5c5554d316b64061c6f8a20d/1630949829757-WXNOUZ8R4QQCXMIY4YMG/What-Is-The-Reddit-Logo-Called.png"
     },
     { "url": "https://apnews.com/hub/nfl?format=rss", "image": "" },
-
     { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gmLSYihwViI0cRROkkvFUSe", "image": "", "isPodcast": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gllZ72IErHeDGyJgOyZKWRM", "image": "", "isPodcast": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gldfLR6PNBa75I7ItCQbUlj", "image": "", "isPodcast": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2glQ1Tv-_5rqzBpc66a0q7TY", "image": "", "isPodcast": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gkgoyvT4p73q0DPLKTEpjqK", "image": "", "isPodcast": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?playlist_id=PLRdw3IjKY2gnqHjmcfGXTwpNkV2b8I-0q", "image": "", "isPodcast": true },
-
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCqMtxjKnR7ySbEZSs2N-v0Q", "image": "", "isTopChannel": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCxcTeAKWJca6XyJ37_ZoKIQ", "image": "", "isTopChannel": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCXn8eue3paGXJyI5UDQIyWg", "image": "", "isTopChannel": true },
@@ -46,7 +44,6 @@
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCI4D2tSAiHqZBRB67nTKqww", "image": "", "isTopChannel": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCew5br5cO1ZKO7Z_F1WA8Bg", "image": "", "isTopChannel": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCdGdhYRjSX1TYLRvm87-jTA", "image": "", "isTopChannel": true },
-
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCazhpToa5Z07lgnUL6fYdEw", "image": "", "isUpAndComing": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCew5br5cO1ZKO7Z_F1WA8Bg", "image": "", "isUpAndComing": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCYzfVBuCfGz-oF3aOCGgO5g", "image": "", "isUpAndComing": true },
@@ -56,6 +53,19 @@
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCBJb4FwDLbfJzArYeM42Qiw", "image": "", "isUpAndComing": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCyKV3Zl7AKVj7ikyOlcfZTQ", "image": "", "isUpAndComing": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4qMMCxdNfU6cwpaXZOyUSg", "image": "", "isUpAndComing": true },
-    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDEqiSbNKsOsDFfN2GmTreg", "image": "", "isUpAndComing": true }
+    { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDEqiSbNKsOsDFfN2GmTreg", "image": "", "isUpAndComing": true },
+
+    { "url": "https://rss.app/feeds/v1.1/x4bxHTsKzwzSd2f3.json", "image": "", "source": "USA Today NFL" },
+    { "url": "https://rss.app/feeds/v1.1/2a3f7b5c5c5b5c5b.json", "image": "", "source": "The Sporting News NFL" },
+    { "url": "https://www.theringer.com/rss/tag/nfl/index.xml", "image": "", "source": "The Ringer" },
+    { "url": "https://fansided.com/feed/", "image": "", "source": "FANSIDED" },
+    { "url": "https://www.thescore.com/nfl/news/feed", "image": "", "source": "The Score" },
+    { "url": "https://usatodaysportswire.usatoday.com/feed/?post_type=tdw_nfl", "image": "", "source": "TOUCHDOWNWIRE" },
+    { "url": "https://nflspinzone.com/feed/", "image": "", "source": "NFL Spin Zone" },
+    { "url": "https://bleacherreport.com/articles/feed?tag_id=40", "image": "", "source": "Bleacher Report" },
+    { "url": "https://apnews.com/hub/nfl?format=rss", "image": "", "source": "AP News" },
+    { "url": "https://atozsports.com/feed/", "image": "", "source": "AtoZ Sports" },
+    { "url": "https://substack.com/feed/tag/nfl", "image": "", "source": "Substack" },
+    { "url": "https://nflnews.us/feed/", "image": "", "source": "NFL News" }
   ]
 }
