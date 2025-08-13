@@ -86,21 +86,33 @@ export default async function Home() {
     }
   });
 
-  const regularSources = sources.filter(
-    (source) =>
-      !source.source.isPodcast &&
-      !source.source.isTopChannel &&
-      !source.source.isUpAndComing
-  );
-  const topChannelSources = sources.filter(
-    (source) => source.source.isTopChannel
-  );
-  const podcastSources = sources.filter(
-    (source) => source.source.isPodcast && !source.source.isTopChannel
-  );
-  const upAndComingSources = sources.filter(
-    (source) => source.source.isUpAndComing
-  );
+  // 🚫 Feeds to only show in bottom section
+const bottomOnlyFeeds = ["USA Today NFL", "The Sporting News NFL", "The Ringer", "FANSIDED", "The Score", "TOUCHDOWNWIRE", "NFL Spin Zone", "Bleacher Report", "AP News", "AtoZ Sports", "Substack", "NFL News",];
+
+// Make a version of sources that excludes bottom-only feeds for main/top sections
+const mainPageSources = sources.filter(
+  (source) =>
+    !bottomOnlyFeeds.some(name =>
+      source.source.title?.toLowerCase().includes(name.toLowerCase())
+    )
+);
+  
+const regularSources = mainPageSources.filter(
+  (source) =>
+    !source.source.isPodcast &&
+    !source.source.isTopChannel &&
+    !source.source.isUpAndComing
+);
+const topChannelSources = mainPageSources.filter(
+  (source) => source.source.isTopChannel
+);
+const podcastSources = mainPageSources.filter(
+  (source) => source.source.isPodcast && !source.source.isTopChannel
+);
+const upAndComingSources = mainPageSources.filter(
+  (source) => source.source.isUpAndComing
+);
+
   const nflYoutubeSource = regularSources.find(
     (s) =>
       s.source.title &&
@@ -385,23 +397,6 @@ export default async function Home() {
     <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
       <PollCard />
     </div>
-
-    {/* ✅ SB Nation Card (Updated) */}
-    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
-      <div className="flex items-center mb-4">
-        <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
-        <div>
-          <h2 className="text-lg font-bold uppercase text-gray-800">SB Nation</h2>
-          <p className="text-gray-500 text-xs">Last Updated: --</p>
-        </div>
-      </div>
-      <ul className="space-y-2 flex-1">
-        <li className="border-b pb-2 text-black">Recent Story 1</li>
-        <li className="border-b pb-2 text-black">Recent Story 2</li>
-        <li className="border-b pb-2 text-black">Recent Story 3</li>
-      </ul>
-      <div className="mt-2 text-blue-500 font-semibold">MORE ...</div>
-    </div>
   </div>
 )}
 
@@ -493,23 +488,6 @@ export default async function Home() {
 {remainingSourcesChunk3.length > 0 && (
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
     {remainingSourcesChunk3.map(renderCard)}
-
-    {/* ✅ Sports Illustrated Card (Updated) */}
-    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
-      <div className="flex items-center mb-4">
-        <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
-        <div>
-          <h2 className="text-lg font-bold uppercase text-gray-800">Sports Illustrated</h2>
-          <p className="text-gray-500 text-xs">Last Updated: --</p>
-        </div>
-      </div>
-      <ul className="space-y-2 flex-1">
-        <li className="border-b pb-2 text-black">Top Story 1</li>
-        <li className="border-b pb-2 text-black">Top Story 2</li>
-        <li className="border-b pb-2 text-black">Top Story 3</li>
-      </ul>
-      <div className="mt-2 text-blue-500 font-semibold">MORE ...</div>
-    </div>
   </div>
 )}
 
@@ -578,11 +556,14 @@ export default async function Home() {
     "Substack",  
     "NFL News",
   ].map((sourceName, i) => {
-    // render source cards
+    // Better matching:
     const matchedSource = sources.find(
       (s) =>
-        s.source.title?.toLowerCase().includes(sourceName.toLowerCase())
+        s.source.title &&
+        s.source.title.toLowerCase().trim().includes(sourceName.toLowerCase().trim())
     );
+
+    console.log(`Rendering card for: ${sourceName}, Found:`, matchedSource);
 
     return matchedSource ? (
       <div
