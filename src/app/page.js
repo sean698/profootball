@@ -543,7 +543,7 @@ const upAndComingSources = mainPageSources.filter(
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 px-4 lg:px-6 max-w-screen-2xl mx-auto">
   {[
-    "USA Today NFL",
+    "Substack",
     "The Sporting News NFL",
     "The Ringer",
     "FANSIDED",
@@ -553,7 +553,7 @@ const upAndComingSources = mainPageSources.filter(
     "Bleacher Report",
     "AP News",
     "AtoZ Sports",
-    "Substack",  
+    "USA Today NFL",  
     "NFL News",
   ].map((sourceName, i) => {
     const matchedSource = sources.find(
@@ -670,7 +670,6 @@ const upAndComingSources = mainPageSources.filter(
     );
   })}
 </div>
-
 
 
       <Footer />
