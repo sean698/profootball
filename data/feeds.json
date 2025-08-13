@@ -62,9 +62,9 @@
     { "url": "https://www.thescore.com/nfl/news/feed", "image": "", "source": "The Score" },
     { "url": "https://usatodaysportswire.usatoday.com/feed/?post_type=tdw_nfl", "image": "", "source": "TOUCHDOWNWIRE" },
     { "url": "https://nflspinzone.com/feed/", "image": "", "source": "NFL Spin Zone" },
-    { "url": "https://bleacherreport.com/articles/feed?tag_id=40", "image": "", "source": "Bleacher Report" },
+    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJwRwrQNEmsC.rss", "image": "", "source": "Bleacher Report" },
     { "url": "https://apnews.com/sports.rss", "image": "", "source": "AP News" },
-    { "url": "https://atozsports.com/feed/", "image": "", "source": "AtoZ Sports" },
+    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJwURp1NceXi.rss", "image": "", "source": "AtoZ Sports" },
     { "url": "https://nfldraftblog.substack.com/feed", "image": "", "source": "Substack" },
     { "url": "https://www.nfl.com/rss/rsslanding?searchString=home", "image": "", "source": "NFL News" }
   ]
