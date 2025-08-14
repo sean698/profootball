@@ -87,7 +87,7 @@ export default async function Home() {
   });
 
   // 🚫 Feeds to only show in bottom section
-const bottomOnlyFeeds = ["USA Today NFL", "The Sporting News NFL", "The Ringer", "FANSIDED", "Sports Illustrated NFL", "TOUCHDOWNWIRE", "NFL Spin Zone", "Bleacher Report", "AP News", "AtoZ Sports", "Substack", "NFL News",];
+const bottomOnlyFeeds = ["USA Today NFL", "The Sporting News NFL", "The Ringer", "FANSIDED", "Sports Illustrated NFL", "The Draft Network", "NFL Spin Zone", "Bleacher Report", "Fox Sports", "AtoZ Sports", "Substack", "NFL News",];
 
 // Make a version of sources that excludes bottom-only feeds for main/top sections
 // Make a version of sources that excludes bottom-only feeds for main/top sections
@@ -399,9 +399,14 @@ const upAndComingSources = mainPageSources.filter(
     <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
       <PollCard />
     </div>
+    
+    {/* 🆕 Blank Card */}
+    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
+      {/* Empty card - can be used for future content or as spacing */}
+      <div className="flex-1"></div>
+    </div>
   </div>
 )}
-
 
 
           {/* TOP 20 NFL YOUTUBE CHANNELS (Card Layout) */}
@@ -625,17 +630,18 @@ const upAndComingSources = mainPageSources.filter(
       </div>
 
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 px-4 lg:px-6 max-w-screen-2xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 w-[1118px]" 
+  style={{ marginLeft: "15px" }}>  {/* Hardcoded pixel offset */}
   {[
     "Substack",
     "The Sporting News NFL",
     "The Ringer",
     "FANSIDED",
     "Sports Illustrated NFL",
-    "TOUCHDOWNWIRE",
+    "The Draft Network",
     "NFL Spin Zone",
     "Bleacher Report",
-    "AP News",
+    "Fox Sports",
     "AtoZ Sports",
     "USA Today NFL",  
     "NFL News",
