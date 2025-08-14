@@ -87,12 +87,14 @@ export default async function Home() {
   });
 
   // 🚫 Feeds to only show in bottom section
-const bottomOnlyFeeds = ["USA Today NFL", "The Sporting News NFL", "The Ringer", "FANSIDED", "The Score", "TOUCHDOWNWIRE", "NFL Spin Zone", "Bleacher Report", "AP News", "AtoZ Sports", "Substack", "NFL News",];
+const bottomOnlyFeeds = ["USA Today NFL", "The Sporting News NFL", "The Ringer", "FANSIDED", "Sports Illustrated NFL", "TOUCHDOWNWIRE", "NFL Spin Zone", "Bleacher Report", "AP News", "AtoZ Sports", "Substack", "NFL News",];
 
+// Make a version of sources that excludes bottom-only feeds for main/top sections
 // Make a version of sources that excludes bottom-only feeds for main/top sections
 const mainPageSources = sources.filter(
   (source) =>
     !bottomOnlyFeeds.some(name =>
+      source.source.title?.toLowerCase() === name.toLowerCase() ||
       source.source.title?.toLowerCase().includes(name.toLowerCase())
     )
 );
@@ -487,7 +489,89 @@ const upAndComingSources = mainPageSources.filter(
 {/* Third chunk of remaining articles */}
 {remainingSourcesChunk3.length > 0 && (
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-    {remainingSourcesChunk3.map(renderCard)}
+    {remainingSourcesChunk3.map((source) => (
+      <div
+        key={source.source.link || source.source.title}
+        className="bg-white shadow-lg rounded-lg p-4"
+      >
+        <div className="flex items-center mb-4">
+          {source.source.image && (
+            <img
+              src={source.source.image}
+              alt={decodeHtmlEntities(source.source.title || "Unknown Source")}
+              className="w-10 h-10 mr-3 rounded-full object-cover"
+            />
+          )}
+          <div>
+            <a
+              href={`/external/${encodeURIComponent(source.source.link || "#")}`}
+              className="text-blue-500 hover:text-blue-700"
+            >
+              <h2 className="text-lg font-bold uppercase text-black cursor-pointer">
+                {decodeHtmlEntities(source.source.title || "Unknown Source")}
+              </h2>
+            </a>
+            <p className="text-gray-500 text-xs">
+              Last Updated: {formatDate(source.source.updatedAt)}
+            </p>
+          </div>
+        </div>
+        <ul className="space-y-2">
+          {source.articles.slice(0, 3).map((article, index) => {  {/* Changed from 6 to 4 */}
+            const commentCount = commentCounts[article.title] || 0;
+            return (
+              <li key={index} className="border-b pb-2 flex items-start gap-2">
+                <div className="flex-1">
+                  <a
+                    href={`/external/${encodeURIComponent(article.link || "#")}`}
+                    className="text-black hover:underline hover:text-blue-500 font-medium"
+                  >
+                    <h3>
+                      {decodeHtmlEntities(article.title || "Untitled Article")}
+                    </h3>
+                  </a>
+                  <p className="text-gray-500 text-xs">
+                    {formatDate(article.pubDate)}
+                  </p>
+                </div>
+                <div className="relative flex-shrink-0">
+                  <a
+                    href={`/comments/${article.title}`}
+                    className="hover:text-blue-500 relative inline-block"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="36"
+                      height="36"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-message-circle"
+                    >
+                      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                    </svg>
+                    {commentCount > 0 && (
+                      <span className="absolute inset-0 flex items-center justify-center text-sm font-black text-gray-700 tracking-tight">
+                        {commentCount > 99 ? '99+' : commentCount}
+                      </span>
+                    )}
+                  </a>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+        <a
+          href={`/external/${encodeURIComponent(source.source.link || "#")}`}
+          className="text-base text-blue-500 mt-2 block font-semibold"
+        >
+          MORE ...
+        </a>
+      </div>
+    ))}
   </div>
 )}
 
@@ -547,7 +631,7 @@ const upAndComingSources = mainPageSources.filter(
     "The Sporting News NFL",
     "The Ringer",
     "FANSIDED",
-    "The Score",
+    "Sports Illustrated NFL",
     "TOUCHDOWNWIRE",
     "NFL Spin Zone",
     "Bleacher Report",
@@ -556,7 +640,7 @@ const upAndComingSources = mainPageSources.filter(
     "USA Today NFL",  
     "NFL News",
   ].map((sourceName, i) => {
-    const matchedSource = sources.find(
+    const matchedSource = sources.find( 
       (s) => s.source?.title && s.source.title.toLowerCase().includes(sourceName.toLowerCase())
     ) || { 
       source: { 
@@ -670,7 +754,6 @@ const upAndComingSources = mainPageSources.filter(
     );
   })}
 </div>
-
 
       <Footer />
     </div>

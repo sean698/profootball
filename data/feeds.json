@@ -55,11 +55,11 @@
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4qMMCxdNfU6cwpaXZOyUSg", "image": "", "isUpAndComing": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDEqiSbNKsOsDFfN2GmTreg", "image": "", "isUpAndComing": true },
 
-    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJ0UnUL_RNPz.rss", "image": "", "source": "Substack" },
+    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJ0UnUL_RNPz.rss", "image": "", "source": "USA Today NFL" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJvbmV9IqxMS.rss", "image": "", "source": "The Sporting News NFL" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJveeQmTiWmy.rss", "image": "", "source": "The Ringer" },
     { "url": "https://fansided.com/feed/", "image": "", "source": "FANSIDED" },
-    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJ0UnUL_RNPz.rss", "image": "", "source": "The Score" },
+    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJ0xuHfpBSkC.rss", "image": "", "source": "Sports Illustrated NFL" },
     { "url": "https://usatodaysportswire.usatoday.com/feed/?post_type=tdw_nfl", "image": "", "source": "TOUCHDOWNWIRE" },
     { "url": "https://nflspinzone.com/feed/", "image": "", "source": "NFL Spin Zone" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJwRwrQNEmsC.rss", "image": "", "source": "Bleacher Report" },
