@@ -65,6 +65,7 @@
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJwRwrQNEmsC.rss", "image": "", "source": "Bleacher Report" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJ0UnUL_RNPz.rss", "image": "", "source": "Substack" },
     { "url": "https://www.nfl.com/rss/rsslanding?searchString=home", "image": "", "source": "NFL News" },
-    { "url": "https://www.sportsnet.ca/football/nfl/feed/", "image": "", "source": "Sportsnet NFL" }
+    { "url": "https://www.sportsnet.ca/football/nfl/feed/", "image": "", "source": "Sportsnet NFL" },
+    { "url": "https://fetchrss.com/feed/aJ1CQZlz4cWCaKTeXUpkidWC.rss", "image": "", "source": "YardBarker NFL" }
   ]
 }
