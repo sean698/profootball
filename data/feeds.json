@@ -12,6 +12,7 @@
     },
     { "url": "https://www.cbssports.com/rss/headlines/nfl/", "image": "" },
     { "url": "https://www.allaccessfootball.com/feed/", "image": "" },
+  
     {
       "url": "https://api.foxsports.com/v2/content/optimized-rss?partnerKey=MB0Wehpmuj2lUhuRhQaafhBjAJqaPU244mlTDK1i&size=30&tags=fs/nfl",
       "image": ""
@@ -55,7 +56,6 @@
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UC4qMMCxdNfU6cwpaXZOyUSg", "image": "", "isUpAndComing": true },
     { "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCDEqiSbNKsOsDFfN2GmTreg", "image": "", "isUpAndComing": true },
 
-    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJ0UnUL_RNPz.rss", "image": "", "source": "USA Today NFL" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJvbmV9IqxMS.rss", "image": "", "source": "The Sporting News NFL" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJveeQmTiWmy.rss", "image": "", "source": "The Ringer" },
     { "url": "https://fansided.com/feed/", "image": "", "source": "FANSIDED" },
@@ -63,9 +63,8 @@
     { "url": "https://fetchrss.com/feed/aJ1CQZlz4cWCaJ1RRoKaAsdz.rss", "image": "", "source": "The Draft Network" },
     { "url": "https://nflspinzone.com/feed/", "image": "", "source": "NFL Spin Zone" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJwRwrQNEmsC.rss", "image": "", "source": "Bleacher Report" },
-    { "url": "https://fetchrss.com/feed/aJ1CQZlz4cWCaJ1TAoKaAsd0.rss", "image": "", "source": "SB Nation" },
-    { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJwURp1NceXi.rss", "image": "", "source": "AtoZ Sports" },
     { "url": "https://fetchrss.com/feed/aJvbxh_WTWMjaJ0UnUL_RNPz.rss", "image": "", "source": "Substack" },
-    { "url": "https://www.nfl.com/rss/rsslanding?searchString=home", "image": "", "source": "NFL News" }
+    { "url": "https://www.nfl.com/rss/rsslanding?searchString=home", "image": "", "source": "NFL News" },
+    { "url": "https://www.sportsnet.ca/football/nfl/feed/", "image": "", "source": "Sportsnet NFL" }
   ]
 }

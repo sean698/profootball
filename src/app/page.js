@@ -388,21 +388,22 @@ const upAndComingSources = mainPageSources.filter(
 
 {remainingSourcesChunk1.length > 0 && (
   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
-    {remainingSourcesChunk1.map((source, idx) => {
-      if (idx === 1) {
-        return [<BlogCard key="blog-card-in-grid" />, renderCard(source)];
-      }
-      return renderCard(source);
-    })}
+    {remainingSourcesChunk1
+      .filter(source => !source.source?.title?.toLowerCase().includes("sportsnet"))
+      .map((source, idx) => {
+        if (idx === 1) {
+          return [<BlogCard key="blog-card-in-grid" />, renderCard(source)];
+        }
+        return renderCard(source);
+      })}
 
     {/* ✅ Poll Card */}
     <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
       <PollCard />
     </div>
     
-    {/* 🆕 Blank Card */}
+    {/* Blank Card */}
     <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
-      {/* Empty card - can be used for future content or as spacing */}
       <div className="flex-1"></div>
     </div>
   </div>
@@ -642,9 +643,6 @@ const upAndComingSources = mainPageSources.filter(
     "NFL Spin Zone",
     "Bleacher Report",
     "Fox Sports",
-    "AtoZ Sports",
-    "USA Today NFL",  
-    "NFL News",
   ].map((sourceName, i) => {
     const matchedSource = sources.find( 
       (s) => s.source?.title && s.source.title.toLowerCase().includes(sourceName.toLowerCase())
