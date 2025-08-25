@@ -523,7 +523,7 @@ const upAndComingSources = mainPageSources.filter(
           </div>
         </div>
         <ul className="space-y-2">
-          {source.articles.slice(0, 3).map((article, index) => {  {/* Changed from 6 to 4 */}
+          {source.articles.slice(0, 5).map((article, index) => {  {/* Changed from 6 to 4 */}
             const commentCount = commentCounts[article.title] || 0;
             return (
               <li key={index} className="border-b pb-2 flex items-start gap-2">
