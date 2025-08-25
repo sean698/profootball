@@ -391,6 +391,18 @@ const upAndComingSources = mainPageSources.filter(
     {remainingSourcesChunk1
       .filter(source => !source.source?.title?.toLowerCase().includes("sportsnet"))
       .map((source, idx) => {
+        // REPLACE one of the existing cards with Heavy NFL if found
+        const heavySource = sources.find(s => 
+          s.source?.title?.toLowerCase().includes('heavy nfl') ||
+          s.source?.title?.toLowerCase().includes('heavy') ||
+          s.url?.includes('heavy.com/sports/nfl')
+        );
+        
+        // Replace the card at position 2 with Heavy NFL if found
+        if (idx === 2 && heavySource) {
+          return renderCard(heavySource);
+        }
+        
         if (idx === 1) {
           return [<BlogCard key="blog-card-in-grid" />, renderCard(source)];
         }
@@ -402,10 +414,36 @@ const upAndComingSources = mainPageSources.filter(
       <PollCard />
     </div>
     
-    {/* Blank Card */}
-    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
-      <div className="flex-1"></div>
-    </div>
+    {/* Only show Heavy NFL fallback if not already replaced above */}
+    {(() => {
+      const heavySource = sources.find(source => 
+        source.source?.title?.toLowerCase().includes('heavy nfl') ||
+        source.source?.title?.toLowerCase().includes('heavy') ||
+        source.url?.includes('heavy.com/sports/nfl')
+      );
+      
+      // If Heavy source was not found OR already replaced a card above, show nothing
+      if (!heavySource) {
+        return (
+          <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
+            <div className="flex items-center mb-4">
+              <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
+              <div>
+                <h2 className="text-lg font-bold uppercase text-black">
+                  Heavy NFL
+                </h2>
+                <p className="text-gray-500 text-xs">
+                  Feed Not Found in Sources
+                </p>
+              </div>
+            </div>
+            <p className="text-gray-400">Check feeds configuration</p>
+          </div>
+        );
+      }
+      
+      return null; // Don't render anything if Heavy was already placed
+    })()}
   </div>
 )}
 
