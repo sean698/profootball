@@ -757,8 +757,35 @@ const upAndComingSources = mainPageSources.filter(
         isUpAndComing: false
       },
       articles: []
+    },
+    {
+      source: {
+        title: "The Ringer NFL Show",
+        link: "https://podcasts.apple.com/us/podcast/the-ringer-nfl-show/id1109282822",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/5a/48/6a/5a486adf-73e6-26b9-b561-f6e2873c572f/mza_1785770566387105059.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
+    },
+    {
+      source: {
+        title: "Between Two Tackles",
+        link: "https://podcasts.apple.com/us/podcast/between-two-tackles-an-nfl-draft-podcast/id1609106186",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts116/v4/24/54/8d/24548d8c-5394-7358-f5d8-9ff07f201609/mza_1444539383299393638.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
     }
-    // You can add more Apple podcasts here in the future
   ];
   
   // Combine with existing sources
