@@ -402,33 +402,13 @@ const upAndComingSources = mainPageSources.filter(
       <PollCard />
     </div>
     
-    {/* Pro Football Network Card - Static card */}
-    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
-      <div className="flex items-center mb-4">
-        <div className="w-10 h-10 mr-3 bg-blue-600 rounded-full flex items-center justify-center">
-          <span className="text-white font-bold text-xs">PFN</span>
-        </div>
-        <div>
-          <h2 className="text-lg font-bold text-black">Pro Football Network</h2>
-          <p className="text-gray-500 text-xs">Latest NFL news and analysis</p>
-        </div>
-      </div>
-      <div className="flex-1">
-        <p className="text-sm text-gray-600 mb-3">
-          Get the latest NFL updates, draft analysis, and expert insights from Pro Football Network.
-        </p>
-        <a 
-          href="https://www.profootballnetwork.com/" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-        >
-          Visit Pro Football Network →
-        </a>
-      </div>
+    {/* Blank Card - Visible but empty */}
+    <div className="bg-white shadow-lg rounded-lg p-4 h-full">
+      {/* Empty space - maintains grid layout */}
     </div>
   </div>
 )}
+
 
           {/* TOP 20 NFL YOUTUBE CHANNELS (Card Layout) */}
           {topChannelSources.length > 0 && (() => {
