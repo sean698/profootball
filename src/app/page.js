@@ -740,6 +740,78 @@ const upAndComingSources = mainPageSources.filter(
   })}
 </div>
 
+{/* APPLE PODCASTS - Final Production Version */}
+{(() => {
+  // Create Apple podcast entries that match your data structure
+  const applePodcastEntries = [
+    {
+      source: {
+        title: "The Athletic Football Show",
+        link: "https://podcasts.apple.com/us/podcast/the-athletic-football-show-a-show-about-the-nfl/id1528622068",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/a9/a5/a5/a9a5a548-aaa2-2449-a377-58b667a1f791/mza_11148697896506461332.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
+    }
+    // You can add more Apple podcasts here in the future
+  ];
+  
+  // Combine with existing sources
+  const sourcesWithApplePodcasts = [...(sources || []), ...applePodcastEntries];
+  
+  // Filter for Apple podcasts
+  const applePodcastSources = sourcesWithApplePodcasts.filter(source => 
+    source.source?.isPodcast === true && source.source?.platform === "apple"
+  ) || [];
+  
+  if (applePodcastSources.length === 0) {
+    return null;
+  }
+  
+  // Transform data for HorizontalScroller
+  const podcastAsVideos = applePodcastSources.map((podcast) => ({
+    title: podcast.source?.title || 'Untitled Podcast',
+    thumbnail: podcast.source?.image || 'https://placehold.co/400x400?text=No+Image',
+    link: podcast.source?.link || '#',
+    duration: 'Podcast',
+    date: podcast.source?.category ? podcast.source.category.toUpperCase() : 'NFL'
+  }));
+
+  return (
+    <div className="bg-white shadow-lg rounded-lg p-4 mb-6">
+      <div className="flex items-center mb-4">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Podcasts_%28iOS%29.svg"
+          alt="Apple Podcasts Logo"
+          className="w-12 h-12 mr-3"
+        />
+        <div>
+          <h2 className="text-lg font-bold text-black">Apple Podcasts</h2>
+          <p className="text-gray-500 text-xs">
+            NFL Podcasts ({applePodcastSources.length} available)
+          </p>
+        </div>
+      </div>
+
+      <HorizontalScroller videos={podcastAsVideos} />
+
+      <a
+        href="https://podcasts.apple.com/us/genre/podcasts-sports/id1545"
+        className="text-blue-500 hover:text-blue-700 font-medium text-sm mt-4 inline-block"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View More Sports Podcasts on Apple Podcasts →
+      </a>
+    </div>
+  );
+})()}
+
 {/* Second 3 RSS Cards */}
 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
   {[

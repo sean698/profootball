@@ -72,6 +72,14 @@
       "image": "",
       "source": "Heavy NFL"
       
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/the-athletic-football-show-a-show-about-the-nfl/id1528622068",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/a9/a5/a5/a9a5a548-aaa2-2449-a377-58b667a1f791/mza_11148697896506461332.jpg/600x600bb.webp",
+      "source": "The Athletic Football Show",
+      "platform": "apple", 
+      "isPodcast": true,
+      "category": "nfl"
     }
   ]
 }
