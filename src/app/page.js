@@ -785,6 +785,20 @@ const upAndComingSources = mainPageSources.filter(
         isUpAndComing: false
       },
       articles: []
+    },
+    {
+      source: {
+        title: "NFL: Move the Sticks with Daniel Jeremiah & Bucky Brooks",
+        link: "https://podcasts.apple.com/us/podcast/nfl-move-the-sticks-with-daniel-jeremiah-bucky-brooks/id915544088",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts122/v4/6c/b3/a9/6cb3a936-96b4-8678-2b00-7e49ebfd5f67/mza_7055624270899931142.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
     }
   ];
   
