@@ -397,32 +397,36 @@ const upAndComingSources = mainPageSources.filter(
         return renderCard(source);
       })}
 
-    {/* ✅ Poll Card - Centered */}
+    {/* ✅ Poll Card */}
     <div className="bg-white shadow-lg rounded-lg p-4 flex items-center justify-center text-gray-500 text-lg font-semibold h-full">
       <PollCard />
     </div>
-
-    {/* Heavy NFL - Show all source titles */}
-    {(() => {
-      const lastFewSources = sources.slice(-5).map(s => s.source?.title);
-      
-      return (
-        <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
-          <div className="flex items-center mb-4">
-            <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full" />
-            <div>
-              <h2 className="text-lg font-bold uppercase text-black">DEBUG INFO</h2>
-              <p className="text-gray-500 text-xs">Last 5 source titles</p>
-            </div>
-          </div>
-          <div className="text-xs text-gray-600 space-y-1">
-            {lastFewSources.map((title, i) => (
-              <p key={i}>{i + 43}: {title || 'NO TITLE'}</p>
-            ))}
-          </div>
+    
+    {/* Pro Football Network Card - Static card */}
+    <div className="bg-white shadow-lg rounded-lg p-4 h-full flex flex-col">
+      <div className="flex items-center mb-4">
+        <div className="w-10 h-10 mr-3 bg-blue-600 rounded-full flex items-center justify-center">
+          <span className="text-white font-bold text-xs">PFN</span>
         </div>
-      );
-    })()}
+        <div>
+          <h2 className="text-lg font-bold text-black">Pro Football Network</h2>
+          <p className="text-gray-500 text-xs">Latest NFL news and analysis</p>
+        </div>
+      </div>
+      <div className="flex-1">
+        <p className="text-sm text-gray-600 mb-3">
+          Get the latest NFL updates, draft analysis, and expert insights from Pro Football Network.
+        </p>
+        <a 
+          href="https://www.profootballnetwork.com/" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+        >
+          Visit Pro Football Network →
+        </a>
+      </div>
+    </div>
   </div>
 )}
 
