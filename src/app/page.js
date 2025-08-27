@@ -883,6 +883,34 @@ const upAndComingSources = mainPageSources.filter(
         isUpAndComing: false
       },
       articles: []
+    },
+    {
+      source: {
+        title: "NFL Live",
+        link: "https://podcasts.apple.com/us/podcast/nfl-live/id1042028608",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts112/v4/57/d8/96/57d896c2-9706-f02c-6b49-f335d0571b31/mza_5627380360837065018.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
+    },
+    {
+      source: {
+        title: "The MMQB NFL Podcast",
+        link: "https://podcasts.apple.com/us/podcast/the-mmqb-nfl-podcast/id916244917",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/16/40/ab/1640abad-a909-561e-e21f-86bfd5b4e52c/mza_8919883195966963473.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
     }
   ];
   

@@ -152,6 +152,22 @@
       "platform": "apple",
       "isPodcast": true,
       "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/nfl-live/id1042028608",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/e8/f1/d4/e8f1d4a7-b5c9-6e2f-93d0-1a4b5c6d7e8f/mza_7890123456789012345.jpg/600x600bb.webp",
+      "source": "NFL Live",
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/the-mmqb-nfl-podcast/id916244917",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/c8/a2/f5/c8a2f5b9-7d4e-8c1a-95b6-2e3f4a5b6c7d/mza_6789012345678901234.jpg/600x600bb.webp",
+      "source": "The MMQB NFL Podcast", 
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
     }
   ]
 }
