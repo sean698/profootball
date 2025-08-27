@@ -104,6 +104,30 @@
       "platform": "apple",
       "isPodcast": true,
       "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/pushing-the-pile-a-cbs-sports-nfl-podcast/id1263289980",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/a1/b2/c3/a1b2c3d4-e5f6-789a-bcde-f0123456789a/mza_1234567890123456789.jpg/600x600bb.webp",
+      "source": "Pushing the Pile: A CBS Sports NFL Podcast",
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/nfl-daily-with-gregg-rosenthal/id680904259",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/d8/c1/e9/d8c1e9f2-7b4a-3c5e-8f1d-6a9b8e7f0c2d/mza_5678901234567890123.jpg/600x600bb.webp",
+      "source": "NFL Daily with Gregg Rosenthal",
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/the-pff-nfl-podcast/id913714358",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/f1/d4/e7/f1d4e7a8-9c2b-5e3f-d6g8-h9i0j1k2l3m4/mza_4567890123456789012.jpg/600x600bb.webp",
+      "source": "The PFF NFL Podcast",
+      "platform": "apple", 
+      "isPodcast": true,
+      "category": "nfl"
     }
   ]
 }
