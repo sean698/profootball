@@ -168,6 +168,14 @@
       "platform": "apple",
       "isPodcast": true,
       "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/the-nfl-on-fox-podcast/id1705559962",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/d5/e2/a8/d5e2a8c4-b9f6-7e3d-91a2-4c5b6d7e8f90/mza_5678901234567890123.jpg/600x600bb.webp",
+      "source": "The NFL on FOX Podcast",
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
     }
   ]
 }

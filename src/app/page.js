@@ -911,6 +911,20 @@ const upAndComingSources = mainPageSources.filter(
         isUpAndComing: false
       },
       articles: []
+    },
+    {
+      source: {
+        title: "The NFL on FOX Podcast",
+        link: "https://podcasts.apple.com/us/podcast/the-nfl-on-fox-podcast/id1705559962",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/e8/0e/84/e80e8444-8d96-dc14-ae8b-f5ab1c7ec077/mza_10204594845247928203.jpeg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
     }
   ];
   
