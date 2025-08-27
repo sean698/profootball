@@ -841,6 +841,48 @@ const upAndComingSources = mainPageSources.filter(
         isUpAndComing: false
       },
       articles: []
+    },
+    {
+      source: {
+        title: "Locked On NFL",
+        link: "https://podcasts.apple.com/us/podcast/locked-on-nfl-daily-podcast-on-the-national-football-league/id1139967050",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts112/v4/01/40/2c/01402cd3-e2e8-23af-d158-6fb78e07744a/mza_15840960386776504347.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
+    },
+    {
+      source: {
+        title: "NFL: The Insiders",
+        link: "https://podcasts.apple.com/us/podcast/nfl-the-insiders/id1543090622",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts221/v4/42/1a/c7/421ac770-5d22-405b-a035-eb563e6a3c59/mza_16470200703550842608.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
+    },
+    {
+      source: {
+        title: "Ross Tucker Football Podcast: Daily NFL Podcast",
+        link: "https://podcasts.apple.com/us/podcast/ross-tucker-football-podcast-daily-nfl-podcast/id638447093",
+        image: "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/ce/59/94/ce5994a8-26c8-e904-62a9-6508a60146c8/mza_7171840262594070795.jpg/600x600bb.webp",
+        updatedAt: new Date().toISOString(),
+        isPodcast: true,
+        platform: "apple",
+        category: "nfl",
+        isTopChannel: false,
+        isUpAndComing: false
+      },
+      articles: []
     }
   ];
   

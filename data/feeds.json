@@ -128,6 +128,30 @@
       "platform": "apple", 
       "isPodcast": true,
       "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/locked-on-nfl-daily-podcast-on-the-national-football-league/id1139967050",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/c2/f5/a8/c2f5a8b9-4d6e-7f1c-82a3-b4c5d6e7f8g9/mza_3456789012345678901.jpg/600x600bb.webp",
+      "source": "Locked On NFL – Daily Podcast On The National Football League",
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/nfl-the-insiders/id1543090622",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/a5/b8/c1/a5b8c1d2-e6f7-8901-23ab-cdef45678901/mza_2345678901234567890.jpg/600x600bb.webp",
+      "source": "NFL: The Insiders",
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
+    },
+    {
+      "url": "https://podcasts.apple.com/us/podcast/ross-tucker-football-podcast-daily-nfl-podcast/id638447093",
+      "image": "https://is1-ssl.mzstatic.com/image/thumb/Podcasts211/v4/b9/d7/e2/b9d7e2f3-8a4c-5b6d-9e1f-0a2b3c4d5e6f/mza_8765432109876543210.jpg/600x600bb.webp",
+      "source": "Ross Tucker Football Podcast: Daily NFL Podcast",
+      "platform": "apple",
+      "isPodcast": true,
+      "category": "nfl"
     }
   ]
 }
