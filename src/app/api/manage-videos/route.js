@@ -4,7 +4,7 @@ import { supabase } from '@/utils/supabase';
 // Admin emails (same as in AuthContext)
 const ADMIN_EMAILS = [
   'minseo7532@gmail.com', 
-  'anthonymskim@example.com',
+  'robcroley@gmail.com',
 ];
 
 // POST - Add custom video to a specific section
