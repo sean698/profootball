@@ -63,7 +63,7 @@ const Nav = () => {
 
         {/* Desktop Nav Links */}
         <div className="hidden lg:flex space-x-2 ml-4">
-          {["Teams", "Standings", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
+          {["Teams","Scores", "Standings", "Fantasy", "Sportsbooks", "Fanzone"].map((item) => (
             <Link
               key={item}
               href={`/${item.toLowerCase()}`}

@@ -223,6 +223,8 @@ export async function GET() {
 
   console.log(`Successfully processed ${sources.length} feeds`);
 
+  console.log(sources.map(s => s.source.title));
+
   // Update cache
   const responseData = { sources };
   cache.data = responseData;

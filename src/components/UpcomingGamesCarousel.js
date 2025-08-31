@@ -68,7 +68,24 @@ async function fetchUpcomingGames() {
   try {
     // Go directly to 2025 season since that's where the future games are
     console.log("📡 Fetching 2025 season events");
-    const seasonResponse = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2025/types/2/events?limit=50`);
+    
+    // Add timeout and better error handling
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+    
+    const seasonResponse = await fetch(`https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/seasons/2025/types/2/events?limit=50`, {
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Origin': 'https://pro-football.netlify.app',
+        'Referer': 'https://pro-football.netlify.app/'
+      },
+      mode: 'cors',
+      credentials: 'omit'
+    });
+    
+    clearTimeout(timeoutId);
     
     if (!seasonResponse.ok) {
       throw new Error(`2025 season API failed with status: ${seasonResponse.status}`);
@@ -89,9 +106,34 @@ async function fetchUpcomingGames() {
         const eventRef = seasonData.items[i];
         console.log(`📡 Processing event ${i + 1}/8`);
         
-        const eventResponse = await fetch(eventRef.$ref);
+        // Add timeout for individual event requests
+        const eventController = new AbortController();
+        const eventTimeoutId = setTimeout(() => eventController.abort(), 8000); // 8 second timeout
+        
+        // Convert HTTP URLs to HTTPS to avoid mixed content errors
+        let eventUrl = eventRef.$ref;
+        if (eventUrl.startsWith('http://')) {
+          eventUrl = eventUrl.replace('http://', 'https://');
+        } else if (!eventUrl.startsWith('https://')) {
+          eventUrl = `https://${eventUrl}`;
+        }
+        console.log(`🔗 Fetching event URL: ${eventUrl}`);
+        const eventResponse = await fetch(eventUrl, {
+          signal: eventController.signal,
+          headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Origin': 'https://pro-football.netlify.app',
+            'Referer': 'https://pro-football.netlify.app/'
+          },
+          mode: 'cors',
+          credentials: 'omit'
+        });
+        
+        clearTimeout(eventTimeoutId);
+        
         if (!eventResponse.ok) {
-          console.log(`❌ Event ${i + 1} failed with status: ${eventResponse.status}`);
+          console.log(`❌ Event ${i + 1} failed with status: ${eventResponse.status} for URL: ${eventUrl}`);
           continue;
         }
         
@@ -142,7 +184,8 @@ async function fetchUpcomingGames() {
       console.log(`✅ Found ${futureGames.length} upcoming games`);
       return futureGames;
     } else {
-      throw new Error('No future games found in 2025 season');
+      console.log('⚠️ No future games found, this is expected during off-season');
+      return []; // Return empty array instead of throwing error
     }
     
   } catch (error) {
