@@ -1,5 +1,6 @@
 // src/utils/supabase.js
 import { createClient } from "@supabase/supabase-js";
+import { createMockSupabaseClient } from "./mockSupabase";
 
 // Create a single supabase client for interacting with your database
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -11,7 +12,10 @@ if (!supabaseUrl || !supabaseAnonKey) {
   );
 }
 
-export const supabase = createClient(supabaseUrl || "", supabaseAnonKey || "");
+// If the environment variables are not set, use the mock supabase client (for local development)
+export const supabase = (supabaseUrl && supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : createMockSupabaseClient();
 
 // Function to normalize titles for better matching
 function normalizeTitle(title) {
